@@ -1,0 +1,5 @@
+options:
+  lineNumbers: false
+  askImageFilename: true
+editor:
+  lineNumbers: false
