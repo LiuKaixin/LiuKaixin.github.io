@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RDF,2017年8月,Keyword," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="三省" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Abstract目前关键词搜索的两种方法：一、依赖建立距离矩阵来剪枝搜索空间，二、为RDF图建立摘要。本文指出现有技术面对真实数据集时的不足，并且提出一个新的摘要算法，能够更有效的剪枝并得到正确的答案。 1 Introduction 动机：RDF数据急速增长。关键词搜索对大规模数据十分有用，目前对于RDF数据的解决方法的局限： 返回不正确的答案。 难以处理大规模RDF数据。       目标：设计">
+<meta name="keywords" content="RDF,2017年8月,Keyword">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Scalable Keyword Search on Large RDF Data》——论文笔记">
+<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/index.html">
+<meta property="og:site_name" content="三省">
+<meta property="og:description" content="Abstract目前关键词搜索的两种方法：一、依赖建立距离矩阵来剪枝搜索空间，二、为RDF图建立摘要。本文指出现有技术面对真实数据集时的不足，并且提出一个新的摘要算法，能够更有效的剪枝并得到正确的答案。 1 Introduction 动机：RDF数据急速增长。关键词搜索对大规模数据十分有用，目前对于RDF数据的解决方法的局限： 返回不正确的答案。 难以处理大规模RDF数据。       目标：设计">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig5.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig6.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig7.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig8.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg3.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig9.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig10.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig11.jpg">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg4.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig12.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig14-15.png">
+<meta property="og:updated_time" content="2017-09-27T08:18:19.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Scalable Keyword Search on Large RDF Data》——论文笔记">
+<meta name="twitter:description" content="Abstract目前关键词搜索的两种方法：一、依赖建立距离矩阵来剪枝搜索空间，二、为RDF图建立摘要。本文指出现有技术面对真实数据集时的不足，并且提出一个新的摘要算法，能够更有效的剪枝并得到正确的答案。 1 Introduction 动机：RDF数据急速增长。关键词搜索对大规模数据十分有用，目前对于RDF数据的解决方法的局限： 返回不正确的答案。 难以处理大规模RDF数据。       目标：设计">
+<meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/"/>
+
+
+
+
+
+  <title>《Scalable Keyword Search on Large RDF Data》——论文笔记 | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">三省</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">吾日三省吾身</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="刘凯鑫">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三省">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Scalable Keyword Search on Large RDF Data》——论文笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T13:10:00+08:00">
+                2017-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>目前关键词搜索的两种方法：一、依赖建立距离矩阵来剪枝搜索空间，二、为RDF图建立摘要。本文指出现有技术面对真实数据集时的不足，并且提出一个新的摘要算法，能够更有效的剪枝并得到正确的答案。</p>
+<h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h1><ul>
+<li>动机：RDF数据急速增长。关键词搜索对大规模数据十分有用，目前对于RDF数据的解决方法的局限：<ul>
+<li>返回不正确的答案。</li>
+<li>难以处理大规模RDF数据。    </li>
+</ul>
+</li>
+<li>目标：设计一个能处理大规模RDF数据集的scalable and exact soluton。</li>
+<li>贡献：<ul>
+<li>identify and address limitations in the existing methods for keyword search in RDF data. 并基于后向搜索提出一个正确的baseline解法。</li>
+<li>develop efficient algorithms to summarize the structure of RDF data, based on the types in RDF graohs. 和之前的方法相比more scalable剪枝也更有意义，并且得到的摘要是轻量级的而且可更新。</li>
+<li>experiments on both benchmark and large real RDF datasets.</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-Preliminaries"><a href="#2-Preliminaries" class="headerlink" title="2 Preliminaries"></a>2 Preliminaries</h1><p>将RDF数据集看做RDF图G=(V,E)其中</p>
+<ul>
+<li>$V={V_E,V_T,V_W}$<ul>
+<li>$V_E$: the set of entity vertices.</li>
+<li>$V_T$: the set of type vertices.    </li>
+<li>$V_W$: the set of keyword vertices.    </li>
+</ul>
+</li>
+<li>$E={E_R,E_A,E_T}$<ul>
+<li>$E_R$: the set of entity-entity edges.</li>
+<li>$E_A$: the set of entity-keyword edges.</li>
+<li>$E_T$: the set of entity-type edges.</li>
+</ul>
+</li>
+</ul>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig1.png">    
+<p>图1中主要结构被entity-entity edge即$E_R$捕获，因此将entity vertex和关于他的type vertex和keyword vertex看做一个点，我们得到RDF图G的压缩视图，表示为$G_c={V^{‘}_E,E_R}$。其中$|V^{‘}_E| \equiv |V_E|$，$v^{‘}\in V^{‘}_E$包含$v\in V_E$和与之联系的类型和关键词节点。</p>
+<h2 id="2-1-Problem-statement"><a href="#2-1-Problem-statement" class="headerlink" title="2.1 Problem statement"></a>2.1 Problem statement</h2><p>关键词查询问题即RDF图中寻找包含所有关键词的子图。<br>为便于表示，假设每个节点只包含一个关键词。（但对于包含多个和不包含的也能处理）<br>对在$G={V,E}$上的查询$q={w_1,w_2,…,w_m}$，点集${r,v_1,…,v_m}$在以下条件成立时被称为 qualified candidate:</p>
+<ul>
+<li>root answer node $r\in V$能够到达任一点$v_i\in V,\, i\in [1,m]$</li>
+<li>$w(v_i)=w_i$</li>
+</ul>
+<p>A(q): the answer for q<br>C(q): the set of all qualified candidates in G with respect to q.    </p>
+<script type="math/tex; mode=display">A(q)= arg min_{g\in C(q)}s(g), \, and \, s(g)=\sum_{r,v_i\in g, i=1..m}d(r,v_i)\tag{1}</script><p>其中$d(r,v_i)$是从r到$v_i$的距离（不考虑边方向）。</p>
+<p>该定义还有一个top-k版本，其中对每个$g\in C(q)$的得分s(g)进行升序排列，得到前k个答案。</p>
+<h1 id="3-Related-work"><a href="#3-Related-work" class="headerlink" title="3 Related work"></a>3 Related work</h1><p>许多技术假设图能够在内存中处理，如<a href="http://dl.acm.org/citation.cfm?id=1247516" target="_blank" rel="external">14</a> <a href="http://dl.acm.org/citation.cfm?id=1247516" target="_blank" rel="external">17</a>为所有的点对保存了距离矩阵。另外这些工作不考虑如何处理更新。本文中我们将后向搜索应用于大RDF图并经过严密的证明，不依赖于距离矩阵。<br>关于摘要大图来支持关键词搜索的技术来自于[9]，作者假设块之间的边是有权重的，块被当做supernode，块之间的边被当做superedges，它们组成摘要图。然后循环此过程。该方法针对通用图，并不能拓展到RDF图中。<br>[23]研究了RDF图上的关键词搜索，和本文一样，其调整了[14]中的问题定义。该方法从RDF数据集中摘要出schema，在schema中应用后巷搜索得到最有可能的关系，然后将关系转化为SPARQL中的pattern进行检索。<br>[23]中摘要算法的局限：将同一类型的所有实体归结到一个点，丢失了太多信息，以至于产生错误结果。另外该方法不支持更新。<br>[18]中通过对异质关系编码为图，支持结构化，半结构化和非结构化的关键词查询。同样的，他也需要距离矩阵。<br><a href="https://link.springer.com/chapter/10.1007/978-3-642-25073-6_13" target="_blank" rel="external">11</a> <a href="http://dl.acm.org/citation.cfm?id=1376708" target="_blank" rel="external">12</a>研究了排序函数。我们则是调整了RDF[23]和通用图[14]中的排序函数。</p>
+<h1 id="4-The-Baseline-Method"><a href="#4-The-Baseline-Method" class="headerlink" title="4 The Baseline Method"></a>4 The Baseline Method</h1><p>baseline基于“backward search”的启发式。<br>“backward search”：图中对应关键词查询的所有节点同时开始，迭代地想邻居节点拓展，直到候选答案生成。<em>termination condition</em>用来判断搜索过程是否完成。<br>[23]中的termination condition是当m个节点第一次遇到节点r时返回答案并停止搜索，但该方法并不正确。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig5.png"><br><strong>Counter example. </strong>对于图a来说，第二轮迭代得到$g={r=v_4,v_1,v_2,v_6,v_7}\, \, s(g)=8$，但第四轮迭代中$g^{‘}={r=v_3,v_1,v_2,v_6,v_7}\, \, s(g^{‘})=6$。<br><strong>The correct termination.</strong> 如算法1.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg1.png"><br><em>Data structure. </em><br>$q={w_1,…w_m}$: query<br> G={V,E}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> ${a_1,…a_m}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及距离。对于fig5(a)，$M[v_3]={(v_1,1),(v_2,1),nil,(v_7,1)}$<br><em>The algorithm. </em>(图片中是不是line10,11写错了？）<br>第一轮迭代算是初始化$a_i$和M。$W_i$中每个v和其邻居u放入$a_i$中，并新建$M[u]$或更新$M[u]$的相应值。<br>第二轮迭代首先pop$a_i$的堆顶值，然后添加 $(v,p={v,…,u},d(p))}$中u的每个邻居$u^{‘}$。将 $(v,p={v,…,u^{‘}},d(p)+1)}$压入$a_i$然后更新$M[u^{‘}]$。<br>如果$M[u]$没有nil，则该条被标记为候选答案，u为候选根节点。将M[u]中的最短路径表示为g，我们有：</p>
+<blockquote>
+<p><strong>Lemma 1 </strong> $g={r=u,v<em>{l_1},…,v</em>{l<em>m}}$ is a condidate answer with $s(g)=\Sigma^m</em>{i=1}d(u,v_{l_i})$.</p>
+</blockquote>
+<p>两种情况：(i) an unseen vertex, i.e., $v\notin M$, will become the answer root(Lemma 2); (ii) a seen but not fully expanded vertex $v\in M$ will become the answer root(Lemma 3).<br>$V_t$: the set of vertices that are not fully explored.<br>$(v_1,p_1,d(p_1)),…(v_m,p_m,d(p_m))$: the top entries from $a_1…a_m$.</p>
+<blockquote>
+<p><strong>Lemma 2</strong> Denote the best possible candidate answer as $g<em>1$, and a vertex $v\notin M$ as the answer root of $g_1$. Then it must have $s(g_1)&gt;\Sigma^m</em>{i=1}d(p_i)$.<br><strong>Lemma 3</strong> Suppose the best possible candidate answer using such an $v(v\in M\, and \, v\in V_t)$ as the answer root is $g_2$ then    </p>
+<script type="math/tex; mode=display">
+s(g_2)>\sum^m_{i=1}f(v_{b_i})d_i + (1-f(v_{b_i}))d(p_i) 
+\tag{2}</script><p>where $f(v<em>{b_i})=1$ if $M[v][b_i]\neq nil$, and $f(v</em>{b_i})=0$ otherwise.</p>
+</blockquote>
+<p><strong>The termination condition.</strong> 对于情况(i)，我们简单的让$s(g<em>1)=\Sigma ^m</em>{i=1}d(p_i)$;对于情况(ii)，we find a vertex with the smallest possible $s(g_2)$ value w.r.t. the RHS of (2), and simply denote its best possible score as $s(g_2)$.<br>Denote the kth smallest candidate answer identified in the algorithm as g, our search can safely terminate when $s(g)\le min(s(g_1),s(g_2))=s(g_2)$. </p>
+<blockquote>
+<p><strong>Theorem 1</strong> The Backward method finds the top-k answers A(q,k) for any top-k keyword query q on RDF graph.</p>
+</blockquote>
+<h1 id="5-Type-Based-Summarization"><a href="#5-Type-Based-Summarization" class="headerlink" title="5 Type-Based Summarization"></a>5 Type-Based Summarization</h1><p>Backward方法对大的RDF图不适用，因为Backward为完成搜索，会构建无数的搜索路径。为了减少Backward算法的输入规模，只在有希望的子图上应用。我们提出了一个type-based摘要方法，即先在摘要图上进行关键词搜索，剪枝掉大部分无用的结果，然后再应用Backward。<br><strong>The intuition.</strong> 首先对RDF图分区，被查询的关键词首先由分区连接。挑战在于如何对不会产生top-k跨区答案进行剪枝。要做到这个我们需要对跨越分区的后向搜索的路径距离进行校正。但维护所有路径的距离成本太高，因此我们提取一个可更新的摘要图，使得任何后向搜索可以被有效地估计。<br>The key observation: 紧邻的相同类型邻居节点一般共享相似的结构——和其他类型的节点的连接，如fig6。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig6.png"><br>我们基于以上观察构建一个typed-based summary。</p>
+<h2 id="5-1-Outline-and-preliminaries"><a href="#5-1-Outline-and-preliminaries" class="headerlink" title="5.1 Outline and preliminaries"></a>5.1 Outline and preliminaries</h2><p>首先将RDF图划分为多个小的区，然后定义摘要了分区的type-baseed structures。摘要保存所有分区的不同结构。通常关键词搜索在两方面受益于摘要：    </p>
+<ul>
+<li>we can obtain the upper and lower bounds for the distance traversed in any backward expansion without constructing the actual path (Section 6).</li>
+<li>we can efficiently retrieve every partition from the data by collaboratively using SPARQL query and any RDF store without explicity storing the partition (Section 15).</li>
+</ul>
+<p>两个定义：<br><strong>Homomorphism across partitions. </strong> 如图6(a)所示，邻近的类型节点是生成induced partitions的好的源头。图6(a)是图6(b)的子集。We consider discovering such embeddings between the induced partitions, so that one template can be reused to bookkeep multiple structures.    </p>
+<blockquote>
+<p><strong>Definition 1</strong> A graph homomorphism f from a graph $G={V,E}$ to a graph $G^{‘}={V^{‘},E^{‘}}$, writtern as $f: G\rightarrow G^{‘}$, is a mapping function $f: V\rightarrow V^{‘}$ such that(i) f(x)=x indicates that x and f(x) have the same type; (ii) $(u,v)\in E$ implies $(f(u),f(v)) \in E^{‘}$ and they have the same label. When such an f exists, we say G is homomorphic to $G^{‘}$.    </p>
+</blockquote>
+<p><strong>Cores for indeividual partitions.</strong> A <em>core</em> is a graph that is only homomorphic to itself, but not to any one of its proper subgraphs.<br><strong>Definition 2</strong> A core c of a graph G is a graph with the following properties: there exists a homomorphism from c to G; there exists a homomorphism from G to c; and c is minimal with these properties.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig7.png">    </p>
+<h2 id="5-2-Partition"><a href="#5-2-Partition" class="headerlink" title="5.2 Partition"></a>5.2 Partition</h2><p>摘要过程开始于将数据分成较小的，语义相似的，边不相交的子图。鉴于我们观察到相同类型的节点共享相似的类型邻居，我们基于类型用环绕相同类型节点的子图对G划分。算法使用RDF的condensed视图。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg2.png"><br>${T_1,…,T_n}$: n distinct number of types.<br>$V_i$vertices whose type is $T_i$.<br>h(v,$\alpha$)(the $\alpha$-neighborhood of v): the subgraph from G obtained by expanding v with $\alpha$ hops.    拓展时的边不在P中，且是有向图，所以h(v,$\alpha$)是v $\alpha$跳邻居节点的子集。<br>P：初始化为空，然后每个h(v,$\alpha$)都是一个新的划分。    </p>
+<blockquote>
+<p><strong>Lemma 4</strong> Partitions in P are edge disjoint and the union of all partitions in P cover the entire graph G.</p>
+</blockquote>
+<p>我们遍历类型的顺序不同可能会影响分区P的最终结果。但无论怎样，同种类型的节点总是基于其$\alpha$-neighborhoods生成一系列划分。如图8。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig8.png">    </p>
+<h2 id="5-3-Summarization"><a href="#5-3-Summarization" class="headerlink" title="5.3 Summarization"></a>5.3 Summarization</h2><p>摘要算法从P的分区集合中识别出一系列templates。这些templates是partitions 的摘要。另外摘要算法保证P中的每个分区都与某个templates同态。该特性是的查询优化器：</p>
+<ol>
+<li>不用频繁访问RDF数据的前提下有效地在后向拓展时估计路径长度。</li>
+<li>通过查询RDF数据来有效地重构感兴趣的分区，而不显式地存储和索引分区。</li>
+</ol>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg3.png">    
+<p>给定一个分区P，算法3检索出所有的不同的结构并将其保存在S中。<br><strong>Improving efficiency and reducing |S|.</strong><br>算法3的两个问题：(1)在3,5,7行需要判断同态，这是NP-hard问题。(2) 尽量减少|S|的大小，以便能够放入内存中处理。<br>对$h(v,\alpha)$的边建立一个covering tree，即$h_t(v,\alpha)$。并用$h_t(v,\alpha)$代替$h(v,\alpha)$。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig9.png"><br><strong>Example 2. </strong>图9中，$h(v_1,2)$$中$v_4$节点在不同边中被访问了三次，所以有三个拷贝。<br>该方法的优点：</p>
+<ul>
+<li>降低S中不同结构的数量，如图9所示，两个在数据层面不同的结构，在类型层面共享一个结构。</li>
+<li>对于通用图来说，检测子图同态十分耗时。但能在多项式时间内检测类型层面的结构。</li>
+</ul>
+<h2 id="5-4-Auxiliary-indexing-structures"><a href="#5-4-Auxiliary-indexing-structures" class="headerlink" title="5.4 Auxiliary indexing structures"></a>5.4 Auxiliary indexing structures</h2><p>为了帮助关键词搜索，我们维护了三个辅助列表。<br>a portal node：node that isincluded in more than one partitions. <em>portal index</em> for each partition $h(v,\alpha)$, 我们赋予其唯一id并和portal列表联系。<br>$\sigma (v_i)$: 表示$h_t(v,\alpha)$中的所有$v_i$。$\Sigma={\sigma (v_1),\sigma(v_2),…}$：表示一个分区中所有的一对多的映射。如图9中，$h(v_1,2)$$\Sigma \leftarrow {\sigma (v_4)={T_4}}$. <em>partition index</em>: to map the partition root v of $h(v,\alpha)$ to its $\Sigma$.<br><em>summary index</em>: 将partitions中的节点映射到S中的摘要节点。sid: S中的每个摘要的id，nid: S中每个节点的id。<br>为了获得每个$h_t(v,\alpha)$到S中的summary的映射，需要建立日志保存建立S时的发现的所有同态。等S建立完成后我们遍历日志找到所有从数据到summary的映射。过程如图10.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig10.png">    </p>
+<h1 id="6-Keyword-search-with-summary"><a href="#6-Keyword-search-with-summary" class="headerlink" title="6 Keyword search with summary"></a>6 Keyword search with summary</h1><p>搜索算法，摘要层和数据层的两级后向搜索。只有摘要层中被识别的connected partitions包含所有关键词，并且其分数在top-k，才会进入数据层执行后向搜索。路径长度计算是后向搜索和剪枝的核心，但摘要层并不能拿到准确的路径长度，因此首先展示如何估计路径长度，然后介绍算法。</p>
+<h2 id="6-1-Bound-the-shortest-path-length"><a href="#6-1-Bound-the-shortest-path-length" class="headerlink" title="6.1 Bound the shortest path length"></a>6.1 Bound the shortest path length</h2><p>通过summary index，分区根节点v到分区内任一节点u的最短距离可计算，所以由三角形不等式得：$|d(v,v_1)-d(v,v_2)|\le d(v_1)-d(v_2)\le |d(v,v_1)+d(v,v_2)|$。另外，另一个下界可用根节点v所在分区的同态的摘要图得到，即Lemma 5：</p>
+<blockquote>
+<p><strong>Lemma 5</strong> Given two graphs g and h, if $f:g\rightarrow h$, then $\forall v_1,v_2\in g$ and their homomorphic mappings $f(v_1),f(v_2)\in h,\, d(v_1,v_2)\le d(f(v_1),f(v_2))$.</p>
+</blockquote>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig11.jpg">    
+<p>如图11，从h到s没有直接的同态，因此不能直接应用Lemma 5。定义映射函数Join。输入：图g，${V^{‘}<em>{t_1},V^{‘}</em>{t<em>2},…}$。输出：新图$g^{‘}=Join(g(V,E),{V^{‘}</em>{t<em>1},V^{‘}</em>{t<em>2},…})$。其中$V^{‘}</em>{t_i}$中的点都属于类型$t_i$。函数流程：</p>
+<ol>
+<li>用g初始化$g^{‘}$；</li>
+<li>将$g^{‘}$中的$V^{‘}<em>{t_i}$合并至类型为$t_i$的点$v^{‘}</em>{i}$，点集$V^{‘}<em>{t_i}$中的所有边也赋于$v^{‘}</em>{i}$；</li>
+<li>对所有类型重复步骤2。</li>
+</ol>
+<p><strong>Example 3. </strong>以图9为例，$Join(h_t(v_1,2),{\Sigma(T_4)})$重建了$h(v_1,2)$，因此两者同态。另外，$Join(h_t(v_5,2),{\Sigma(T_4)})$没有重建$h(v_5,2)$，但等于$h(v_1,2)$也和$h(v_5,2)$同态。</p>
+<blockquote>
+<p><strong>Lemma 6</strong> For a partition h and its covering tree $h_t$, there is a homomorphism from h to $Join(h_t,\Sigma)$.<br><strong>Lemma 7</strong> For a partition h, its covering tree $h_t$ and its summary s that has $f_2:h_t\rightarrow s$, there is a homomorphism from $Join(h_t,\Sigma)$ to $Join(s,f_2(|Sigma))$.</p>
+</blockquote>
+<p>如图11b，由Lemmas 6,7和同态的可传递性，h is homomorphic to $Join(s,f_2(\Sigma))$。其中$f_2$是summary index的一部分，将数据中的节点映射到摘要中的节点。最后，给定h中任意两点，其最短路径可有Lemmas 5,6,7和最短路径算法在$Join(s,f_2(\Sigma))$中找到最短路的一个下限。实际应用中，我们从summary和三角不等式中找一个更高的下限。</p>
+<h2 id="6-2-The-algorithm"><a href="#6-2-The-algorithm" class="headerlink" title="6.2 The algorithm"></a>6.2 The algorithm</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg4.png">    
+<p><strong>Data structures. </strong><br>$q={w_1,…w_m}$: query<br> G={V,E}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> ${a_1,…a_m}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及历经的分区。M中每个条目是四元组$(u,S,d_l,d_u)$。u是后向搜索中包含关键$w_i$的第一个节点。S存储搜索过程中路径的一系列partitions及其portal（exit node），因此S是(portal, partition root)的集合。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig12.png"><br><strong>The algorithm. </strong></p>
+<ul>
+<li><em>In the first iteration. </em>对于每个来自$W_i$的点u，我们从summary index对u所述的分区根节点v检索。并将检索结果插入M和$a_i$中。</li>
+<li><em>In the j-th iteration.</em> 从所有的$a_i$中pop出最小的条，即$(v,(u,S,d_l,d_u))$(line 10). v是当前分区的根节点。S中最后的对是$(l,v_l)$：路径在$v_l$点离开根为$v_l$的分区并进入现分区。$\mathcal{L}={\mathcal{l}^{‘}_1,\mathcal{l}^{‘}_2,…}$表示根节点为v的分区的portals。对于每个$l^{‘}$按照6.1节的方法计算$d(l,l^{‘})$或$d(u,l^{‘})$的上下限。然后第14行更新，其中$v_r$是与$l^{‘}$相连的下一个分区的根节点。M只有在两种情况下停止更新：(i)S的路径产生了环。(ii)$d_l+d^{‘}_l$比当前第i个列表中第k大的上限还要大。    如果M[v]的所有条目非空，则以v为根节点的分区是候选答案。将m个关键词对应的列表组合起来就是联通子图。    然后我们拿到所选分区的实际数据（如何拿到在第7节），进行二级搜索。</li>
+<li><em>Termination condition. </em>Lemma 8,9.    </li>
+</ul>
+<blockquote>
+<p><strong>Lemma 8</strong> Denote an entry in the priority queue as $(v,(u,S,d_l,d_u))$, then for any $v^{‘}$ in the partition rooted at v and the length of any path starting from u and using the portals in S is $d(u,v^{‘}\le d_l$.<br><strong>Lemm 9</strong> Denote the top entry in the priority queue $a_i$ as $(v,(u,S,d_l,d_u))$, then for any explored path p from $w_i$ in the queue $a_i$, the length of p, written as d(p), has $d(p)\le d_l$.<br><strong>Lemma 10</strong> let $g_1$ be a possible unexplored candidate answer rooted at a vertex in a partition h, with $h\in P_t$,    </p>
+<script type="math/tex; mode=display">s(g_1)>\sum^m_{i=1}{d}^i_l\tag{3}</script><p><strong>Lemma 11</strong> Denote the bset possible unexplored candidate answer as $g_2$, which is rooted at a vertex in the partition h where $h\in P-P_t$, then    </p>
+<script type="math/tex; mode=display">s(g_2)>\sum^m_{i=1}f(t_i)\hat{d}^i_l+(1-f(t_i))d^i_l, \tag{4}</script><p>where $f(t_i)=1\, if \, t_i\neq nil\, otherwise \, f(t_i)=0.$</p>
+</blockquote>
+<p><strong>The termination condition.</strong> 在未探索分区最有可能的答案是$s(g_1)$，如(3)式。在所有探索分区的最有可能的答案是$s(g_2)$，如(4)式。将得分升序排名第k的答案表示为g，则算法停止条件是$s(g)\le min (s(g_1),s(g_2))$.    </p>
+<blockquote>
+<p><strong>Theorem 2</strong> Summ finds the top-k answers A(q,k) for any top-k keyword search query q on an RDF graph.    </p>
+</blockquote>
+<h1 id="7-Accessing-data-and-update"><a href="#7-Accessing-data-and-update" class="headerlink" title="7 Accessing data and update"></a>7 Accessing data and update</h1><p>在对摘要图搜索完成后，我们需要从实体数据中检索出所选择分区，一个常用的方法是将三元组按分区存储并编上分区的id，但这样更新比较麻烦，并需要独立的存储。我们将RDF数据存储在RDF中，并通过构建的SPARQL查询动态的检索出该分区的数据。    </p>
+<blockquote>
+<p><strong>Theorem 3</strong> Homomorphism Throrem [1]. Let $q$ and $q^{‘}$ be relational queries over the same data D. Then $q^{‘}(D)\subseteq q(D)$ iff there exists a homomorphism mapping $f: q\rightarrow q^{‘}$.</p>
+</blockquote>
+<p>因为$c\rightarrow h_t \rightarrow h$因此用c作为SPARQL查询的pattern并结合Theorem 3可以抽取h。<br>两个关键问题：</p>
+<ul>
+<li>从$h_t$的集合到c通常有多对一的映射，使得若用c为query pattern会导致a low selectivity. 为解决此问题，我们在query pattern中从目标分区到相应变量间绑定了常量。</li>
+<li>在构建S的过程中，并不保存每个c，而是当c是s的子树时将c插入到$s\in S$中。为了从s中构建SPARQL，首先找到根节点，然后拓展到叶子。</li>
+</ul>
+<h1 id="8-Experiments"><a href="#8-Experiments" class="headerlink" title="8 Experiments"></a>8 Experiments</h1><p><strong>Datasets</strong><br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig14-15.png"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RDF/" rel="tag"># RDF</a>
+          
+            <a href="/tags/2017年8月/" rel="tag"># 2017年8月</a>
+          
+            <a href="/tags/Keyword/" rel="tag"># Keyword</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/15/test/" rel="next" title="《RDF Keyword-based Query Technology Meets a Real-World Dataset》——论文笔记">
+                <i class="fa fa-chevron-left"></i> 《RDF Keyword-based Query Technology Meets a Real-World Dataset》——论文笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/24/《Natural-Language-Question-Answering-over-RDF-——-A-Graph-Data-Driven-Approach》——论文笔记/" rel="prev" title="《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记">
+                《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.jpg"
+               alt="刘凯鑫" />
+          <p class="site-author-name" itemprop="name">刘凯鑫</p>
+           
+              <p class="site-description motion-element" itemprop="description">刘凯鑫的博客，记录所思所想，所学所得。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3794225512" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Introduction"><span class="nav-number">2.</span> <span class="nav-text">1 Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Preliminaries"><span class="nav-number">3.</span> <span class="nav-text">2 Preliminaries</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Problem-statement"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Problem statement</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Related-work"><span class="nav-number">4.</span> <span class="nav-text">3 Related work</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-The-Baseline-Method"><span class="nav-number">5.</span> <span class="nav-text">4 The Baseline Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Type-Based-Summarization"><span class="nav-number">6.</span> <span class="nav-text">5 Type-Based Summarization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Outline-and-preliminaries"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 Outline and preliminaries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Partition"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 Partition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Summarization"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 Summarization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-Auxiliary-indexing-structures"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 Auxiliary indexing structures</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Keyword-search-with-summary"><span class="nav-number">7.</span> <span class="nav-text">6 Keyword search with summary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-Bound-the-shortest-path-length"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 Bound the shortest path length</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-The-algorithm"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 The algorithm</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-Accessing-data-and-update"><span class="nav-number">8.</span> <span class="nav-text">7 Accessing data and update</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Experiments"><span class="nav-number">9.</span> <span class="nav-text">8 Experiments</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">刘凯鑫</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

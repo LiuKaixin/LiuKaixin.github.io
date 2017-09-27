@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RDF,2017年8月,QA," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="三省" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="ABSTRACTRDF Q/A允许用户对RDF知识库用自然语言提问。为回答该提问，需要两步：理解问题和执行查询。现有工作大都集中在解决自然语言的歧义，通常做法是the joint disambiguation，使搜索空间指数增长。本文从图数据驱动的角度解决该问题，提出使用语义查询图为自然语言的查询意图建模，将问题归约成子图匹配问题。更重要的是，我们通过查询的匹配情况，解决自然语言问题的多义性。实验">
+<meta name="keywords" content="RDF,2017年8月,QA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记">
+<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/24/《Natural-Language-Question-Answering-over-RDF-——-A-Graph-Data-Driven-Approach》——论文笔记/index.html">
+<meta property="og:site_name" content="三省">
+<meta property="og:description" content="ABSTRACTRDF Q/A允许用户对RDF知识库用自然语言提问。为回答该提问，需要两步：理解问题和执行查询。现有工作大都集中在解决自然语言的歧义，通常做法是the joint disambiguation，使搜索空间指数增长。本文从图数据驱动的角度解决该问题，提出使用语义查询图为自然语言的查询意图建模，将问题归约成子图匹配问题。更重要的是，我们通过查询的匹配情况，解决自然语言问题的多义性。实验">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig3.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig4.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig5.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg3.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table3.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table4-5.png">
+<meta property="og:updated_time" content="2017-09-27T08:18:19.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记">
+<meta name="twitter:description" content="ABSTRACTRDF Q/A允许用户对RDF知识库用自然语言提问。为回答该提问，需要两步：理解问题和执行查询。现有工作大都集中在解决自然语言的歧义，通常做法是the joint disambiguation，使搜索空间指数增长。本文从图数据驱动的角度解决该问题，提出使用语义查询图为自然语言的查询意图建模，将问题归约成子图匹配问题。更重要的是，我们通过查询的匹配情况，解决自然语言问题的多义性。实验">
+<meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/24/《Natural-Language-Question-Answering-over-RDF-——-A-Graph-Data-Driven-Approach》——论文笔记/"/>
+
+
+
+
+
+  <title>《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记 | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">三省</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">吾日三省吾身</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/24/《Natural-Language-Question-Answering-over-RDF-——-A-Graph-Data-Driven-Approach》——论文笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="刘凯鑫">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三省">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-24T11:15:00+08:00">
+                2017-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/论文笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">论文笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>RDF Q/A允许用户对RDF知识库用自然语言提问。为回答该提问，需要两步：理解问题和执行查询。现有工作大都集中在解决自然语言的歧义，通常做法是the joint disambiguation，使搜索空间指数增长。本文从图数据驱动的角度解决该问题，提出使用语义查询图为自然语言的查询意图建模，将问题归约成子图匹配问题。更重要的是，我们通过查询的匹配情况，解决自然语言问题的多义性。实验结果验证算法。</p>
+<h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><p>背景：用户需从知识库中获取知识，RDF格式成为标准，SPARQL查询对用户不友好，需要RDF Q/A系统。</p>
+<h1 id="1-1-Motivation"><a href="#1-1-Motivation" class="headerlink" title="1.1 Motivation"></a>1.1 Motivation</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig1.png">
+<p>现在RDF Q/A系统主要分两个阶段：question understanding和query evaluation。第一阶段把自然语言问题N转化成SPARQLs，这也是目前大部分工作的研究重点。第二阶段执行第一阶段得到的SPARQls。如图1所示，(a)是RDF数据集，(b)是目前解决方法的两个步骤，可以看到由于多义性，有些短语对应多个实体。如果同时考虑这些短语则增加了响应时间。<br>本文并不在第一阶段解决多义性问题，而是放到第二阶段，能够避免问题理解阶段的高昂的消歧处理，从而加速整个系统。本方法中最关键的问题在于如何定义RDF图G中的子图和自然语言问题N的匹配，以及如何找到匹配。</p>
+<h2 id="1-2-Our-Approach"><a href="#1-2-Our-Approach" class="headerlink" title="1.2 Our Approach"></a>1.2 Our Approach</h2><p>虽然本方法仍有“question understanding”和“query evaluation”，但并不与现在的SPARQL generation-and-evaluation相同，本方法是graph data-driven，其大概的框架如图1(c)。<br>在question understanding阶段，我们把问题iN翻译为semantic query graph $Q^{S}$。该步允许多义。<br>在query evaluation阶段，我们在图G上找$Q^{S}$的匹配的子图。我们基于语义相似性定义了匹配的分数。<br>将消歧放在query evaluation阶段不仅提高了精度也加速了整个查询应答时间。<br>贡献：</p>
+<ol>
+<li>为问题提出了系统的框架。并从graph data-driven的角度，将消歧放在了query evaluation阶段。</li>
+<li>离线处理：提出图挖掘算法，将短语匹配到top-k个可能的谓词，形成paraphrase dictionary D。</li>
+<li>在线处理：两个阶段，首先将问题N转换为semantic query graph $Q^{S}$，然后把RDF Q/A归约成$Q^{S}$在图G上的子图匹配问题。在找到匹配时解决了多义问题，如果没有匹配发现则消歧的花费就被节省了。</li>
+<li>实验</li>
+</ol>
+<h1 id="2-FRAMEWORK"><a href="#2-FRAMEWORK" class="headerlink" title="2. FRAMEWORK"></a>2. FRAMEWORK</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table1.png">
+<p>本问题有两个关键的挑战，一是如何以结构化的方式表示问题N中的查询意图。二是如何处理问题N中的短语的多义性。<br>为解决第一个挑战，我们从N中抽出semantic relations，并基于此建立了semantic query graph $Q^{S}$为问题N中的问题意图建模。</p>
+<blockquote>
+<p>Definition 1. <strong>(Semantic Relation).</strong> A semantic relation is a triple <rel, arg1,="" arg2="">, where rel is a relation phrase in the paraphrase dictionary D, arg1 and arg2 are the two argument phrases.<br>Definition 2. <strong>(Semantic Query Graph)</strong> A semantic query graph is denoted as $Q^S$, in which each vertex $v_i$ is associated with an argument and each edge $\bar{v_iv_j}$ is associated with a relation phrase, $1\le i,j\le |V(Q^{S})|$.    </rel,></p>
+</blockquote>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig2.png">
+<p>针对第二个挑战，我们提出了数据驱动的方法：对于N中一个短语到实体的映射，如果能找到包含该实体的子图且匹配N中的查询意图，那该映射是正确的；否则是错误的。</p>
+<h2 id="2-1-Offline"><a href="#2-1-Offline" class="headerlink" title="2.1 Offline"></a>2.1 Offline</h2><p>建立了paraphrase dictionary D——记录语义相等的关系短语和谓词。一些现有的系统如Patty和ReVerb还未每个关系短语提供了其支持的实体对，如表2。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table2.png"><br>方法思路：对每个关系短语$rel_i$，$Sup(rel_i)$表示一系列该谓词支持的实体对。我们假设这些实体对也出现在RDF图中。频繁出现的谓词连接$Sup(rel_i)$中的实体对和关系短语$rel_i$等价。基于该想法我们提出一个找语义相等的关系短语和谓词的图挖掘算法。</p>
+<h2 id="2-2-Online"><a href="#2-2-Online" class="headerlink" title="2.2 Online"></a>2.2 Online</h2><p>1) <em>Question Understanding. </em>目的在于为问题N构建一个语义查询图$Q^{S}$。首先用Stanford Parser得到N的依赖树Y，然后基于paraphrase dictionary D抽取Y中的语义关系。基本的思路是找到一个Y的包含rel的所有词的最小子树。该子树被称为Y中的rel的一个嵌入，并且基于一些语言规则我们得到有联系的两个参数，形成$&lt; rel,arg1,arg2 &gt;$，最后连接这些关系得到查询图$Q^{S}$。<br>2) <em> Query Evaluation. </em>找到与$Q^{S}$匹配的子图。匹配按照子图同态定义。    </p>
+<p>首先，$Q^{S}$的点，被映射到RDF图中的一些实体或类，并赋予一个置信度，保存在有序列表$C<em>{v_i}$。关系短语$rel</em>{\overline{v<em>iv_j}}$被映射到候选谓词的列表$C</em>{\overline{v_iv_j}}$中。列表以置信度排序。本步中并没有解决多义问题。<br>其次，</p>
+<blockquote>
+<p>Definition 3.<strong>(Match)</strong> Consider a semantic query graph $Q^{S}$ with n vertices ${v<em>1,…,v_n}$. Each vertex $v_i$ has a condidate list $C</em>{v<em>i},i=1,…,n.$ Each edge $\overline{v_iv_j}$ also has a candidate list of $C</em>{\overline{v_iv_j}}, where $1\le i\ne j\le n.$ A subgraph M containing n vertices ${u_1,…,u_n}$ in RDF graph G is a match of $Q^{S}$ if and only if the following conditions hold: </p>
+<ol>
+<li>if $v<em>i$ is mapping to an entity $u_i$, i=1,…,n, $u_i$ must be in list $C</em>{v_i}$;</li>
+<li>if $v<em>i$ is mapping to a class $c_i$, i=1,…,n, $u_i$ is an entity whose type is $c_i$ (i.e., there is a triple &lt;$u_i$ rdf:type $c_i$&gt; in RDF graph) and $c_i$ must be in $C</em>{v_i}$;</li>
+<li>$\forall \overline{v<em>iv_j}\in Q^S; \, \overrightarrow{u_iu_j}\in G \lor  \overrightarrow{u_ju_i}\in G$. Furthermore, the predicate $P</em>{ij}$ associated with $\overrightarrow{u<em>iu_j}$ (or $\overrightarrow{u_ju_i}$ is in $C</em>{\overline{v_iv_j}},\, 1\le i,j\le n$.</li>
+</ol>
+</blockquote>
+<p>每个和$Q^S$匹配的子图都有一个得分，由边和点的概率决定。我们的目标是找到top-k个匹配的子图，在4.2.2节中解决。</p>
+<h1 id="3-OFFLINE"><a href="#3-OFFLINE" class="headerlink" title="3. OFFLINE"></a>3. OFFLINE</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig3.png">
+<p>语义关系抽取依赖于词典D，图3是词典的一个示例。本文并不讨论如何抽取短语及其对应的实体对，假设已经给定。<br>在offline中的任务是找到语义相等的关系短语和RDF中的相应谓词，即构建如图3的词典D。假设已有词典$T={rel<em>1,…,rel_n}$，每个$rel_i$都是一个关系短语，并有一个出现在RDF图中的实体对集合，即$Sup(rel_i)={(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),}$。对于每个$rel_i$目标是找到RDF图中的top-k个语义相等的谓词（路径）。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig4.png"><br>方法：给定一个关系短语$rel_i$及$Sup(rel_i)={(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),}$，对$(v^j_i,V^{‘j}_i),j = 1,…,m$，我们在RDF图中找到两点间的简单路径：$Path(v^j_i,V^{‘j}_i)$，如图4。则$PS(rel_i)=\bigcup</em>{j=1,…,m}Path(v^j_i,V^{‘j}_i)$.    为了效率，我们设定了路径的阈值，然后使用双向的BFS搜索找到$Path(v^j_i,V^{‘j}_i)$。<br>但是这样的方法会带来噪音，解决方法：采用了tf-idf度量。</p>
+<blockquote>
+<p>Definition 4. Given a predicate path L, the tf-value of L in $PS(rel_i)$ is defined as follows:    </p>
+<script type="math/tex; mode=display">tf(L,PS(rel_i))=|\{Path(v^j_i,V^{'j}_i)| L\in Path(v^j_i,V^{'j}_i)\}|</script><p>The idf-value of L over the whole relation phrase dictionary $T={rel_1,…,rel_n}$ is defined as follows:</p>
+<script type="math/tex; mode=display">idf(L,T)=log \frac{|T|}{|\{rel_i\in T|L \in PS(rel_i)\}|+1}</script><p>The tf-idf value of L is defined as follows:</p>
+<script type="math/tex; mode=display">tf-idf(L,PS(rel_i),T)=tf(L,PS(rel_i))\times idf(L,T)</script></blockquote>
+<p>关系短语和谓词（路径）的置信度定义为：</p>
+<script type="math/tex; mode=display">\delta (rel,L)=tf-idf(L,PS(rel_i),T) \tag{1}</script><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg1.png">
+<p>算法1展示了为每个关系短语找top-k谓词路径的细节。注意tf-idf is a probability value to evaluate the mapping (from relation phrase to predicate/predicate paths) confidence.<br>维护D只需要为新引入的谓词重新挖掘映射，或删除被移除数据集的谓词的映射。</p>
+<blockquote>
+<p>Theorem 1. The time complexity of Algorithm 1 is $O(|T|\times |V|^2\times d^2)$, where |T| is the number of relation phrases in T, |V| is the number of vertices in RDF graph G, and d is the maximal vertex degree.</p>
+</blockquote>
+<h1 id="4-ONLINE"><a href="#4-ONLINE" class="headerlink" title="4. ONLINE"></a>4. ONLINE</h1><h2 id="4-1-Question-Understanding"><a href="#4-1-Question-Understanding" class="headerlink" title="4.1 Question Understanding"></a>4.1 Question Understanding</h2><p>本节讨论如何识别问题N中的语义关系，并基于关系建立语义查询图$Q^S$代表N中的查询意图。<br>为抽取句子关系短语，建立依赖树。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig5.png"><br>图5展示了问题N的依赖树表示为Y。</p>
+<blockquote>
+<p>Definition 5. Let us consider a dependency tree Y of a natural language question N and a relation phrase rel. We say that rel occurs in Y if and only if there exists a connected subtree y (of Y) satisfying the following conditions:</p>
+<ol>
+<li>Each node in y contains one word in rel and y includes all words in rel.</li>
+<li>We cannot find a subtree $y^{‘}$ of Y, where $y^{‘}$ also satisfies the first condition and y is a subtree of $y^{‘}$.<br>In this case, y is an embedding of relation phrase rel in Y.</li>
+</ol>
+</blockquote>
+<p>给定问题N的依赖树Y和关系短语词典$T={rel_1,…,rel_n}$，我们需要T中那个关系短语在Y中出现。</p>
+<h3 id="4-1-1-Finding-Relation-Phrase-Embeddings"><a href="#4-1-1-Finding-Relation-Phrase-Embeddings" class="headerlink" title="4.1.1 Finding Relation Phrase Embeddings"></a>4.1.1 Finding Relation Phrase Embeddings</h3><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg2.png">
+<blockquote>
+<p>Theorem 2. The time complexity of Algorithm 2 is $O(|Y|^2)$.</p>
+</blockquote>
+<h3 id="4-1-2-Finding-Associated-Arguments"><a href="#4-1-2-Finding-Associated-Arguments" class="headerlink" title="4.1.2 Finding Associated Arguments"></a>4.1.2 Finding Associated Arguments</h3><p>通常参数的识别依赖subject-relations、object-like relations，如下：</p>
+<ol>
+<li>subject-like relations: sbj, nsubj, nsubjpass, csubj, csubj-pass, xsubj, poss;</li>
+<li>object-like relations: obj,pobj, dobj, iobj</li>
+</ol>
+<p>假设关于短语rel的嵌入子树为y。通过检查y中的每个节点w及其子节点是否出现以上的subject-like（object-like）关系，出现则把子节点加入到arg1（arg2）。<br>如果arg1/arg2仍是空，我们有以下启发式规则：</p>
+<ul>
+<li>Rule 1: Extend the embedding t with some light words, such as prepositions, auxiliaries. Recognize subject/object-like relations for the newly added tree node.</li>
+<li>Rule 2: If the root node of t has subject/object-like relations with its parent node in Y, add the root node to arg1.</li>
+<li>Rule 3: if the parent of the root node of t has subject-like relations with its child, add the child to arg1.</li>
+<li>Rule 4: If one of arg1/arg2 is empty, add the nearest wh-word (such as what, who and which) or the first noun phrase in t to arg1/arg2.     </li>
+</ul>
+<p>如果arg1/arg2仍然是空，则放弃关系短语rel。</p>
+<h3 id="4-1-3-Building-Semantic-Query-Graph"><a href="#4-1-3-Building-Semantic-Query-Graph" class="headerlink" title="4.1.3 Building Semantic Query Graph"></a>4.1.3 Building Semantic Query Graph</h3><p>把语义关系<rel,arg1,arg2>表示为边，如果两个关系的参数相同，则边相连。</rel,arg1,arg2></p>
+<h2 id="4-2-Query-Evaluation"><a href="#4-2-Query-Evaluation" class="headerlink" title="4.2 Query Evaluation"></a>4.2 Query Evaluation</h2><h3 id="4-2-1-Phrases-Mapping"><a href="#4-2-1-Phrases-Mapping" class="headerlink" title="4.2.1 Phrases Mapping"></a>4.2.1 Phrases Mapping</h3><p>讨论如何将关系短语和参数映射到候选的谓词（路径）和实体。<br><strong>Mapping edges of $Q^S$.</strong> $Q^S$中边$\overline{v<em>iv_j}$对应关系短语$rel</em>{\overline{v<em>iv_j}}$。按照paraphrase dictionary D，$rel</em>{\overline{v<em>iv_j}}$映射到列表$C</em>{\overline{v_iv_j}}$，列表中是谓词P或谓词路径L。$\delta(rel,L)$置信度。<br><strong>Mapping Vertices of $Q^S$.</strong>  $Q^S$中点v对应参数arg。如果arg是wh-word，则它可映射到RDF中所有实体和类，否则返回一个对应的实体或类的列表。本文使用现成的工具DBpedia Lookup。$\delta(arg,c)$置信度。<br><strong>Graph Data-driven Disambiguation.</strong> graph data-driven solution.</p>
+<h3 id="4-2-2-Finding-top-k-Subgraph-Matches"><a href="#4-2-2-Finding-top-k-Subgraph-Matches" class="headerlink" title="4.2.2 Finding top-k Subgraph Matches"></a>4.2.2 Finding top-k Subgraph Matches</h3><blockquote>
+<p>Definition 6. Given a semantic query graph $Q^S$ with n vertices ${v_1,…,v_n)}$, a subgraph M containing n vertices ${u_1,…,u_n}$ in RDF graph G is a match of $Q^S$. The match score is defined as follows:    </p>
+<script type="math/tex; mode=display">Score(M)=
+log( \prod_{v_i\in V(Q^S)} \delta (arg_i,u_i) \times \prod_{\overline{v_iv_j}\in E(Q^S)} \delta (rel_{\overline{v_iv_j}},P_{ij})  )\\
+=\sum_{v_i\in V(Q^S)} log( \delta (arg_i,u_i))+\sum_{\overline{v_iv_j}\in E(Q^S)} log( \delta (rel_{\overline{v_iv_j}},P_{ij})  ) \tag{2}</script><p>where $arg<em>i$ is the argument of vertex $v_i$, and $u_i$ is an entity or a class in RDF graph G, and $rel</em>{\overline{v<em>iv_j}}$ is the relation phrase of edge $\overline{v_iv_j}$ and $P</em>{ij}$ is a predicate of edge $\overrightarrow{u_iu_j}$ or $\overrightarrow{u_ju_i}$</p>
+</blockquote>
+<p>给定语义查询图$Q^S$，我们目标是找到$Q^S$的所有匹配中分数top-k的。这是个NP-hard问题。</p>
+<blockquote>
+<p>Lemma 1. Finding Top-1 subgraph match of $Q^S$ over RDF graph G is an NP-hard problem.<br>Lemma 2. Finding Top-k subgraph match of $Q^S$ over RDF graph G is at least as hard as finding Top-1 subgraph match of $Q^S$ over G.<br>Theorem 3.  Finding Top-k subgraph match of $Q^S$ over RDF graph G is an NP-hard problem.</p>
+</blockquote>
+<p>因为他是NP-hard问题，所以我们设计启发式规则减少搜索空间。第一个利用neighborhood-based pruning减少$C<em>{v_i}$和$C</em>{\overline{v_iv_j}}$。第二个是基于top-k匹配的分阈值及早停止搜索。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg3.png"></p>
+<h1 id="5-TIME-COMPLEXITY-ANLYSIS"><a href="#5-TIME-COMPLEXITY-ANLYSIS" class="headerlink" title="5. TIME COMPLEXITY ANLYSIS"></a>5. TIME COMPLEXITY ANLYSIS</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table3.png">
+<h1 id="6-EXPERIMENTS"><a href="#6-EXPERIMENTS" class="headerlink" title="6. EXPERIMENTS"></a>6. EXPERIMENTS</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table4-5.png">
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RDF/" rel="tag"># RDF</a>
+          
+            <a href="/tags/2017年8月/" rel="tag"># 2017年8月</a>
+          
+            <a href="/tags/QA/" rel="tag"># QA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/" rel="next" title="《Scalable Keyword Search on Large RDF Data》——论文笔记">
+                <i class="fa fa-chevron-left"></i> 《Scalable Keyword Search on Large RDF Data》——论文笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/24/《Keyword-Search-in-Graphs-Finding-r-cliques》——读书笔记/" rel="prev" title="《Keyword Search in Graphs: Finding r-cliques》——读书笔记">
+                《Keyword Search in Graphs: Finding r-cliques》——读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.jpg"
+               alt="刘凯鑫" />
+          <p class="site-author-name" itemprop="name">刘凯鑫</p>
+           
+              <p class="site-description motion-element" itemprop="description">刘凯鑫的博客，记录所思所想，所学所得。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3794225512" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Motivation"><span class="nav-number">3.</span> <span class="nav-text">1.1 Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Our-Approach"><span class="nav-number">3.1.</span> <span class="nav-text">1.2 Our Approach</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-FRAMEWORK"><span class="nav-number">4.</span> <span class="nav-text">2. FRAMEWORK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Offline"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 Offline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Online"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 Online</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-OFFLINE"><span class="nav-number">5.</span> <span class="nav-text">3. OFFLINE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-ONLINE"><span class="nav-number">6.</span> <span class="nav-text">4. ONLINE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Question-Understanding"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 Question Understanding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-Finding-Relation-Phrase-Embeddings"><span class="nav-number">6.1.1.</span> <span class="nav-text">4.1.1 Finding Relation Phrase Embeddings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-Finding-Associated-Arguments"><span class="nav-number">6.1.2.</span> <span class="nav-text">4.1.2 Finding Associated Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-Building-Semantic-Query-Graph"><span class="nav-number">6.1.3.</span> <span class="nav-text">4.1.3 Building Semantic Query Graph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-Query-Evaluation"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 Query Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-Phrases-Mapping"><span class="nav-number">6.2.1.</span> <span class="nav-text">4.2.1 Phrases Mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-Finding-top-k-Subgraph-Matches"><span class="nav-number">6.2.2.</span> <span class="nav-text">4.2.2 Finding top-k Subgraph Matches</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-TIME-COMPLEXITY-ANLYSIS"><span class="nav-number">7.</span> <span class="nav-text">5. TIME COMPLEXITY ANLYSIS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-EXPERIMENTS"><span class="nav-number">8.</span> <span class="nav-text">6. EXPERIMENTS</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">刘凯鑫</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
