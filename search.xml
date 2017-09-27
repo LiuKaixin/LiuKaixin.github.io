@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[hexo博客编写]]></title>
+    <url>%2F2017%2F09%2F27%2Fhexo%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[需参考网站：https://github.com/zhaoqingqing/zhaoqingqing.github.io 昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。 博客的编写发布主要参考 https://righere.github.io/2016/10/10/install-hexo/首先把hexo分支git clone到本地，然后npm install安装hexo。编辑blog还是用hexo-admin然后使用git add . git commit -m “改了啥”， git push origin hexo将本地仓库同步到远程发布使用命令hexo d -g。 其他终端先pull，之后进行接下来的操作。心好累，弄了半天还是没有什么结果。先暂且这么用着吧。]]></content>
+      <categories>
+        <category>关于博客</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[《Top-k Exploration of Query Candidates for Efficient Keyword Search on Graph-Shaped (RDF) Data》——读书笔记]]></title>
     <url>%2F2017%2F09%2F25%2F%E3%80%8ATop-k-Exploration-of-Query-Candidates-for-Efficient-Keyword-Search-on-Graph-Shaped-RDF-Data%E3%80%8B%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%2F</url>
     <content type="text"><![CDATA[首先，初步确定一下本周的规划，今明两天读本篇论文，以及回顾之前的论文（按照师兄说的方式进行泛读），然后周三周四学习斯坦福的课程。周五将没有整理的论文整理完全，周六日搞定本篇和上篇论文。 Abstract从关键词中计算出queries之后，让用户选择合适的，然后送入数据库引擎进行查询。另外对于queries的计算，提出了找top-k子图的新型算法。 1. Introduction提出关键词这样的搜索一直以来都是研究的重点。Labelled query model：不需要用户对结构有任何的了解，只是单纯的将关键词和“labels”联系起来。现在关键词搜索的主要思路：将关键词映射到data elements（很多使用精确匹配），搜索连接关键词的elements的子图（如Blinks中的distinct root assumption），基于得分函数（被提出了很多，从路径长度到IR中的复杂度量）输出top-k个子图（需要计算每个选项的上限和下限）。任务可分为四个： keyword mapping. graph exploration. scoring. top-k computation.本方法结合了语法和语义相似度，因此IR概念支持模糊匹配。本文贡献如下： Keyword Search through Query Computation 将关键词转化为结构化查询的元素（而不是答案的一部分），让用户选top-k个查询中的一个（而不是直接把top-k个答案给出）。 Algorithms for Subgraph Exploration 当前的方法通常将关键词映射到节点，算法计算出树形的答案。但关键词也可能映射到边，所以答案结构也不一定是树。 Efficient and Complete Top-k through Graph Summarization 很难簿记计算top-k所需的信息，现在的方法不能确保结果是真正的top-k。因此我们引入了复杂的数据结构保存所有候选的得分。为了效率，利用摘要图进行剪枝。2. Problem DefinitionData Queries用户的查询$Q_U$就是关键词集合，系统的查询$Q_S$是conjunctive queries. Answers就是把查询中的distinguished variables 替换成子图中的节点。]]></content>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/"/>
-  <updated>2017-09-27T08:31:50.024Z</updated>
+  <updated>2017-09-27T09:32:42.451Z</updated>
   <id>https://github.com/LiuKaixin/LiuKaixin.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo博客编写</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/09/27/hexo%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/09/27/hexo编写博客/</id>
+    <published>2017-09-27T09:24:00.000Z</published>
+    <updated>2017-09-27T09:32:42.451Z</updated>
+    
+    <content type="html"><![CDATA[<p>需参考网站：<a href="https://github.com/zhaoqingqing/zhaoqingqing.github.io">https://github.com/zhaoqingqing/zhaoqingqing.github.io</a></p><p>昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。</p><p>博客的编写发布主要参考 <a href="https://righere.github.io/2016/10/10/install-hexo/" target="_blank" rel="external">https://righere.github.io/2016/10/10/install-hexo/</a><br>首先把hexo分支git clone到本地，然后npm install安装hexo。<br>编辑blog还是用hexo-admin<br>然后使用git add .   git commit -m “改了啥”， git push origin hexo将本地仓库同步到远程<br>发布使用命令hexo d -g。</p><p>其他终端先pull，之后进行接下来的操作。心好累，弄了半天还是没有什么结果。先暂且这么用着吧。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;需参考网站：&lt;a href=&quot;https://github.com/zhaoqingqing/zhaoqingqing.github.io&quot;&gt;https://github.com/zhaoqingqing/zhaoqingqing.github.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;
+      
+    
+    </summary>
+    
+      <category term="关于博客" scheme="https://github.com/LiuKaixin/LiuKaixin.github.io/categories/%E5%85%B3%E4%BA%8E%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>《Top-k Exploration of Query Candidates for Efficient Keyword Search on Graph-Shaped (RDF) Data》——读书笔记</title>
