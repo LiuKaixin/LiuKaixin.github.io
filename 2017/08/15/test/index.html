@@ -701,7 +701,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Related-Work"><span class="nav-number">3.</span> <span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-BASIC-DEFINITIONS"><span class="nav-number">4.</span> <span class="nav-text">3. BASIC DEFINITIONS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-RDF-Essentials"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 RDF Essentials</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Keyword-Based-Queries"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 Keyword-Based Queries</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-TRANSLATION-OF-KEYWORD-QUERIES-TO-SPARQL-QUERIES"><span class="nav-number">5.</span> <span class="nav-text">4. TRANSLATION OF KEYWORD QUERIES TO SPARQL QUERIES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Overview-of-the-Translation-Algorithm"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 Overview of the Translation Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-An-Example-the-Translation-Process"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 An Example the Translation Process</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-User-Interface"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 User Interface</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-EXPERIMENTS"><span class="nav-number">6.</span> <span class="nav-text">5. EXPERIMENTS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Experimetn-setup"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 Experimetn setup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Experments-with-the-Industrial-Dataset"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 Experments with the Industrial Dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Experiments-with-Mondial-and-IMDb"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 Experiments with Mondial and IMDb</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-CONCLUSIONS"><span class="nav-number">7.</span> <span class="nav-text">6. CONCLUSIONS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Related-Work"><span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-BASIC-DEFINITIONS"><span class="nav-text">3. BASIC DEFINITIONS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-RDF-Essentials"><span class="nav-text">3.1 RDF Essentials</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Keyword-Based-Queries"><span class="nav-text">3.2 Keyword-Based Queries</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-TRANSLATION-OF-KEYWORD-QUERIES-TO-SPARQL-QUERIES"><span class="nav-text">4. TRANSLATION OF KEYWORD QUERIES TO SPARQL QUERIES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Overview-of-the-Translation-Algorithm"><span class="nav-text">4.1 Overview of the Translation Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-An-Example-the-Translation-Process"><span class="nav-text">4.2 An Example the Translation Process</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-User-Interface"><span class="nav-text">4.3 User Interface</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-EXPERIMENTS"><span class="nav-text">5. EXPERIMENTS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Experimetn-setup"><span class="nav-text">5.1 Experimetn setup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Experments-with-the-Industrial-Dataset"><span class="nav-text">5.2 Experments with the Industrial Dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Experiments-with-Mondial-and-IMDb"><span class="nav-text">5.3 Experiments with Mondial and IMDb</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-CONCLUSIONS"><span class="nav-text">6. CONCLUSIONS</span></a></li></ol></div>
             
 
           </div>
@@ -1183,7 +1183,39 @@
         onPopupClose();
       }
     });
-  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -1201,18 +1233,8 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
-
-
-
-
   
 
-  
-
-  
-
-  
 
   
 

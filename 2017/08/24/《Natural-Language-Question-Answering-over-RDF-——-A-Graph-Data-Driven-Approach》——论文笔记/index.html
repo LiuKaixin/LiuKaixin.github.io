@@ -674,7 +674,7 @@ log( \prod_{v_i\in V(Q^S)} \delta (arg_i,u_i) \times \prod_{\overline{v_iv_j}\in
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-number">1.</span> <span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-number">2.</span> <span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Motivation"><span class="nav-number">3.</span> <span class="nav-text">1.1 Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Our-Approach"><span class="nav-number">3.1.</span> <span class="nav-text">1.2 Our Approach</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-FRAMEWORK"><span class="nav-number">4.</span> <span class="nav-text">2. FRAMEWORK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Offline"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 Offline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Online"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 Online</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-OFFLINE"><span class="nav-number">5.</span> <span class="nav-text">3. OFFLINE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-ONLINE"><span class="nav-number">6.</span> <span class="nav-text">4. ONLINE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Question-Understanding"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 Question Understanding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-Finding-Relation-Phrase-Embeddings"><span class="nav-number">6.1.1.</span> <span class="nav-text">4.1.1 Finding Relation Phrase Embeddings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-Finding-Associated-Arguments"><span class="nav-number">6.1.2.</span> <span class="nav-text">4.1.2 Finding Associated Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-Building-Semantic-Query-Graph"><span class="nav-number">6.1.3.</span> <span class="nav-text">4.1.3 Building Semantic Query Graph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-Query-Evaluation"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 Query Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-Phrases-Mapping"><span class="nav-number">6.2.1.</span> <span class="nav-text">4.2.1 Phrases Mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-Finding-top-k-Subgraph-Matches"><span class="nav-number">6.2.2.</span> <span class="nav-text">4.2.2 Finding top-k Subgraph Matches</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-TIME-COMPLEXITY-ANLYSIS"><span class="nav-number">7.</span> <span class="nav-text">5. TIME COMPLEXITY ANLYSIS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-EXPERIMENTS"><span class="nav-number">8.</span> <span class="nav-text">6. EXPERIMENTS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-Motivation"><span class="nav-text">1.1 Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Our-Approach"><span class="nav-text">1.2 Our Approach</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-FRAMEWORK"><span class="nav-text">2. FRAMEWORK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Offline"><span class="nav-text">2.1 Offline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Online"><span class="nav-text">2.2 Online</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-OFFLINE"><span class="nav-text">3. OFFLINE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-ONLINE"><span class="nav-text">4. ONLINE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Question-Understanding"><span class="nav-text">4.1 Question Understanding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-Finding-Relation-Phrase-Embeddings"><span class="nav-text">4.1.1 Finding Relation Phrase Embeddings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-Finding-Associated-Arguments"><span class="nav-text">4.1.2 Finding Associated Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-Building-Semantic-Query-Graph"><span class="nav-text">4.1.3 Building Semantic Query Graph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-Query-Evaluation"><span class="nav-text">4.2 Query Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-Phrases-Mapping"><span class="nav-text">4.2.1 Phrases Mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-Finding-top-k-Subgraph-Matches"><span class="nav-text">4.2.2 Finding top-k Subgraph Matches</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-TIME-COMPLEXITY-ANLYSIS"><span class="nav-text">5. TIME COMPLEXITY ANLYSIS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-EXPERIMENTS"><span class="nav-text">6. EXPERIMENTS</span></a></li></ol></div>
             
 
           </div>
@@ -1156,7 +1156,39 @@ log( \prod_{v_i\in V(Q^S)} \delta (arg_i,u_i) \times \prod_{\overline{v_iv_j}\in
         onPopupClose();
       }
     });
-  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config("");
 </script>
@@ -1174,18 +1206,8 @@ log( \prod_{v_i\in V(Q^S)} \delta (arg_i,u_i) \times \prod_{\overline{v_iv_j}\in
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
-
-
-
-
-
   
 
-  
-
-  
-
-  
 
   
 
