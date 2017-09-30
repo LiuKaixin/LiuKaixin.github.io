@@ -1,10 +1,15 @@
 title: >-
   《Top-k Exploration of Query Candidates for Efficient Keyword Search on
-  Graph-Shaped (RDF) Data》——读书笔记
+  GraphShaped RDF Data》——读书笔记
 author: 刘凯鑫
-tags: []
-categories: []
-date: 2017-09-25 09:55:00
+tags:
+  - 2017年9月
+  - Keyword
+  - RDF
+categories:
+  - 论文笔记
+  - ''
+date: 2017-09-29 15:53:31
 ---
 *首先，初步确定一下本周的规划，今明两天读本篇论文，以及回顾之前的论文（按照师兄说的方式进行泛读），然后周三周四学习斯坦福的课程。周五将没有整理的论文整理完全，周六日搞定本篇和上篇论文。*
 # Abstract
@@ -103,6 +108,64 @@ $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其�
 ## B. Search for Minimal Matching Subgraph
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png %}
 **Input and Data Structures** 
+$G^{'}_K$：摘要图
+$K=(K_1,...,K_m)$：keyword elements
+k：查询数量
+c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，
+p 父游标，d 距离，w 成本。
+$LG^{'}$: 保存候选子图的全局变量。
+$K_{lowC}$： 存储成本最低的keyword element。
+** Initialization and General Idea** 从一系列keyword elements出发，为每个查询创建游标，游标的拓展就是搜索的拓展。
+**Garph Exploration** 
+需要注意邻居可能是出边，入边和点。
+**Computation of Distinct Paths** 
+解决环形的问题。
+**Termination** 一项被满足
+1. 已经计算出所有可能的不同路径，使得LQ中没有更多的游标。
+2. 所有keyword elements在给定长度内的所有路径被搜索。
+3. top-k查询被计算。
+## C. Top-k Computation
+
+{%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png %}
+
+基本思想来自TA（Threshold Algorithm）算法。候选子图的最高成本——下限的计算，其余子图的最低成本——上限的计算如下：
+**Candidate Subgraphs** element n如果能达到所有关键词（其每个关键词游标都不空），则可能对应多个子图（每个游标可能有多个路径），计算每个子图的成本并排序。
+**Remaining Subgraphs** 
+
+
+和其他方法相比，我们首先支持图，不限于树。不止是距离信息，还设置了多样的成本函数。首先对这些信息（那些信息）进行索引可以提高Top-k处理和图搜索的效率。
+In our approach, minimality can be guaranteed for any score metrics, given that the scoring function is monotonic.
+和【1】对比。
+时间复杂度$|G|^{d_max}$
+空间复杂度$k\dot |K|\dot |G|$
+## D. Query Mapping
+将子图映射到conjunctive query。
+**Processing of Vertices** constant(v) 返回点v的label，var(v)返回v代表的变量。
+**Mapping of A-edges** 
+**Mapping of R-edges** 
+认为相同根的不同答案树是有价值的。
+将所有答案呈现给用户， 让用户选择。
+# 7. Evaluation
+基于关键词查询，计算出top-k个conjunctive queries，转化成自然语言问题，并展现给用户。
+数据集：DBLP、TAP、LUBM。
+## A. Effectiveness Study
+12人DBLP--30查询 TAP--9查询
+使用Reciprocal Rank（RR） =1/r。r是正确查询的排名。
+## B. Performance Evaluation
+对比算法：bidirectional search，1000 BFS，1000 METIS， 300 BFS，300METIS。
+**Comparative Analysis** query computation的时间，query processing的时间。实验中总时间=计算top-10的时间+处理查询直到找到至少10个答案的时间。
+**Search Performance** k 的影响——线性。查询长度
+**Index Performance** 索引大小及建索引的时间，都可以接受。
+# 8. Related Work
+native approaches：直接在图结构数据上进行关键词搜索，虽然schema-agnostic，但是需要特定的目录和存储机制。
+Database extensions：可以利用底层数据库的机制，如DBXplorer，Discover。用schema中的信息连接构建的表达式，从而将关键词转成候选网络，再将候选网络转成SQL查询。
+本方法结合两种方法的优点，一、schema agnostic，构建了schema，并在schema上进行搜索。二、可以利用底层RDF存储的机制。
+之前工作：计算得出答案，将关键词映射到三元组。
+本方法：计算得出top-k查询，将关键词映射到查询的element（这样可以支持更多pattern）。
+前向和后向搜索会利用索引存储关键词信息和路径信息，本方法虽然也用关键词和距离索引，但只是为了计算分数。之前方法计算distinct trees，本方法计算一般子图，因此需要遍历所有的入边和出边。
+本方法通过预留的索引信息在guided exploration下可以得到最佳的得分，离线部分用索引计算，在线部分用TA计算。但其他方法并不能为结果提供top-k保证。
+# 9. Conclusion and Future Work
+
 
 
 
