@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png">
-<meta property="og:updated_time" content="2017-09-30T02:30:11.939Z">
+<meta property="og:updated_time" content="2017-09-30T02:40:22.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记">
 <meta name="twitter:description" content="首先，初步确定一下本周的规划，今明两天读本篇论文，以及回顾之前的论文（按照师兄说的方式进行泛读），然后周三周四学习斯坦福的课程。周五将没有整理的论文整理完全，周六日搞定本篇和上篇论文。 Abstract从关键词中计算出queries之后，让用户选择合适的，然后送入数据库引擎进行查询。另外对于queries的计算，提出了找top-k子图的新型算法。 1. Introduction提出关键词这样的搜索">
@@ -429,18 +429,18 @@
 <li>augmentation of the summary graph.</li>
 <li>exploration of the graph to find subgraphs connecting the keyword elements.</li>
 <li>top-k processing.</li>
-<li>generation of the query for the top-k subgraphs<br>前两个已经解决，本节解决3-5.<h2 id="A-Algorithms-for-Graph-Exploration"><a href="#A-Algorithms-for-Graph-Exploration" class="headerlink" title="A. Algorithms for Graph Exploration"></a>A. Algorithms for Graph Exploration</h2>首先定义最小匹配子图：<img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png">
-一个条件定义包含所有关键词，另一个确保联通。<br>与现有的搜索算法进行对比。<br><strong>Backward Search</strong> 从Keyword elements出发迭代地沿入边访问elements直到找到一个connecting element，即answer root。<br><strong>Bidirectional Search</strong> 该方法认为从一些顶点可以通过跟随传出而不是传入边缘来更快地达到答案根。故使用启发式激活因子来估计边缘将到达answer root的可能性。这些因子是从一般图形拓扑和已经探索的元素得出的。虽然其在很多情况下表现很好，但最差性能无法保证。<br><strong>Searching with Distance Information</strong> 通过存储在索引中的附加连接信息保证最差性能是m-optimal。在每次迭代中，通过该信息可确定能够达到keyword element的elements以及最短的距离，从而有目标的进行搜索。不过构建这些信息十分费力。</li>
+<li>generation of the query for the top-k subgraphs<br>前两个已经解决，本节解决3-5.</li>
 </ol>
+<h2 id="A-Algorithms-for-Graph-Exploration"><a href="#A-Algorithms-for-Graph-Exploration" class="headerlink" title="A. Algorithms for Graph Exploration"></a>A. Algorithms for Graph Exploration</h2><p>首先定义最小匹配子图：<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png"><br>一个条件定义包含所有关键词，另一个确保联通。<br>与现有的搜索算法进行对比。<br><strong>Backward Search</strong> 从Keyword elements出发迭代地沿入边访问elements直到找到一个connecting element，即answer root。<br><strong>Bidirectional Search</strong> 该方法认为从一些顶点可以通过跟随传出而不是传入边缘来更快地达到答案根。故使用启发式激活因子来估计边缘将到达answer root的可能性。这些因子是从一般图形拓扑和已经探索的元素得出的。虽然其在很多情况下表现很好，但最差性能无法保证。<br><strong>Searching with Distance Information</strong> 通过存储在索引中的附加连接信息保证最差性能是m-optimal。在每次迭代中，通过该信息可确定能够达到keyword element的elements以及最短的距离，从而有目标的进行搜索。不过构建这些信息十分费力。</p>
 <p>因为关键词也有可能对应边，所以查询出的结果不再是树，而是图。成本来自于两方面：query-independent，query-specific。索引技术只能解决query-independent的成本。</p>
 <h2 id="B-Search-for-Minimal-Matching-Subgraph"><a href="#B-Search-for-Minimal-Matching-Subgraph" class="headerlink" title="B. Search for Minimal Matching Subgraph"></a>B. Search for Minimal Matching Subgraph</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png">
 <p><strong>Input and Data Structures</strong><br>$G^{‘}<em>K$：摘要图<br>$K=(K_1,…,K_m)$：keyword elements<br>k：查询数量<br>c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，<br>p 父游标，d 距离，w 成本。<br>$LG^{‘}$: 保存候选子图的全局变量。<br>$K</em>{lowC}$： 存储成本最低的keyword element。<br><strong> Initialization and General Idea</strong> 从一系列keyword elements出发，为每个查询创建游标，游标的拓展就是搜索的拓展。<br><strong>Garph Exploration</strong><br>需要注意邻居可能是出边，入边和点。<br><strong>Computation of Distinct Paths</strong><br>解决环形的问题。<br><strong>Termination</strong> 一项被满足</p>
 <ol>
 <li>已经计算出所有可能的不同路径，使得LQ中没有更多的游标。</li>
 <li>所有keyword elements在给定长度内的所有路径被搜索。</li>
-<li>top-k查询被计算。<h2 id="C-Top-k-Computation"><a href="#C-Top-k-Computation" class="headerlink" title="C. Top-k Computation"></a>C. Top-k Computation</h2></li>
+<li>top-k查询被计算。</li>
 </ol>
-<img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png">
+<h2 id="C-Top-k-Computation"><a href="#C-Top-k-Computation" class="headerlink" title="C. Top-k Computation"></a>C. Top-k Computation</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png">
 <p>基本思想来自TA（Threshold Algorithm）算法。候选子图的最高成本——下限的计算，其余子图的最低成本——上限的计算如下：<br><strong>Candidate Subgraphs</strong> element n如果能达到所有关键词（其每个关键词游标都不空），则可能对应多个子图（每个游标可能有多个路径），计算每个子图的成本并排序。<br><strong>Remaining Subgraphs</strong> </p>
 <p>和其他方法相比，我们首先支持图，不限于树。不止是距离信息，还设置了多样的成本函数。首先对这些信息（那些信息）进行索引可以提高Top-k处理和图搜索的效率。<br>In our approach, minimality can be guaranteed for any score metrics, given that the scoring function is monotonic.<br>和【1】对比。<br>时间复杂度$|G|^{d_max}$<br>空间复杂度$k\dot |K|\dot |G|$</p>
 <h2 id="D-Query-Mapping"><a href="#D-Query-Mapping" class="headerlink" title="D. Query Mapping"></a>D. Query Mapping</h2><p>将子图映射到conjunctive query。<br><strong>Processing of Vertices</strong> constant(v) 返回点v的label，var(v)返回v代表的变量。<br><strong>Mapping of A-edges</strong><br><strong>Mapping of R-edges</strong><br>认为相同根的不同答案树是有价值的。<br>将所有答案呈现给用户， 让用户选择。</p>
