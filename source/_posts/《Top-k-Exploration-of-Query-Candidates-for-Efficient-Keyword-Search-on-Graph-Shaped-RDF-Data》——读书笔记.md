@@ -95,6 +95,7 @@ $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其�
 4. top-k processing.
 5. generation of the query for the top-k subgraphs
 前两个已经解决，本节解决3-5.
+
 ## A. Algorithms for Graph Exploration
 首先定义最小匹配子图：
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png %}
@@ -105,15 +106,16 @@ $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其�
 **Searching with Distance Information** 通过存储在索引中的附加连接信息保证最差性能是m-optimal。在每次迭代中，通过该信息可确定能够达到keyword element的elements以及最短的距离，从而有目标的进行搜索。不过构建这些信息十分费力。
 
 因为关键词也有可能对应边，所以查询出的结果不再是树，而是图。成本来自于两方面：query-independent，query-specific。索引技术只能解决query-independent的成本。
+
 ## B. Search for Minimal Matching Subgraph
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png %}
 **Input and Data Structures** 
 $G^{'}_K$：摘要图
-$K=(K_1,...,K_m)$：keyword elements
-k：查询数量
+$K=(K_1,...,K_m)$：keyword elements	
+k：查询数量	
 c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，
-p 父游标，d 距离，w 成本。
-$LG^{'}$: 保存候选子图的全局变量。
+p 父游标，d 距离，w 成本。	
+$LG^{'}$: 保存候选子图的全局变量。	
 $K_{lowC}$： 存储成本最低的keyword element。
 ** Initialization and General Idea** 从一系列keyword elements出发，为每个查询创建游标，游标的拓展就是搜索的拓展。
 **Garph Exploration** 
@@ -124,6 +126,7 @@ $K_{lowC}$： 存储成本最低的keyword element。
 1. 已经计算出所有可能的不同路径，使得LQ中没有更多的游标。
 2. 所有keyword elements在给定长度内的所有路径被搜索。
 3. top-k查询被计算。
+
 ## C. Top-k Computation
 
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png %}
@@ -165,15 +168,3 @@ Database extensions：可以利用底层数据库的机制，如DBXplorer，Disc
 前向和后向搜索会利用索引存储关键词信息和路径信息，本方法虽然也用关键词和距离索引，但只是为了计算分数。之前方法计算distinct trees，本方法计算一般子图，因此需要遍历所有的入边和出边。
 本方法通过预留的索引信息在guided exploration下可以得到最佳的得分，离线部分用索引计算，在线部分用TA计算。但其他方法并不能为结果提供top-k保证。
 # 9. Conclusion and Future Work
-
-
-
-
-
-
-
-
-
-
-
-
