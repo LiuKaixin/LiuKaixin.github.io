@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png">
-<meta property="og:updated_time" content="2017-09-30T02:40:22.470Z">
+<meta property="og:updated_time" content="2017-10-06T11:45:33.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记">
 <meta name="twitter:description" content="首先，初步确定一下本周的规划，今明两天读本篇论文，以及回顾之前的论文（按照师兄说的方式进行泛读），然后周三周四学习斯坦福的课程。周五将没有整理的论文整理完全，周六日搞定本篇和上篇论文。 Abstract从关键词中计算出queries之后，让用户选择合适的，然后送入数据库引擎进行查询。另外对于queries的计算，提出了找top-k子图的新型算法。 1. Introduction提出关键词这样的搜索">
@@ -397,16 +397,16 @@
 <li>keyword mapping.</li>
 <li>graph exploration.</li>
 <li>scoring.</li>
-<li>top-k computation.<br>本方法结合了语法和语义相似度，因此IR概念支持模糊匹配。本文贡献如下：</li>
+<li>top-k computation.</li>
 </ol>
+<p>本方法结合了语法和语义相似度，因此IR概念支持模糊匹配。本文贡献如下：</p>
 <ul>
 <li><strong>Keyword Search through Query Computation </strong> 将关键词转化为结构化查询的元素（而不是答案的一部分），让用户选top-k个查询中的一个（而不是直接把top-k个答案给出）。</li>
 <li><strong>Algorithms for Subgraph Exploration</strong> 当前的方法通常将关键词映射到节点，算法计算出树形的答案。但关键词也可能映射到边，所以答案结构也不一定是树。</li>
-<li><strong>Efficient and Complete Top-k through Graph Summarization</strong> 很难簿记计算top-k所需的信息，现在的方法不能确保结果是真正的top-k。因此我们引入了复杂的数据结构保存所有候选的得分。为了效率，利用摘要图进行剪枝。<h1 id="2-Problem-Definition"><a href="#2-Problem-Definition" class="headerlink" title="2. Problem Definition"></a>2. Problem Definition</h1><strong>Data</strong><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition1.png">
-<strong>Queries</strong><br>用户的查询$Q_U$就是关键词集合，系统的查询$Q_S$是conjunctive queries.<img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition2.png">
-<strong>Answers</strong><br>就是把查询中的distinguished variables 替换成子图中的节点。<img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition3.png">
-<strong>Problem</strong><br>主要考虑conjunctive queries的计算。<h1 id="3-Overview-of-the-Approach"><a href="#3-Overview-of-the-Approach" class="headerlink" title="3. Overview of the Approach"></a>3. Overview of the Approach</h1>首先举例几个关键词，指出他们之间的连接需要推断关键词之间的连接。以往的工作使用图的schema来推断。本文的方法如下：<br><strong>Query Computation</strong> </li>
+<li><strong>Efficient and Complete Top-k through Graph Summarization</strong> 很难簿记计算top-k所需的信息，现在的方法不能确保结果是真正的top-k。因此我们引入了复杂的数据结构保存所有候选的得分。为了效率，利用摘要图进行剪枝。</li>
 </ul>
+<h1 id="2-Problem-Definition"><a href="#2-Problem-Definition" class="headerlink" title="2. Problem Definition"></a>2. Problem Definition</h1><p><strong>Data</strong><br><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition1.png"><br><strong>Queries</strong><br>用户的查询$Q_U$就是关键词集合，系统的查询$Q_S$是conjunctive queries.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition2.png"><br><strong>Answers</strong><br>就是把查询中的distinguished variables 替换成子图中的节点。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition3.png"><br><strong>Problem</strong><br>主要考虑conjunctive queries的计算。</p>
+<h1 id="3-Overview-of-the-Approach"><a href="#3-Overview-of-the-Approach" class="headerlink" title="3. Overview of the Approach"></a>3. Overview of the Approach</h1><p>首先举例几个关键词，指出他们之间的连接需要推断关键词之间的连接。以往的工作使用图的schema来推断。本文的方法如下：<br><strong>Query Computation</strong> </p>
 <ol>
 <li>keyword通过映射得到keyword elements。</li>
 <li>通过图的搜索将keyword elements连接起来找到connecting element。</li>
@@ -421,7 +421,11 @@
 <p>构建$G^{‘}_K$需要利用来自映射的数据结构，即[V-vertex, A-edge, $(C-vertex_1,…,C-vertex_n)$]和(A-edge, C-vertex)。为了关键词能够匹配V-vertex，将A-edge$(C-vertex_i,V-vertex)$加入$G^{‘}$;为了关键词能够匹配A-edge，将A-edge$(C-vertex_i,Value)$加入$G^{‘}$.</p>
 <h1 id="5-Scoring"><a href="#5-Scoring" class="headerlink" title="5. Scoring"></a>5. Scoring</h1><p>介绍了一些得分函数，如PageRank（为节点打分），最短路径（为路径打分），TF/IDF（为keyword element打分）。<br>对于图来说，其由路径构成，其成本函数如下：</p>
 <script type="math/tex; mode=display">C_G=\sum_{p_i\in P}C_{p_i}</script><p>而路径由其elements组成：</p>
-<script type="math/tex; mode=display">C_{p_i}=\sum_{n\in p_i}c(n)</script><p><strong>Path Length</strong> 假设用户所需的实体紧密相连。其得分函数为$C<em>1=\sum</em>{p<em>i\in P}\sum</em>{n\in p<em>i}1$<br><strong>Popularity Score</strong> 计算摘要图中element的popularity，越流行则在路径中贡献越小。<br>$C_2=\sum</em>{p<em>i\in P}\sum</em>{n\in p<em>i}c(n)$，其中对于点v，$c(v)=1-\frac{|v</em>{agg}|}{|V|}$，对于边e，$c(e)=1-\frac{|e<em>{agg}|}{|E|}$。<br>|V|：摘要图中点的总数。<br>$v</em>{agg}$：graph index 中聚集在一个C-vertex的E-vertex的数量。<br>|E|：摘要图中边的总数。<br>$e<em>{agg}$：摘要途中聚集在一个R-edge的R-edge的数量。<br><strong>Keyword Matching Score</strong><br>$C_2=\sum</em>{p<em>i\in P}\sum</em>{n\in p_i}\frac{c(n)}{S_m(n)}$<br>$S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其他元素则一律设置为1。其从语法语义两方面考虑，得分越高则路径的成本越小。</p>
+<script type="math/tex; mode=display">C_{p_i}=\sum_{n\in p_i}c(n)</script><p><strong>Path Length</strong> 假设用户所需的实体紧密相连。其得分函数为<script type="math/tex">C_1=\sum_{p_i\in P}\sum_{n\in p_i}1</script><br><strong>Popularity Score</strong> 计算摘要图中element的popularity，越流行则在路径中贡献越小。</p>
+<p><script type="math/tex">C_2=\sum_{p_i\in P}\sum_{n\in p_i}c(n)</script>，其中对于点v，<script type="math/tex">c(v)=1-\frac{|v_{agg}|}{|V|}</script>，对于边e，<script type="math/tex">c(e)=1-\frac{|e_{agg}|}{|E|}</script>。<br>|V|：摘要图中点的总数。</p>
+<p><script type="math/tex">v_{agg}</script>：graph index 中聚集在一个C-vertex的E-vertex的数量。<br>|E|：摘要图中边的总数。</p>
+<p><script type="math/tex">e_{agg}</script>：摘要途中聚集在一个R-edge的R-edge的数量。<br><strong>Keyword Matching Score</strong> </p>
+<p><script type="math/tex">C_2=\sum_{p_i\in P}\sum_{n\in p_i}\frac{c(n)}{S_m(n)}</script> $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其他元素则一律设置为1。其从语法语义两方面考虑，得分越高则路径的成本越小。</p>
 <p>前两个可以离线计算，因为element在不同路径的话，会计算多次，所以其更倾向于Keyword elements紧密连接的子图。</p>
 <h1 id="6-Computation-of-Queries"><a href="#6-Computation-of-Queries" class="headerlink" title="6. Computation of Queries"></a>6. Computation of Queries</h1><p>对于查询计算，有五个任务：</p>
 <ol>
@@ -434,7 +438,9 @@
 <h2 id="A-Algorithms-for-Graph-Exploration"><a href="#A-Algorithms-for-Graph-Exploration" class="headerlink" title="A. Algorithms for Graph Exploration"></a>A. Algorithms for Graph Exploration</h2><p>首先定义最小匹配子图：<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition6.png"><br>一个条件定义包含所有关键词，另一个确保联通。<br>与现有的搜索算法进行对比。<br><strong>Backward Search</strong> 从Keyword elements出发迭代地沿入边访问elements直到找到一个connecting element，即answer root。<br><strong>Bidirectional Search</strong> 该方法认为从一些顶点可以通过跟随传出而不是传入边缘来更快地达到答案根。故使用启发式激活因子来估计边缘将到达answer root的可能性。这些因子是从一般图形拓扑和已经探索的元素得出的。虽然其在很多情况下表现很好，但最差性能无法保证。<br><strong>Searching with Distance Information</strong> 通过存储在索引中的附加连接信息保证最差性能是m-optimal。在每次迭代中，通过该信息可确定能够达到keyword element的elements以及最短的距离，从而有目标的进行搜索。不过构建这些信息十分费力。</p>
 <p>因为关键词也有可能对应边，所以查询出的结果不再是树，而是图。成本来自于两方面：query-independent，query-specific。索引技术只能解决query-independent的成本。</p>
 <h2 id="B-Search-for-Minimal-Matching-Subgraph"><a href="#B-Search-for-Minimal-Matching-Subgraph" class="headerlink" title="B. Search for Minimal Matching Subgraph"></a>B. Search for Minimal Matching Subgraph</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png">
-<p><strong>Input and Data Structures</strong><br>$G^{‘}<em>K$：摘要图<br>$K=(K_1,…,K_m)$：keyword elements<br>k：查询数量<br>c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，<br>p 父游标，d 距离，w 成本。<br>$LG^{‘}$: 保存候选子图的全局变量。<br>$K</em>{lowC}$： 存储成本最低的keyword element。<br><strong> Initialization and General Idea</strong> 从一系列keyword elements出发，为每个查询创建游标，游标的拓展就是搜索的拓展。<br><strong>Garph Exploration</strong><br>需要注意邻居可能是出边，入边和点。<br><strong>Computation of Distinct Paths</strong><br>解决环形的问题。<br><strong>Termination</strong> 一项被满足</p>
+<p><strong>Input and Data Structures</strong> </p>
+<p><script type="math/tex">G^{'}_K</script>：摘要图    </p>
+<p><script type="math/tex">K=(K_1,...,K_m)</script>：keyword elements<br>k：查询数量<br>c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，<br>p 父游标，d 距离，w 成本。<br>$LG^{‘}$: 保存候选子图的全局变量。<br>$K_{lowC}$： 存储成本最低的keyword element。<br><strong> Initialization and General Idea</strong> 从一系列keyword elements出发，为每个查询创建游标，游标的拓展就是搜索的拓展。<br><strong>Garph Exploration</strong><br>需要注意邻居可能是出边，入边和点。<br><strong>Computation of Distinct Paths</strong><br>解决环形的问题。<br><strong>Termination</strong> 一项被满足</p>
 <ol>
 <li>已经计算出所有可能的不同路径，使得LQ中没有更多的游标。</li>
 <li>所有keyword elements在给定长度内的所有路径被搜索。</li>
@@ -442,7 +448,7 @@
 </ol>
 <h2 id="C-Top-k-Computation"><a href="#C-Top-k-Computation" class="headerlink" title="C. Top-k Computation"></a>C. Top-k Computation</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg2.png">
 <p>基本思想来自TA（Threshold Algorithm）算法。候选子图的最高成本——下限的计算，其余子图的最低成本——上限的计算如下：<br><strong>Candidate Subgraphs</strong> element n如果能达到所有关键词（其每个关键词游标都不空），则可能对应多个子图（每个游标可能有多个路径），计算每个子图的成本并排序。<br><strong>Remaining Subgraphs</strong> </p>
-<p>和其他方法相比，我们首先支持图，不限于树。不止是距离信息，还设置了多样的成本函数。首先对这些信息（那些信息）进行索引可以提高Top-k处理和图搜索的效率。<br>In our approach, minimality can be guaranteed for any score metrics, given that the scoring function is monotonic.<br>和【1】对比。<br>时间复杂度$|G|^{d_max}$<br>空间复杂度$k\dot |K|\dot |G|$</p>
+<p>和其他方法相比，我们首先支持图，不限于树。不止是距离信息，还设置了多样的成本函数。首先对这些信息（那些信息）进行索引可以提高Top-k处理和图搜索的效率。<br>In our approach, minimality can be guaranteed for any score metrics, given that the scoring function is monotonic.<br>和【1】对比。<br>时间复杂度$|G|^{d_max}$<br>空间复杂度$k\cdot |K|\cdot |G|$</p>
 <h2 id="D-Query-Mapping"><a href="#D-Query-Mapping" class="headerlink" title="D. Query Mapping"></a>D. Query Mapping</h2><p>将子图映射到conjunctive query。<br><strong>Processing of Vertices</strong> constant(v) 返回点v的label，var(v)返回v代表的变量。<br><strong>Mapping of A-edges</strong><br><strong>Mapping of R-edges</strong><br>认为相同根的不同答案树是有价值的。<br>将所有答案呈现给用户， 让用户选择。</p>
 <h1 id="7-Evaluation"><a href="#7-Evaluation" class="headerlink" title="7. Evaluation"></a>7. Evaluation</h1><p>基于关键词查询，计算出top-k个conjunctive queries，转化成自然语言问题，并展现给用户。<br>数据集：DBLP、TAP、LUBM。</p>
 <h2 id="A-Effectiveness-Study"><a href="#A-Effectiveness-Study" class="headerlink" title="A. Effectiveness Study"></a>A. Effectiveness Study</h2><p>12人DBLP—30查询 TAP—9查询<br>使用Reciprocal Rank（RR） =1/r。r是正确查询的排名。</p>
