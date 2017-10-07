@@ -23,10 +23,12 @@ Labelled query model：不需要用户对结构有任何的了解，只是单纯
 2. graph exploration.
 3. scoring.
 4. top-k computation.
+
 本方法结合了语法和语义相似度，因此IR概念支持模糊匹配。本文贡献如下：
 + **Keyword Search through Query Computation ** 将关键词转化为结构化查询的元素（而不是答案的一部分），让用户选top-k个查询中的一个（而不是直接把top-k个答案给出）。
 + **Algorithms for Subgraph Exploration** 当前的方法通常将关键词映射到节点，算法计算出树形的答案。但关键词也可能映射到边，所以答案结构也不一定是树。
 + **Efficient and Complete Top-k through Graph Summarization** 很难簿记计算top-k所需的信息，现在的方法不能确保结果是真正的top-k。因此我们引入了复杂的数据结构保存所有候选的得分。为了效率，利用摘要图进行剪枝。
+
 # 2. Problem Definition
 **Data**
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/Definition1.png %}
@@ -73,16 +75,15 @@ A-edges和V-vertices并不会有助于连接keyword elements，除非他们就�
 $$C_G=\sum_{p_i\in P}C_{p_i}$$
 而路径由其elements组成：
 $$C_{p_i}=\sum_{n\in p_i}c(n)$$
-**Path Length** 假设用户所需的实体紧密相连。其得分函数为$C_1=\sum_{p_i\in P}\sum_{n\in p_i}1$
+**Path Length** 假设用户所需的实体紧密相连。其得分函数为$$C_1=\sum_{p_i\in P}\sum_{n\in p_i}1$$
 **Popularity Score** 计算摘要图中element的popularity，越流行则在路径中贡献越小。
-$C_2=\sum_{p_i\in P}\sum_{n\in p_i}c(n)$，其中对于点v，$c(v)=1-\frac{|v_{agg}|}{|V|}$，对于边e，$c(e)=1-\frac{|e_{agg}|}{|E|}$。
+$$C_2=\sum_{p_i\in P}\sum_{n\in p_i}c(n)$$，其中对于点v，$$c(v)=1-\frac{|v_{agg}|}{|V|}$$，对于边e，$$c(e)=1-\frac{|e_{agg}|}{|E|}$$。	
 |V|：摘要图中点的总数。
-$v_{agg}$：graph index 中聚集在一个C-vertex的E-vertex的数量。
+$$v_{agg}$$：graph index 中聚集在一个C-vertex的E-vertex的数量。
 |E|：摘要图中边的总数。
-$e_{agg}$：摘要途中聚集在一个R-edge的R-edge的数量。
+$$e_{agg}$$：摘要途中聚集在一个R-edge的R-edge的数量。
 **Keyword Matching Score** 
-$C_2=\sum_{p_i\in P}\sum_{n\in p_i}\frac{c(n)}{S_m(n)}$
-$S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其他元素则一律设置为1。其从语法语义两方面考虑，得分越高则路径的成本越小。
+$$C_2=\sum_{p_i\in P}\sum_{n\in p_i}\frac{c(n)}{S_m(n)}$$ $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其他元素则一律设置为1。其从语法语义两方面考虑，得分越高则路径的成本越小。
 
 前两个可以离线计算，因为element在不同路径的话，会计算多次，所以其更倾向于Keyword elements紧密连接的子图。
 
@@ -110,8 +111,8 @@ $S_m(n)$代表element n的得分，对于Keyword element，范围是[0,1]，其�
 ## B. Search for Minimal Matching Subgraph
 {%qnimg Top-k%20Exploration%20of%20Query%20Candidates%20for%20Efficient%20Keyword%20Search%20on%20Graph-Shaped%20%28RDF%29%20Data/alg1.png %}
 **Input and Data Structures** 
-$G^{'}_K$：摘要图
-$K=(K_1,...,K_m)$：keyword elements	
+$$G^{'}_K$$：摘要图	
+$$K=(K_1,...,K_m)$$：keyword elements	
 k：查询数量	
 c(n,k,p,d,w): n 刚访问的graph element，k  c所在路径起点的keyword element，
 p 父游标，d 距离，w 成本。	
@@ -140,7 +141,7 @@ $K_{lowC}$： 存储成本最低的keyword element。
 In our approach, minimality can be guaranteed for any score metrics, given that the scoring function is monotonic.
 和【1】对比。
 时间复杂度$|G|^{d_max}$
-空间复杂度$k\dot |K|\dot |G|$
+空间复杂度$k\cdot |K|\cdot |G|$
 ## D. Query Mapping
 将子图映射到conjunctive query。
 **Processing of Vertices** constant(v) 返回点v的label，var(v)返回v代表的变量。
