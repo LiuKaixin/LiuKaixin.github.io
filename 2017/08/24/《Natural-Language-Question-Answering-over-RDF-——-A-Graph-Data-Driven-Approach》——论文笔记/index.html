@@ -411,21 +411,21 @@
 <p>针对第二个挑战，我们提出了数据驱动的方法：对于N中一个短语到实体的映射，如果能找到包含该实体的子图且匹配N中的查询意图，那该映射是正确的；否则是错误的。</p>
 <h2 id="2-1-Offline"><a href="#2-1-Offline" class="headerlink" title="2.1 Offline"></a>2.1 Offline</h2><p>建立了paraphrase dictionary D——记录语义相等的关系短语和谓词。一些现有的系统如Patty和ReVerb还未每个关系短语提供了其支持的实体对，如表2。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table2.png"><br>方法思路：对每个关系短语$rel_i$，$Sup(rel_i)$表示一系列该谓词支持的实体对。我们假设这些实体对也出现在RDF图中。频繁出现的谓词连接$Sup(rel_i)$中的实体对和关系短语$rel_i$等价。基于该想法我们提出一个找语义相等的关系短语和谓词的图挖掘算法。</p>
 <h2 id="2-2-Online"><a href="#2-2-Online" class="headerlink" title="2.2 Online"></a>2.2 Online</h2><p>1) <em>Question Understanding. </em>目的在于为问题N构建一个语义查询图$Q^{S}$。首先用Stanford Parser得到N的依赖树Y，然后基于paraphrase dictionary D抽取Y中的语义关系。基本的思路是找到一个Y的包含rel的所有词的最小子树。该子树被称为Y中的rel的一个嵌入，并且基于一些语言规则我们得到有联系的两个参数，形成$&lt; rel,arg1,arg2 &gt;$，最后连接这些关系得到查询图$Q^{S}$。<br>2) <em> Query Evaluation. </em>找到与$Q^{S}$匹配的子图。匹配按照子图同态定义。    </p>
-<p>首先，$Q^{S}$的点，被映射到RDF图中的一些实体或类，并赋予一个置信度，保存在有序列表$C<em>{v_i}$。关系短语$rel</em>{\overline{v<em>iv_j}}$被映射到候选谓词的列表$C</em>{\overline{v_iv_j}}$中。列表以置信度排序。本步中并没有解决多义问题。<br>其次，</p>
+<p>首先，$Q^{S}$的点，被映射到RDF图中的一些实体或类，并赋予一个置信度，保存在有序列表$C_{v_i}$。关系短语$rel_{\overline{v_iv_j}}$被映射到候选谓词的列表$C_{\overline{v_iv_j}}$中。列表以置信度排序。本步中并没有解决多义问题。<br>其次，</p>
 <blockquote>
-<p>Definition 3.<strong>(Match)</strong> Consider a semantic query graph $Q^{S}$ with n vertices ${v<em>1,…,v_n}$. Each vertex $v_i$ has a condidate list $C</em>{v<em>i},i=1,…,n.$ Each edge $\overline{v_iv_j}$ also has a candidate list of $C</em>{\overline{v_iv_j}}, where $1\le i\ne j\le n.$ A subgraph M containing n vertices ${u_1,…,u_n}$ in RDF graph G is a match of $Q^{S}$ if and only if the following conditions hold: </p>
+<p>Definition 3.<strong>(Match)</strong> Consider a semantic query graph $Q^{S}$ with n vertices $\{v_1,…,v_n\}$. Each vertex $v_i$ has a condidate list $C_{v_i},i=1,…,n.$ Each edge $\overline{v_iv_j}$ also has a candidate list of $C_{\overline{v_iv_j}}, where $1\le i\ne j\le n.$ A subgraph M containing n vertices $\{u_1,…,u_n\}$ in RDF graph G is a match of $Q^{S}$ if and only if the following conditions hold: </p>
 <ol>
-<li>if $v<em>i$ is mapping to an entity $u_i$, i=1,…,n, $u_i$ must be in list $C</em>{v_i}$;</li>
-<li>if $v<em>i$ is mapping to a class $c_i$, i=1,…,n, $u_i$ is an entity whose type is $c_i$ (i.e., there is a triple &lt;$u_i$ rdf:type $c_i$&gt; in RDF graph) and $c_i$ must be in $C</em>{v_i}$;</li>
-<li>$\forall \overline{v<em>iv_j}\in Q^S; \, \overrightarrow{u_iu_j}\in G \lor  \overrightarrow{u_ju_i}\in G$. Furthermore, the predicate $P</em>{ij}$ associated with $\overrightarrow{u<em>iu_j}$ (or $\overrightarrow{u_ju_i}$ is in $C</em>{\overline{v_iv_j}},\, 1\le i,j\le n$.</li>
+<li>if $v_i$ is mapping to an entity $u_i$, i=1,…,n, $u_i$ must be in list $C_{v_i}$;</li>
+<li>if $v_i$ is mapping to a class $c_i$, i=1,…,n, $u_i$ is an entity whose type is $c_i$ (i.e., there is a triple &lt;$u_i$ rdf:type $c_i$&gt; in RDF graph) and $c_i$ must be in $C_{v_i}$;</li>
+<li>$\forall \overline{v_iv_j}\in Q^S; \, \overrightarrow{u_iu_j}\in G \lor  \overrightarrow{u_ju_i}\in G$. Furthermore, the predicate $P_{ij}$ associated with $\overrightarrow{u_iu_j}$ (or $\overrightarrow{u_ju_i}$ is in $C_{\overline{v_iv_j}},\, 1\le i,j\le n$.</li>
 </ol>
 </blockquote>
 <p>每个和$Q^S$匹配的子图都有一个得分，由边和点的概率决定。我们的目标是找到top-k个匹配的子图，在4.2.2节中解决。</p>
 <h1 id="3-OFFLINE"><a href="#3-OFFLINE" class="headerlink" title="3. OFFLINE"></a>3. OFFLINE</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig3.png">
-<p>语义关系抽取依赖于词典D，图3是词典的一个示例。本文并不讨论如何抽取短语及其对应的实体对，假设已经给定。<br>在offline中的任务是找到语义相等的关系短语和RDF中的相应谓词，即构建如图3的词典D。假设已有词典$T={rel<em>1,…,rel_n}$，每个$rel_i$都是一个关系短语，并有一个出现在RDF图中的实体对集合，即$Sup(rel_i)={(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),}$。对于每个$rel_i$目标是找到RDF图中的top-k个语义相等的谓词（路径）。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig4.png"><br>方法：给定一个关系短语$rel_i$及$Sup(rel_i)={(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),}$，对$(v^j_i,V^{‘j}_i),j = 1,…,m$，我们在RDF图中找到两点间的简单路径：$Path(v^j_i,V^{‘j}_i)$，如图4。则$PS(rel_i)=\bigcup</em>{j=1,…,m}Path(v^j_i,V^{‘j}_i)$.    为了效率，我们设定了路径的阈值，然后使用双向的BFS搜索找到$Path(v^j_i,V^{‘j}_i)$。<br>但是这样的方法会带来噪音，解决方法：采用了tf-idf度量。</p>
+<p>语义关系抽取依赖于词典D，图3是词典的一个示例。本文并不讨论如何抽取短语及其对应的实体对，假设已经给定。<br>在offline中的任务是找到语义相等的关系短语和RDF中的相应谓词，即构建如图3的词典D。假设已有词典$T=\{rel_1,…,rel_n\}$，每个$rel_i$都是一个关系短语，并有一个出现在RDF图中的实体对集合，即$Sup(rel_i)=\{(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),\}$。对于每个$rel_i$目标是找到RDF图中的top-k个语义相等的谓词（路径）。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/fig4.png"><br>方法：给定一个关系短语$rel_i$及$Sup(rel_i)=\{(v^1_i,V^{‘1}_i),…,(v^m_i,V^{‘m}_i),\}$，对$(v^j_i,V^{‘j}_i),j = 1,…,m$，我们在RDF图中找到两点间的简单路径：$Path(v^j_i,V^{‘j}_i)$，如图4。则$PS(rel_i)=\bigcup_{j=1,…,m}Path(v^j_i,V^{‘j}_i)$.    为了效率，我们设定了路径的阈值，然后使用双向的BFS搜索找到$Path(v^j_i,V^{‘j}_i)$。<br>但是这样的方法会带来噪音，解决方法：采用了tf-idf度量。</p>
 <blockquote>
 <p>Definition 4. Given a predicate path L, the tf-value of L in $PS(rel_i)$ is defined as follows:    </p>
-<script type="math/tex; mode=display">tf(L,PS(rel_i))=|\{Path(v^j_i,V^{'j}_i)| L\in Path(v^j_i,V^{'j}_i)\}|</script><p>The idf-value of L over the whole relation phrase dictionary $T={rel_1,…,rel_n}$ is defined as follows:</p>
+<script type="math/tex; mode=display">tf(L,PS(rel_i))=|\{Path(v^j_i,V^{'j}_i)| L\in Path(v^j_i,V^{'j}_i)\}|</script><p>The idf-value of L over the whole relation phrase dictionary $T=\{rel_1,…,rel_n\}$ is defined as follows:</p>
 <script type="math/tex; mode=display">idf(L,T)=log \frac{|T|}{|\{rel_i\in T|L \in PS(rel_i)\}|+1}</script><p>The tf-idf value of L is defined as follows:</p>
 <script type="math/tex; mode=display">tf-idf(L,PS(rel_i),T)=tf(L,PS(rel_i))\times idf(L,T)</script></blockquote>
 <p>关系短语和谓词（路径）的置信度定义为：</p>
@@ -442,7 +442,7 @@
 <li>We cannot find a subtree $y^{‘}$ of Y, where $y^{‘}$ also satisfies the first condition and y is a subtree of $y^{‘}$.<br>In this case, y is an embedding of relation phrase rel in Y.</li>
 </ol>
 </blockquote>
-<p>给定问题N的依赖树Y和关系短语词典$T={rel_1,…,rel_n}$，我们需要T中那个关系短语在Y中出现。</p>
+<p>给定问题N的依赖树Y和关系短语词典$T=\{rel_1,…,rel_n\}$，我们需要T中那个关系短语在Y中出现。</p>
 <h3 id="4-1-1-Finding-Relation-Phrase-Embeddings"><a href="#4-1-1-Finding-Relation-Phrase-Embeddings" class="headerlink" title="4.1.1 Finding Relation Phrase Embeddings"></a>4.1.1 Finding Relation Phrase Embeddings</h3><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg2.png">
 <blockquote>
 <p>Theorem 2. The time complexity of Algorithm 2 is $O(|Y|^2)$.</p>
@@ -461,18 +461,18 @@
 </ul>
 <p>如果arg1/arg2仍然是空，则放弃关系短语rel。</p>
 <h3 id="4-1-3-Building-Semantic-Query-Graph"><a href="#4-1-3-Building-Semantic-Query-Graph" class="headerlink" title="4.1.3 Building Semantic Query Graph"></a>4.1.3 Building Semantic Query Graph</h3><p>把语义关系<rel,arg1,arg2>表示为边，如果两个关系的参数相同，则边相连。</rel,arg1,arg2></p>
-<h2 id="4-2-Query-Evaluation"><a href="#4-2-Query-Evaluation" class="headerlink" title="4.2 Query Evaluation"></a>4.2 Query Evaluation</h2><h3 id="4-2-1-Phrases-Mapping"><a href="#4-2-1-Phrases-Mapping" class="headerlink" title="4.2.1 Phrases Mapping"></a>4.2.1 Phrases Mapping</h3><p>讨论如何将关系短语和参数映射到候选的谓词（路径）和实体。<br><strong>Mapping edges of $Q^S$.</strong> $Q^S$中边$\overline{v<em>iv_j}$对应关系短语$rel</em>{\overline{v<em>iv_j}}$。按照paraphrase dictionary D，$rel</em>{\overline{v<em>iv_j}}$映射到列表$C</em>{\overline{v_iv_j}}$，列表中是谓词P或谓词路径L。$\delta(rel,L)$置信度。<br><strong>Mapping Vertices of $Q^S$.</strong>  $Q^S$中点v对应参数arg。如果arg是wh-word，则它可映射到RDF中所有实体和类，否则返回一个对应的实体或类的列表。本文使用现成的工具DBpedia Lookup。$\delta(arg,c)$置信度。<br><strong>Graph Data-driven Disambiguation.</strong> graph data-driven solution.</p>
+<h2 id="4-2-Query-Evaluation"><a href="#4-2-Query-Evaluation" class="headerlink" title="4.2 Query Evaluation"></a>4.2 Query Evaluation</h2><h3 id="4-2-1-Phrases-Mapping"><a href="#4-2-1-Phrases-Mapping" class="headerlink" title="4.2.1 Phrases Mapping"></a>4.2.1 Phrases Mapping</h3><p>讨论如何将关系短语和参数映射到候选的谓词（路径）和实体。<br><strong>Mapping edges of $Q^S$.</strong> $Q^S$中边$\overline{v_iv_j}$对应关系短语$rel_{\overline{v_iv_j}}$。按照paraphrase dictionary D，$rel_{\overline{v_iv_j}}$映射到列表$C_{\overline{v_iv_j}}$，列表中是谓词P或谓词路径L。$\delta(rel,L)$置信度。<br><strong>Mapping Vertices of $Q^S$.</strong>  $Q^S$中点v对应参数arg。如果arg是wh-word，则它可映射到RDF中所有实体和类，否则返回一个对应的实体或类的列表。本文使用现成的工具DBpedia Lookup。$\delta(arg,c)$置信度。<br><strong>Graph Data-driven Disambiguation.</strong> graph data-driven solution.</p>
 <h3 id="4-2-2-Finding-top-k-Subgraph-Matches"><a href="#4-2-2-Finding-top-k-Subgraph-Matches" class="headerlink" title="4.2.2 Finding top-k Subgraph Matches"></a>4.2.2 Finding top-k Subgraph Matches</h3><blockquote>
-<p>Definition 6. Given a semantic query graph $Q^S$ with n vertices ${v_1,…,v_n)}$, a subgraph M containing n vertices ${u_1,…,u_n}$ in RDF graph G is a match of $Q^S$. The match score is defined as follows:    </p>
+<p>Definition 6. Given a semantic query graph $Q^S$ with n vertices $\{v_1,…,v_n)\}$, a subgraph M containing n vertices $\{u_1,…,u_n\}$ in RDF graph G is a match of $Q^S$. The match score is defined as follows:    </p>
 <script type="math/tex; mode=display">Score(M)=
 log( \prod_{v_i\in V(Q^S)} \delta (arg_i,u_i) \times \prod_{\overline{v_iv_j}\in E(Q^S)} \delta (rel_{\overline{v_iv_j}},P_{ij})  )\\
-=\sum_{v_i\in V(Q^S)} log( \delta (arg_i,u_i))+\sum_{\overline{v_iv_j}\in E(Q^S)} log( \delta (rel_{\overline{v_iv_j}},P_{ij})  ) \tag{2}</script><p>where $arg<em>i$ is the argument of vertex $v_i$, and $u_i$ is an entity or a class in RDF graph G, and $rel</em>{\overline{v<em>iv_j}}$ is the relation phrase of edge $\overline{v_iv_j}$ and $P</em>{ij}$ is a predicate of edge $\overrightarrow{u_iu_j}$ or $\overrightarrow{u_ju_i}$</p>
+=\sum_{v_i\in V(Q^S)} log( \delta (arg_i,u_i))+\sum_{\overline{v_iv_j}\in E(Q^S)} log( \delta (rel_{\overline{v_iv_j}},P_{ij})  ) \tag{2}</script><p>where $arg_i$ is the argument of vertex $v_i$, and $u_i$ is an entity or a class in RDF graph G, and $rel_{\overline{v_iv_j}}$ is the relation phrase of edge $\overline{v_iv_j}$ and $P_{ij}$ is a predicate of edge $\overrightarrow{u_iu_j}$ or $\overrightarrow{u_ju_i}$</p>
 </blockquote>
 <p>给定语义查询图$Q^S$，我们目标是找到$Q^S$的所有匹配中分数top-k的。这是个NP-hard问题。</p>
 <blockquote>
 <p>Lemma 1. Finding Top-1 subgraph match of $Q^S$ over RDF graph G is an NP-hard problem.<br>Lemma 2. Finding Top-k subgraph match of $Q^S$ over RDF graph G is at least as hard as finding Top-1 subgraph match of $Q^S$ over G.<br>Theorem 3.  Finding Top-k subgraph match of $Q^S$ over RDF graph G is an NP-hard problem.</p>
 </blockquote>
-<p>因为他是NP-hard问题，所以我们设计启发式规则减少搜索空间。第一个利用neighborhood-based pruning减少$C<em>{v_i}$和$C</em>{\overline{v_iv_j}}$。第二个是基于top-k匹配的分阈值及早停止搜索。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg3.png"></p>
+<p>因为他是NP-hard问题，所以我们设计启发式规则减少搜索空间。第一个利用neighborhood-based pruning减少$C_{v_i}$和$C_{\overline{v_iv_j}}$。第二个是基于top-k匹配的分阈值及早停止搜索。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/alg3.png"></p>
 <h1 id="5-TIME-COMPLEXITY-ANLYSIS"><a href="#5-TIME-COMPLEXITY-ANLYSIS" class="headerlink" title="5. TIME COMPLEXITY ANLYSIS"></a>5. TIME COMPLEXITY ANLYSIS</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table3.png">
 <h1 id="6-EXPERIMENTS"><a href="#6-EXPERIMENTS" class="headerlink" title="6. EXPERIMENTS"></a>6. EXPERIMENTS</h1><img src="http://ouqbyuben.bkt.clouddn.com/images/Natural%20Language%20Question%20Answering%20over%20RDF%20——%20%20A%20Graph%20Data%20Driven%20Approach/table4-5.png">
       

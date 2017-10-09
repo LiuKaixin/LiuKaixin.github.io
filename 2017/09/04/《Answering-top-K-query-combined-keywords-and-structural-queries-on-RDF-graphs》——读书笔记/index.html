@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig2-3.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig5.png">
-<meta property="og:updated_time" content="2017-09-27T08:18:19.147Z">
+<meta property="og:updated_time" content="2017-10-08T07:26:51.131Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Answering top-K query combined keywords and structural queries on RDF graphs》——读书笔记">
 <meta name="twitter:description" content="ABSTRACT虽然SPARQL是RDF图上优越的查询语言，但一些查询意图仍无法使用SPARQL句法表达。关键词搜索虽然能够直观表示信息的需求，但表达准确度较低。为了综合两者的优点，提出了混合查询SK query，并使用基于结构化索引的新型查询算法加速查询。为了更进一步提高SK查询的效率还使用了基于距离的优化技术。 1. Introduction目前RDF图十分流行，图1是Yago知识图谱的一个例">
@@ -396,16 +396,18 @@
 <li>实验。</li>
 </ol>
 <h1 id="2-Background"><a href="#2-Background" class="headerlink" title="2. Background"></a>2. Background</h1><h2 id="2-1-Preliminaries"><a href="#2-1-Preliminaries" class="headerlink" title="2.1 Preliminaries"></a>2.1 Preliminaries</h2><blockquote>
-<p><strong>Definition 2.1. </strong> An RDF data graph G is denoted as &lt; V(G), E(G), L&gt;, where (1) $V(G)= V_L \cup V_E \cup V_C$ is the set of vertices in RDF graph G ($V_L,\, V_E,\, V_C$ denote literal, entity and class vertices); (2) E(G) is the set of edges in G; and (3) L is a finite set of edge labels, i.e. predicates.<br><strong>Definition 2.2. </strong> An SK query is a pair &lt; Q,q&gt;, where Q is a SPARQL query graph, and q is a set of keywords ${w_1,w_2,…,w_n}$.</p>
+<p><strong>Definition 2.1. </strong> An RDF data graph G is denoted as &lt; V(G), E(G), L&gt;, where (1) $V(G)= V_L \cup V_E \cup V_C$ is the set of vertices in RDF graph G ($V_L,\, V_E,\, V_C$ denote literal, entity and class vertices); (2) E(G) is the set of edges in G; and (3) L is a finite set of edge labels, i.e. predicates.<br><strong>Definition 2.2. </strong> An SK query is a pair &lt; Q,q&gt;, where Q is a SPARQL query graph, and q is a set of keywords $\{w_1,w_2,…,w_n\}$.</p>
 </blockquote>
-<p>对于SK query &lt; Q,q&gt;，查询结果是$&lt; M,{ v_1,v_2,…,v_n} >$, 其中M是Q的子图匹配，$v_i$是包含关键词$w_i$的literal vertex。</p>
+<p>对于SK query &lt; Q,q&gt;，查询结果是$&lt; M,\{ v_1,v_2,…,v_n\} >$, 其中M是Q的子图匹配，$v_i$是包含关键词$w_i$的literal vertex。</p>
 <blockquote>
-<p><strong>Definition 2.3.</strong> Given a result $r=&lt; M,{v_1,v_2,…,v_n}&gt;$, the cost of r is defined as follows:    </p>
-<p><script type="math/tex">Cost(r) =Cost_{content}(r)+Cost_{structure}(r)</script>.<br><strong>Definition 2.4.</strong> Given a result $r=&lt; M,{v<em>1,v_2,…,v_n}&gt;$, the content cost of r is defined as follows:<br>$Cost</em>{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)$,<br>where $C(v_i,w_i)$ is the matching cost between $v_i$ and keyword $w_i$.</p>
+<p><strong>Definition 2.3.</strong> Given a result $r=&lt; M,\{v_1,v_2,…,v_n\}&gt;$, the cost of r is defined as follows:    </p>
+<p><script type="math/tex">Cost(r) =Cost_{content}(r)+Cost_{structure}(r)</script>.<br><strong>Definition 2.4.</strong> Given a result <script type="math/tex">r=< M,\{v_1,v_2,...,v_n\}></script>, the content cost of r is defined as follows:    </p>
+<p><script type="math/tex">Cost_{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)</script>,<br>where $C(v_i,w_i)$ is the matching cost between $v_i$ and keyword $w_i$.</p>
 </blockquote>
-<p>结构成本只考虑SPARQL查询中的变量——理由: 用户更感兴趣。（我感觉这并不科研）</p>
+<p>结构成本只考虑SPARQL查询中的变量——理由: 用户更感兴趣。（我感觉这并不科研）$Cost_{content}(r) =\sum_{i=1}^{i=n} C(v_i,w_i)$</p>
 <blockquote>
-<p><strong>Definition 2.5.</strong> Given a result $r=&lt; M,{v<em>1,v_2,…,v_n}&gt;$, the distance between match M and vertex $v_i$ is defined as follows:<br>$d(M,v_i)=MIN</em>{v\in M}{d(v,v<em>i)}$<br>其中v是M中和SPARQL查询中某个变量相关的点$d(v,v_i)$是v和G中$v_i$的最短距离。结果r的结构成本：<br>$Cost</em>{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)$</p>
+<p><strong>Definition 2.5.</strong> Given a result <script type="math/tex">r=< M,\{v_1,v_2,...,v_n\}></script>, the distance between match M and vertex <script type="math/tex">v_i</script> is defined as follows:    </p>
+<script type="math/tex; mode=display">d(M,v_i)=MIN_{v\in M}\{d(v,v_i)\}</script><p>其中v是M中和SPARQL查询中某个变量相关的点$ d( v, v_i ) $是v和G中$v_i $的最短距离。结果r的结构成本：<br>$Cost_{content}(r)=\sum^{i=n}_{i=1} C(v_i,w_i) $</p>
 </blockquote>
 <p>(<strong>Problem Definition</strong>) Given an SK query &lt;Q,q&gt; and parameter k, our problem is to find the k results that have the k-smallest costs.</p>
 <h2 id="2-2-Predicate-salience"><a href="#2-2-Predicate-salience" class="headerlink" title="2.2 Predicate salience"></a>2.2 Predicate salience</h2><p>本文使用最短路径距离评估关系强度。一般的最短路径距离不区分谓词，把”type”、”label”等和普通谓词同等看待不合理。因此引入了predicate salience：    <script type="math/tex">ps(p)=\frac{|V(p)|}{|V(G)|}</script></p>

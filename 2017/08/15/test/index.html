@@ -444,7 +444,7 @@
 <script type="math/tex; mode=display">G<G^{'} iff (\#c(G)+|G|)<(\#c(G^{'})+|G^{'}|) \,or\, (\#c(G)+|G|)=(\#c(G^{'})+|G^{'}|)\, and\, \#c(G)<\#c(G^{'})</script><img src="http://ouqbyuben.bkt.clouddn.com/images/EDBT_2017/fig1.jpg">
 <h1 id="4-TRANSLATION-OF-KEYWORD-QUERIES-TO-SPARQL-QUERIES"><a href="#4-TRANSLATION-OF-KEYWORD-QUERIES-TO-SPARQL-QUERIES" class="headerlink" title="4. TRANSLATION OF KEYWORD QUERIES TO SPARQL QUERIES"></a>4. TRANSLATION OF KEYWORD QUERIES TO SPARQL QUERIES</h1><h2 id="4-1-Overview-of-the-Translation-Algorithm"><a href="#4-1-Overview-of-the-Translation-Algorithm" class="headerlink" title="4.1 Overview of the Translation Algorithm"></a>4.1 Overview of the Translation Algorithm</h2><p>转化算法接受关键词查询K，RDF数据集T，输出一个SPARQL查询。<br>$G_T$: RDF graph。<br>$D_S$: RDF schema diagram。</p>
 <p>Given a set of metadata matches MM[K,T] and a set of property value matches VM[K,T], we define two functions that group all keywords that match the same class or property:<br><img src="http://ouqbyuben.bkt.clouddn.com/images/EDBT_2017/4.1.jpg"><br><img src="http://ouqbyuben.bkt.clouddn.com/images/EDBT_2017/4.1nucleus.jpg"></p>
-<p>N covers the set of keywords $K<em>n=K_0\cup K_1\cup…\cup K_m\cup K</em>{m+1}\cup …\cup K<em>{m+n}$<br>Given a set of nucleuses $\mathbf N ={N_1,…,N_m}$, we also say that <strong>N</strong> covers $K</em>{N1}\cup …\cup K_{Nm}$.<br>$\mathbf{N_C}$ : the set of classes of the nucleuses in <strong>N</strong>.</p>
+<p>N covers the set of keywords $K_n=K_0\cup K_1\cup…\cup K_m\cup K_{m+1}\cup …\cup K_{m+n}$<br>Given a set of nucleuses $\mathbf N =\{N_1,…,N_m\}$, we also say that <strong>N</strong> covers $K_{N1}\cup …\cup K_{Nm}$.<br>$\mathbf{N_C}$ : the set of classes of the nucleuses in <strong>N</strong>.</p>
 <p>算法共有两个启发式：scoring and minimization。    </p>
 <p>scoring：尝试捕捉用户意图，将关键词列表转换成查询。</p>
 <ul>
@@ -452,7 +452,7 @@
 <li>assigns a higher score to metadata matches.</li>
 <li>assigns a higher score to nucleuses that cover a larger number of keywords.</li>
 </ul>
-<p>对于nucleus N=(C,PL,PVL)：<br>$score(N)=(\alpha s<em>C+\beta s_p+(1-\alpha -\beta)s_V$<br>$s_C=meta_sim((K_0,c))$<br>$s_P=\sum</em>{(K<em>i,p_i)\in PL}meta \</em> sim((K<em>i,p_i))$<br>$s_V=\sum</em>{(K<em>j,p_j)\in PVL}value \</em> sim((K_j,p_j))$    </p>
+<p>对于nucleus N=(C,PL,PVL)：<br>$score(N)=(\alpha s_C+\beta s_p+(1-\alpha -\beta)s_V$<br>$s_C=meta_sim((K_0,c))$<br>$s_P=\sum_{(K_i,p_i)\in PL}meta \_ sim((K_i,p_i))$<br>$s_V=\sum_{(K_j,p_j)\in PVL}value \_ sim((K_j,p_j))$    </p>
 <p>minimization：尝试生成minimal 答案，共两步。</p>
 <ol>
 <li>实现一个贪婪算法，对由最高分值的nucleuses排序，生成nucleus集合<strong>N</strong>。<ul>

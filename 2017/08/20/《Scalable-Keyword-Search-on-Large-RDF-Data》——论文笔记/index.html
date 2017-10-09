@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="RDF,2017年8月,Keyword," />
+  <meta name="keywords" content="Keyword,RDF,2017年8月," />
 
 
 
@@ -97,7 +97,7 @@
 
 
 <meta name="description" content="Abstract目前关键词搜索的两种方法：一、依赖建立距离矩阵来剪枝搜索空间，二、为RDF图建立摘要。本文指出现有技术面对真实数据集时的不足，并且提出一个新的摘要算法，能够更有效的剪枝并得到正确的答案。 1 Introduction 动机：RDF数据急速增长。关键词搜索对大规模数据十分有用，目前对于RDF数据的解决方法的局限： 返回不正确的答案。 难以处理大规模RDF数据。       目标：设计">
-<meta name="keywords" content="RDF,2017年8月,Keyword">
+<meta name="keywords" content="Keyword,RDF,2017年8月">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Scalable Keyword Search on Large RDF Data》——论文笔记">
 <meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/index.html">
@@ -410,13 +410,13 @@
 </ul>
 <h1 id="2-Preliminaries"><a href="#2-Preliminaries" class="headerlink" title="2 Preliminaries"></a>2 Preliminaries</h1><p>将RDF数据集看做RDF图G=(V,E)其中</p>
 <ul>
-<li>$V={V_E,V_T,V_W}$<ul>
+<li>$V=\{V_E,V_T,V_W\}$<ul>
 <li>$V_E$: the set of entity vertices.</li>
 <li>$V_T$: the set of type vertices.    </li>
 <li>$V_W$: the set of keyword vertices.    </li>
 </ul>
 </li>
-<li>$E={E_R,E_A,E_T}$<ul>
+<li>$E=\{E_R,E_A,E_T\}$<ul>
 <li>$E_R$: the set of entity-entity edges.</li>
 <li>$E_A$: the set of entity-keyword edges.</li>
 <li>$E_T$: the set of entity-type edges.</li>
@@ -424,8 +424,8 @@
 </li>
 </ul>
 <img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig1.png">    
-<p>图1中主要结构被entity-entity edge即$E_R$捕获，因此将entity vertex和关于他的type vertex和keyword vertex看做一个点，我们得到RDF图G的压缩视图，表示为$G_c={V^{‘}_E,E_R}$。其中$|V^{‘}_E| \equiv |V_E|$，$v^{‘}\in V^{‘}_E$包含$v\in V_E$和与之联系的类型和关键词节点。</p>
-<h2 id="2-1-Problem-statement"><a href="#2-1-Problem-statement" class="headerlink" title="2.1 Problem statement"></a>2.1 Problem statement</h2><p>关键词查询问题即RDF图中寻找包含所有关键词的子图。<br>为便于表示，假设每个节点只包含一个关键词。（但对于包含多个和不包含的也能处理）<br>对在$G={V,E}$上的查询$q={w_1,w_2,…,w_m}$，点集${r,v_1,…,v_m}$在以下条件成立时被称为 qualified candidate:</p>
+<p>图1中主要结构被entity-entity edge即$E_R$捕获，因此将entity vertex和关于他的type vertex和keyword vertex看做一个点，我们得到RDF图G的压缩视图，表示为$G_c=\{V^{‘}_E,E_R\}$。其中$|V^{‘}_E| \equiv |V_E|$，$v^{‘}\in V^{‘}_E$包含$v\in V_E$和与之联系的类型和关键词节点。</p>
+<h2 id="2-1-Problem-statement"><a href="#2-1-Problem-statement" class="headerlink" title="2.1 Problem statement"></a>2.1 Problem statement</h2><p>关键词查询问题即RDF图中寻找包含所有关键词的子图。<br>为便于表示，假设每个节点只包含一个关键词。（但对于包含多个和不包含的也能处理）<br>对在$G=\{V,E\}$上的查询$q=\{w_1,w_2,…,w_m\}$，点集$\{r,v_1,…,v_m\}$在以下条件成立时被称为 qualified candidate:</p>
 <ul>
 <li>root answer node $r\in V$能够到达任一点$v_i\in V,\, i\in [1,m]$</li>
 <li>$w(v_i)=w_i$</li>
@@ -434,18 +434,18 @@
 <script type="math/tex; mode=display">A(q)= arg min_{g\in C(q)}s(g), \, and \, s(g)=\sum_{r,v_i\in g, i=1..m}d(r,v_i)\tag{1}</script><p>其中$d(r,v_i)$是从r到$v_i$的距离（不考虑边方向）。</p>
 <p>该定义还有一个top-k版本，其中对每个$g\in C(q)$的得分s(g)进行升序排列，得到前k个答案。</p>
 <h1 id="3-Related-work"><a href="#3-Related-work" class="headerlink" title="3 Related work"></a>3 Related work</h1><p>许多技术假设图能够在内存中处理，如<a href="http://dl.acm.org/citation.cfm?id=1247516" target="_blank" rel="external">14</a> <a href="http://dl.acm.org/citation.cfm?id=1247516" target="_blank" rel="external">17</a>为所有的点对保存了距离矩阵。另外这些工作不考虑如何处理更新。本文中我们将后向搜索应用于大RDF图并经过严密的证明，不依赖于距离矩阵。<br>关于摘要大图来支持关键词搜索的技术来自于[9]，作者假设块之间的边是有权重的，块被当做supernode，块之间的边被当做superedges，它们组成摘要图。然后循环此过程。该方法针对通用图，并不能拓展到RDF图中。<br>[23]研究了RDF图上的关键词搜索，和本文一样，其调整了[14]中的问题定义。该方法从RDF数据集中摘要出schema，在schema中应用后巷搜索得到最有可能的关系，然后将关系转化为SPARQL中的pattern进行检索。<br>[23]中摘要算法的局限：将同一类型的所有实体归结到一个点，丢失了太多信息，以至于产生错误结果。另外该方法不支持更新。<br>[18]中通过对异质关系编码为图，支持结构化，半结构化和非结构化的关键词查询。同样的，他也需要距离矩阵。<br><a href="https://link.springer.com/chapter/10.1007/978-3-642-25073-6_13" target="_blank" rel="external">11</a> <a href="http://dl.acm.org/citation.cfm?id=1376708" target="_blank" rel="external">12</a>研究了排序函数。我们则是调整了RDF[23]和通用图[14]中的排序函数。</p>
-<h1 id="4-The-Baseline-Method"><a href="#4-The-Baseline-Method" class="headerlink" title="4 The Baseline Method"></a>4 The Baseline Method</h1><p>baseline基于“backward search”的启发式。<br>“backward search”：图中对应关键词查询的所有节点同时开始，迭代地想邻居节点拓展，直到候选答案生成。<em>termination condition</em>用来判断搜索过程是否完成。<br>[23]中的termination condition是当m个节点第一次遇到节点r时返回答案并停止搜索，但该方法并不正确。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig5.png"><br><strong>Counter example. </strong>对于图a来说，第二轮迭代得到$g={r=v_4,v_1,v_2,v_6,v_7}\, \, s(g)=8$，但第四轮迭代中$g^{‘}={r=v_3,v_1,v_2,v_6,v_7}\, \, s(g^{‘})=6$。<br><strong>The correct termination.</strong> 如算法1.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg1.png"><br><em>Data structure. </em><br>$q={w_1,…w_m}$: query<br> G={V,E}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> ${a_1,…a_m}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及距离。对于fig5(a)，$M[v_3]={(v_1,1),(v_2,1),nil,(v_7,1)}$<br><em>The algorithm. </em>(图片中是不是line10,11写错了？）<br>第一轮迭代算是初始化$a_i$和M。$W_i$中每个v和其邻居u放入$a_i$中，并新建$M[u]$或更新$M[u]$的相应值。<br>第二轮迭代首先pop$a_i$的堆顶值，然后添加 $(v,p={v,…,u},d(p))}$中u的每个邻居$u^{‘}$。将 $(v,p={v,…,u^{‘}},d(p)+1)}$压入$a_i$然后更新$M[u^{‘}]$。<br>如果$M[u]$没有nil，则该条被标记为候选答案，u为候选根节点。将M[u]中的最短路径表示为g，我们有：</p>
+<h1 id="4-The-Baseline-Method"><a href="#4-The-Baseline-Method" class="headerlink" title="4 The Baseline Method"></a>4 The Baseline Method</h1><p>baseline基于“backward search”的启发式。<br>“backward search”：图中对应关键词查询的所有节点同时开始，迭代地想邻居节点拓展，直到候选答案生成。<em>termination condition</em>用来判断搜索过程是否完成。<br>[23]中的termination condition是当m个节点第一次遇到节点r时返回答案并停止搜索，但该方法并不正确。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig5.png"><br><strong>Counter example. </strong>对于图a来说，第二轮迭代得到$g=\{r=v_4,v_1,v_2,v_6,v_7\}\, \, s(g)=8$，但第四轮迭代中$g^{‘}=\{r=v_3,v_1,v_2,v_6,v_7\}\, \, s(g^{‘})=6$。<br><strong>The correct termination.</strong> 如算法1.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg1.png"><br><em>Data structure. </em><br>$q=\{w_1,…w_m\}$: query<br> G=\{V,E\}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> $\{a_1,…a_m\}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及距离。对于fig5(a)，$M[v_3]=\{(v_1,1),(v_2,1),nil,(v_7,1)\}$<br><em>The algorithm. </em>(图片中是不是line10,11写错了？）<br>第一轮迭代算是初始化$a_i$和M。$W_i$中每个v和其邻居u放入$a_i$中，并新建$M[u]$或更新$M[u]$的相应值。<br>第二轮迭代首先pop$a_i$的堆顶值，然后添加 $(v,p=\{v,…,u\},d(p))\}$中u的每个邻居$u^{‘}$。将 $(v,p=\{v,…,u^{‘}\},d(p)+1)\}$压入$a_i$然后更新$M[u^{‘}]$。<br>如果$M[u]$没有nil，则该条被标记为候选答案，u为候选根节点。将M[u]中的最短路径表示为g，我们有：</p>
 <blockquote>
-<p><strong>Lemma 1 </strong> $g={r=u,v<em>{l_1},…,v</em>{l<em>m}}$ is a condidate answer with $s(g)=\Sigma^m</em>{i=1}d(u,v_{l_i})$.</p>
+<p><strong>Lemma 1 </strong> $g=\{r=u,v_{l_1},…,v_{l_m}\}$ is a condidate answer with $s(g)=\Sigma^m_{i=1}d(u,v_{l_i})$.</p>
 </blockquote>
 <p>两种情况：(i) an unseen vertex, i.e., $v\notin M$, will become the answer root(Lemma 2); (ii) a seen but not fully expanded vertex $v\in M$ will become the answer root(Lemma 3).<br>$V_t$: the set of vertices that are not fully explored.<br>$(v_1,p_1,d(p_1)),…(v_m,p_m,d(p_m))$: the top entries from $a_1…a_m$.</p>
 <blockquote>
-<p><strong>Lemma 2</strong> Denote the best possible candidate answer as $g<em>1$, and a vertex $v\notin M$ as the answer root of $g_1$. Then it must have $s(g_1)&gt;\Sigma^m</em>{i=1}d(p_i)$.<br><strong>Lemma 3</strong> Suppose the best possible candidate answer using such an $v(v\in M\, and \, v\in V_t)$ as the answer root is $g_2$ then    </p>
+<p><strong>Lemma 2</strong> Denote the best possible candidate answer as $g_1$, and a vertex $v\notin M$ as the answer root of $g_1$. Then it must have $s(g_1)&gt;\Sigma^m_{i=1}d(p_i)$.<br><strong>Lemma 3</strong> Suppose the best possible candidate answer using such an $v(v\in M\, and \, v\in V_t)$ as the answer root is $g_2$ then    </p>
 <script type="math/tex; mode=display">
 s(g_2)>\sum^m_{i=1}f(v_{b_i})d_i + (1-f(v_{b_i}))d(p_i) 
-\tag{2}</script><p>where $f(v<em>{b_i})=1$ if $M[v][b_i]\neq nil$, and $f(v</em>{b_i})=0$ otherwise.</p>
+\tag{2}</script><p>where $f(v_{b_i})=1$ if $M[v][b_i]\neq nil$, and $f(v_{b_i})=0$ otherwise.</p>
 </blockquote>
-<p><strong>The termination condition.</strong> 对于情况(i)，我们简单的让$s(g<em>1)=\Sigma ^m</em>{i=1}d(p_i)$;对于情况(ii)，we find a vertex with the smallest possible $s(g_2)$ value w.r.t. the RHS of (2), and simply denote its best possible score as $s(g_2)$.<br>Denote the kth smallest candidate answer identified in the algorithm as g, our search can safely terminate when $s(g)\le min(s(g_1),s(g_2))=s(g_2)$. </p>
+<p><strong>The termination condition.</strong> 对于情况(i)，我们简单的让$s(g_1)=\Sigma ^m_{i=1}d(p_i)$;对于情况(ii)，we find a vertex with the smallest possible $s(g_2)$ value w.r.t. the RHS of (2), and simply denote its best possible score as $s(g_2)$.<br>Denote the kth smallest candidate answer identified in the algorithm as g, our search can safely terminate when $s(g)\le min(s(g_1),s(g_2))=s(g_2)$. </p>
 <blockquote>
 <p><strong>Theorem 1</strong> The Backward method finds the top-k answers A(q,k) for any top-k keyword query q on RDF graph.</p>
 </blockquote>
@@ -457,10 +457,10 @@ s(g_2)>\sum^m_{i=1}f(v_{b_i})d_i + (1-f(v_{b_i}))d(p_i)
 </ul>
 <p>两个定义：<br><strong>Homomorphism across partitions. </strong> 如图6(a)所示，邻近的类型节点是生成induced partitions的好的源头。图6(a)是图6(b)的子集。We consider discovering such embeddings between the induced partitions, so that one template can be reused to bookkeep multiple structures.    </p>
 <blockquote>
-<p><strong>Definition 1</strong> A graph homomorphism f from a graph $G={V,E}$ to a graph $G^{‘}={V^{‘},E^{‘}}$, writtern as $f: G\rightarrow G^{‘}$, is a mapping function $f: V\rightarrow V^{‘}$ such that(i) f(x)=x indicates that x and f(x) have the same type; (ii) $(u,v)\in E$ implies $(f(u),f(v)) \in E^{‘}$ and they have the same label. When such an f exists, we say G is homomorphic to $G^{‘}$.    </p>
+<p><strong>Definition 1</strong> A graph homomorphism f from a graph $G=\{V,E\}$ to a graph $G^{‘}=\{V^{‘},E^{‘}\}$, writtern as $f: G\rightarrow G^{‘}$, is a mapping function $f: V\rightarrow V^{‘}$ such that(i) f(x)=x indicates that x and f(x) have the same type; (ii) $(u,v)\in E$ implies $(f(u),f(v)) \in E^{‘}$ and they have the same label. When such an f exists, we say G is homomorphic to $G^{‘}$.    </p>
 </blockquote>
 <p><strong>Cores for indeividual partitions.</strong> A <em>core</em> is a graph that is only homomorphic to itself, but not to any one of its proper subgraphs.<br><strong>Definition 2</strong> A core c of a graph G is a graph with the following properties: there exists a homomorphism from c to G; there exists a homomorphism from G to c; and c is minimal with these properties.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig7.png">    </p>
-<h2 id="5-2-Partition"><a href="#5-2-Partition" class="headerlink" title="5.2 Partition"></a>5.2 Partition</h2><p>摘要过程开始于将数据分成较小的，语义相似的，边不相交的子图。鉴于我们观察到相同类型的节点共享相似的类型邻居，我们基于类型用环绕相同类型节点的子图对G划分。算法使用RDF的condensed视图。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg2.png"><br>${T_1,…,T_n}$: n distinct number of types.<br>$V_i$vertices whose type is $T_i$.<br>h(v,$\alpha$)(the $\alpha$-neighborhood of v): the subgraph from G obtained by expanding v with $\alpha$ hops.    拓展时的边不在P中，且是有向图，所以h(v,$\alpha$)是v $\alpha$跳邻居节点的子集。<br>P：初始化为空，然后每个h(v,$\alpha$)都是一个新的划分。    </p>
+<h2 id="5-2-Partition"><a href="#5-2-Partition" class="headerlink" title="5.2 Partition"></a>5.2 Partition</h2><p>摘要过程开始于将数据分成较小的，语义相似的，边不相交的子图。鉴于我们观察到相同类型的节点共享相似的类型邻居，我们基于类型用环绕相同类型节点的子图对G划分。算法使用RDF的condensed视图。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg2.png"><br>$\{T_1,…,T_n\}$: n distinct number of types.<br>$V_i$vertices whose type is $T_i$.<br>h(v,$\alpha$)(the $\alpha$-neighborhood of v): the subgraph from G obtained by expanding v with $\alpha$ hops.    拓展时的边不在P中，且是有向图，所以h(v,$\alpha$)是v $\alpha$跳邻居节点的子集。<br>P：初始化为空，然后每个h(v,$\alpha$)都是一个新的划分。    </p>
 <blockquote>
 <p><strong>Lemma 4</strong> Partitions in P are edge disjoint and the union of all partitions in P cover the entire graph G.</p>
 </blockquote>
@@ -476,29 +476,29 @@ s(g_2)>\sum^m_{i=1}f(v_{b_i})d_i + (1-f(v_{b_i}))d(p_i)
 <li>降低S中不同结构的数量，如图9所示，两个在数据层面不同的结构，在类型层面共享一个结构。</li>
 <li>对于通用图来说，检测子图同态十分耗时。但能在多项式时间内检测类型层面的结构。</li>
 </ul>
-<h2 id="5-4-Auxiliary-indexing-structures"><a href="#5-4-Auxiliary-indexing-structures" class="headerlink" title="5.4 Auxiliary indexing structures"></a>5.4 Auxiliary indexing structures</h2><p>为了帮助关键词搜索，我们维护了三个辅助列表。<br>a portal node：node that isincluded in more than one partitions. <em>portal index</em> for each partition $h(v,\alpha)$, 我们赋予其唯一id并和portal列表联系。<br>$\sigma (v_i)$: 表示$h_t(v,\alpha)$中的所有$v_i$。$\Sigma={\sigma (v_1),\sigma(v_2),…}$：表示一个分区中所有的一对多的映射。如图9中，$h(v_1,2)$$\Sigma \leftarrow {\sigma (v_4)={T_4}}$. <em>partition index</em>: to map the partition root v of $h(v,\alpha)$ to its $\Sigma$.<br><em>summary index</em>: 将partitions中的节点映射到S中的摘要节点。sid: S中的每个摘要的id，nid: S中每个节点的id。<br>为了获得每个$h_t(v,\alpha)$到S中的summary的映射，需要建立日志保存建立S时的发现的所有同态。等S建立完成后我们遍历日志找到所有从数据到summary的映射。过程如图10.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig10.png">    </p>
+<h2 id="5-4-Auxiliary-indexing-structures"><a href="#5-4-Auxiliary-indexing-structures" class="headerlink" title="5.4 Auxiliary indexing structures"></a>5.4 Auxiliary indexing structures</h2><p>为了帮助关键词搜索，我们维护了三个辅助列表。<br>a portal node：node that isincluded in more than one partitions. <em>portal index</em> for each partition $h(v,\alpha)$, 我们赋予其唯一id并和portal列表联系。<br>$\sigma (v_i)$: 表示$h_t(v,\alpha)$中的所有$v_i$。$\Sigma=\{\sigma (v_1),\sigma(v_2),…\}$：表示一个分区中所有的一对多的映射。如图9中，$h(v_1,2)$$\Sigma \leftarrow \{\sigma (v_4)=\{T_4\}\}$. <em>partition index</em>: to map the partition root v of $h(v,\alpha)$ to its $\Sigma$.<br><em>summary index</em>: 将partitions中的节点映射到S中的摘要节点。sid: S中的每个摘要的id，nid: S中每个节点的id。<br>为了获得每个$h_t(v,\alpha)$到S中的summary的映射，需要建立日志保存建立S时的发现的所有同态。等S建立完成后我们遍历日志找到所有从数据到summary的映射。过程如图10.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig10.png">    </p>
 <h1 id="6-Keyword-search-with-summary"><a href="#6-Keyword-search-with-summary" class="headerlink" title="6 Keyword search with summary"></a>6 Keyword search with summary</h1><p>搜索算法，摘要层和数据层的两级后向搜索。只有摘要层中被识别的connected partitions包含所有关键词，并且其分数在top-k，才会进入数据层执行后向搜索。路径长度计算是后向搜索和剪枝的核心，但摘要层并不能拿到准确的路径长度，因此首先展示如何估计路径长度，然后介绍算法。</p>
 <h2 id="6-1-Bound-the-shortest-path-length"><a href="#6-1-Bound-the-shortest-path-length" class="headerlink" title="6.1 Bound the shortest path length"></a>6.1 Bound the shortest path length</h2><p>通过summary index，分区根节点v到分区内任一节点u的最短距离可计算，所以由三角形不等式得：$|d(v,v_1)-d(v,v_2)|\le d(v_1)-d(v_2)\le |d(v,v_1)+d(v,v_2)|$。另外，另一个下界可用根节点v所在分区的同态的摘要图得到，即Lemma 5：</p>
 <blockquote>
 <p><strong>Lemma 5</strong> Given two graphs g and h, if $f:g\rightarrow h$, then $\forall v_1,v_2\in g$ and their homomorphic mappings $f(v_1),f(v_2)\in h,\, d(v_1,v_2)\le d(f(v_1),f(v_2))$.</p>
 </blockquote>
 <img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig11.jpg">    
-<p>如图11，从h到s没有直接的同态，因此不能直接应用Lemma 5。定义映射函数Join。输入：图g，${V^{‘}<em>{t_1},V^{‘}</em>{t<em>2},…}$。输出：新图$g^{‘}=Join(g(V,E),{V^{‘}</em>{t<em>1},V^{‘}</em>{t<em>2},…})$。其中$V^{‘}</em>{t_i}$中的点都属于类型$t_i$。函数流程：</p>
+<p>如图11，从h到s没有直接的同态，因此不能直接应用Lemma 5。定义映射函数Join。输入：图g，$\{V^{‘}_{t_1},V^{‘}_{t_2},…\}$。输出：新图$g^{‘}=Join(g(V,E),\{V^{‘}_{t_1},V^{‘}_{t_2},…\})$。其中$V^{‘}_{t_i}$中的点都属于类型$t_i$。函数流程：</p>
 <ol>
 <li>用g初始化$g^{‘}$；</li>
-<li>将$g^{‘}$中的$V^{‘}<em>{t_i}$合并至类型为$t_i$的点$v^{‘}</em>{i}$，点集$V^{‘}<em>{t_i}$中的所有边也赋于$v^{‘}</em>{i}$；</li>
+<li>将$g^{‘}$中的$V^{‘}_{t_i}$合并至类型为$t_i$的点$v^{‘}_{i}$，点集$V^{‘}_{t_i}$中的所有边也赋于$v^{‘}_{i}$；</li>
 <li>对所有类型重复步骤2。</li>
 </ol>
-<p><strong>Example 3. </strong>以图9为例，$Join(h_t(v_1,2),{\Sigma(T_4)})$重建了$h(v_1,2)$，因此两者同态。另外，$Join(h_t(v_5,2),{\Sigma(T_4)})$没有重建$h(v_5,2)$，但等于$h(v_1,2)$也和$h(v_5,2)$同态。</p>
+<p><strong>Example 3. </strong>以图9为例，$Join(h_t(v_1,2),\{\Sigma(T_4)\})$重建了$h(v_1,2)$，因此两者同态。另外，$Join(h_t(v_5,2),\{\Sigma(T_4)\})$没有重建$h(v_5,2)$，但等于$h(v_1,2)$也和$h(v_5,2)$同态。</p>
 <blockquote>
 <p><strong>Lemma 6</strong> For a partition h and its covering tree $h_t$, there is a homomorphism from h to $Join(h_t,\Sigma)$.<br><strong>Lemma 7</strong> For a partition h, its covering tree $h_t$ and its summary s that has $f_2:h_t\rightarrow s$, there is a homomorphism from $Join(h_t,\Sigma)$ to $Join(s,f_2(|Sigma))$.</p>
 </blockquote>
 <p>如图11b，由Lemmas 6,7和同态的可传递性，h is homomorphic to $Join(s,f_2(\Sigma))$。其中$f_2$是summary index的一部分，将数据中的节点映射到摘要中的节点。最后，给定h中任意两点，其最短路径可有Lemmas 5,6,7和最短路径算法在$Join(s,f_2(\Sigma))$中找到最短路的一个下限。实际应用中，我们从summary和三角不等式中找一个更高的下限。</p>
 <h2 id="6-2-The-algorithm"><a href="#6-2-The-algorithm" class="headerlink" title="6.2 The algorithm"></a>6.2 The algorithm</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/alg4.png">    
-<p><strong>Data structures. </strong><br>$q={w_1,…w_m}$: query<br> G={V,E}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> ${a_1,…a_m}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及历经的分区。M中每个条目是四元组$(u,S,d_l,d_u)$。u是后向搜索中包含关键$w_i$的第一个节点。S存储搜索过程中路径的一系列partitions及其portal（exit node），因此S是(portal, partition root)的集合。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig12.png"><br><strong>The algorithm. </strong></p>
+<p><strong>Data structures. </strong><br>$q=\{w_1,…w_m\}$: query<br> G=\{V,E\}: a (condensed) RDF graph<br> $W_i$: vertices in V containing the keyword $w_i$<br> $\{a_1,…a_m\}$: m empty priority queues, one for each query keyword.<br> M: 集合中每个元素对应目前探索到的独一无二的node，记录他们能够到达那个关键词以及历经的分区。M中每个条目是四元组$(u,S,d_l,d_u)$。u是后向搜索中包含关键$w_i$的第一个节点。S存储搜索过程中路径的一系列partitions及其portal（exit node），因此S是(portal, partition root)的集合。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Scalable%20Keyword%20Search%20on%20Large%20RDF%20Data/fig12.png"><br><strong>The algorithm. </strong></p>
 <ul>
 <li><em>In the first iteration. </em>对于每个来自$W_i$的点u，我们从summary index对u所述的分区根节点v检索。并将检索结果插入M和$a_i$中。</li>
-<li><em>In the j-th iteration.</em> 从所有的$a_i$中pop出最小的条，即$(v,(u,S,d_l,d_u))$(line 10). v是当前分区的根节点。S中最后的对是$(l,v_l)$：路径在$v_l$点离开根为$v_l$的分区并进入现分区。$\mathcal{L}={\mathcal{l}^{‘}_1,\mathcal{l}^{‘}_2,…}$表示根节点为v的分区的portals。对于每个$l^{‘}$按照6.1节的方法计算$d(l,l^{‘})$或$d(u,l^{‘})$的上下限。然后第14行更新，其中$v_r$是与$l^{‘}$相连的下一个分区的根节点。M只有在两种情况下停止更新：(i)S的路径产生了环。(ii)$d_l+d^{‘}_l$比当前第i个列表中第k大的上限还要大。    如果M[v]的所有条目非空，则以v为根节点的分区是候选答案。将m个关键词对应的列表组合起来就是联通子图。    然后我们拿到所选分区的实际数据（如何拿到在第7节），进行二级搜索。</li>
+<li><em>In the j-th iteration.</em> 从所有的$a_i$中pop出最小的条，即$(v,(u,S,d_l,d_u))$(line 10). v是当前分区的根节点。S中最后的对是$(l,v_l)$：路径在$v_l$点离开根为$v_l$的分区并进入现分区。$\mathcal{L}=\{\mathcal{l}^{‘}_1,\mathcal{l}^{‘}_2,…\}$表示根节点为v的分区的portals。对于每个$l^{‘}$按照6.1节的方法计算$d(l,l^{‘})$或$d(u,l^{‘})$的上下限。然后第14行更新，其中$v_r$是与$l^{‘}$相连的下一个分区的根节点。M只有在两种情况下停止更新：(i)S的路径产生了环。(ii)$d_l+d^{‘}_l$比当前第i个列表中第k大的上限还要大。    如果M[v]的所有条目非空，则以v为根节点的分区是候选答案。将m个关键词对应的列表组合起来就是联通子图。    然后我们拿到所选分区的实际数据（如何拿到在第7节），进行二级搜索。</li>
 <li><em>Termination condition. </em>Lemma 8,9.    </li>
 </ul>
 <blockquote>
@@ -537,11 +537,11 @@ s(g_2)>\sum^m_{i=1}f(v_{b_i})d_i + (1-f(v_{b_i}))d(p_i)
       
         <div class="post-tags">
           
+            <a href="/tags/Keyword/" rel="tag"># Keyword</a>
+          
             <a href="/tags/RDF/" rel="tag"># RDF</a>
           
             <a href="/tags/2017年8月/" rel="tag"># 2017年8月</a>
-          
-            <a href="/tags/Keyword/" rel="tag"># Keyword</a>
           
         </div>
       
