@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig2-3.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Answering%20top-K%20query%20combined%20keywords%20and%20structural%20queries%20on%20RDF%20graphs/fig5.png">
-<meta property="og:updated_time" content="2017-10-08T07:26:51.131Z">
+<meta property="og:updated_time" content="2017-10-08T09:12:39.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Answering top-K query combined keywords and structural queries on RDF graphs》——读书笔记">
 <meta name="twitter:description" content="ABSTRACT虽然SPARQL是RDF图上优越的查询语言，但一些查询意图仍无法使用SPARQL句法表达。关键词搜索虽然能够直观表示信息的需求，但表达准确度较低。为了综合两者的优点，提出了混合查询SK query，并使用基于结构化索引的新型查询算法加速查询。为了更进一步提高SK查询的效率还使用了基于距离的优化技术。 1. Introduction目前RDF图十分流行，图1是Yago知识图谱的一个例">
@@ -404,7 +404,7 @@
 <p><script type="math/tex">Cost(r) =Cost_{content}(r)+Cost_{structure}(r)</script>.<br><strong>Definition 2.4.</strong> Given a result <script type="math/tex">r=< M,\{v_1,v_2,...,v_n\}></script>, the content cost of r is defined as follows:    </p>
 <p><script type="math/tex">Cost_{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)</script>,<br>where $C(v_i,w_i)$ is the matching cost between $v_i$ and keyword $w_i$.</p>
 </blockquote>
-<p>结构成本只考虑SPARQL查询中的变量——理由: 用户更感兴趣。（我感觉这并不科研）$Cost_{content}(r) =\sum_{i=1}^{i=n} C(v_i,w_i)$</p>
+<p>结构成本只考虑SPARQL查询中的变量——理由: 用户更感兴趣。（我感觉这并不科研）</p>
 <blockquote>
 <p><strong>Definition 2.5.</strong> Given a result <script type="math/tex">r=< M,\{v_1,v_2,...,v_n\}></script>, the distance between match M and vertex <script type="math/tex">v_i</script> is defined as follows:    </p>
 <script type="math/tex; mode=display">d(M,v_i)=MIN_{v\in M}\{d(v,v_i)\}</script><p>其中v是M中和SPARQL查询中某个变量相关的点$ d( v, v_i ) $是v和G中$v_i $的最短距离。结果r的结构成本：<br>$Cost_{content}(r)=\sum^{i=n}_{i=1} C(v_i,w_i) $</p>
