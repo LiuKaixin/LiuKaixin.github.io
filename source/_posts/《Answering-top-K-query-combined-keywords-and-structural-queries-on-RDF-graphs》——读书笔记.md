@@ -119,5 +119,5 @@ early-stop strategy：只计算fully seen mateches 的成本，以k-th小的成�
 $Cost(M)=\sum_{1\le i\le n}d(v,w_i)\ge \sum_{d[v] [w_i]\ne null\land 1\le i\le n}d[v] [w_i] +\sum_{d[v][w_i]= null\land 1\le i\le n}|p_i|$
 where $[v][w_i]$is the i-th dimension of v's vector corresponding to keyword $w_i$, and $|p_i|$ corresponds to the current queue head $(v,p_i,|p_i|)$ in queue $PQ_i$
 
-依据Theorem 5.2，
-
+依据Theorem 5.2，partially seen match M的下界为：
+> **Definition 5.6**
