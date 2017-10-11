@@ -37,15 +37,17 @@ SPARQL基于子图匹配，是查询RDF数据的标准方法。但是由于用�
 对于SK query < Q,q>，查询结果是$< M,\{ v_1,v_2,...,v_n\} \>$, 其中M是Q的子图匹配，$v_i$是包含关键词$w_i$的literal vertex。
 >**Definition 2.3.** Given a result $r=< M,\{v_1,v_2,...,v_n\}>$, the cost of r is defined as follows:	
 $$Cost(r) =Cost_{content}(r)+Cost_{structure}(r)$$.
-**Definition 2.4.** Given a result $r=< M,\{v_1,v_2,...,v_n\}>$, the content cost of r is defined as follows:	
-$Cost_{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)$, 
+**Definition 2.4.** Given a result $$r=< M,\{v_1,v_2,...,v_n\}>$$, the content cost of r is defined as follows:	
+$$Cost_{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)$$, 
 where $C(v_i,w_i)$ is the matching cost between $v_i$ and keyword $w_i$.
 
 结构成本只考虑SPARQL查询中的变量——理由: 用户更感兴趣。（我感觉这并不科研）
->**Definition 2.5.** Given a result $r=< M,\{v_1,v_2,...,v_n\}>$, the distance between match M and vertex $v_i$ is defined as follows:	
-$d(M,v_i)=MIN_{v\in M}\{d(v,v_i)\}$
-其中v是M中和SPARQL查询中某个变量相关的点$d(v,v_i)$是v和G中$v_i$的最短距离。结果r的结构成本：	
-$Cost_{content}(r)=\sum^{i=n}_{i=1}C(v_i,w_i)$
+
+
+>**Definition 2.5.** Given a result $$r=< M,\{v_1,v_2,...,v_n\}>$$, the distance between match M and vertex $$v_i$$ is defined as follows:	
+$$d(M,v_i)=MIN_{v\in M}\{d(v,v_i)\}$$
+其中v是M中和SPARQL查询中某个变量相关的点$ d( v, v_i ) $是v和G中$v_i $的最短距离。结果r的结构成本：	
+$Cost_{content}(r)=\sum^{i=n}_{i=1} C(v_i,w_i) $
 
 (**Problem Definition**) Given an SK query &lt;Q,q&gt; and parameter k, our problem is to find the k results that have the k-smallest costs.
 
@@ -70,12 +72,3 @@ $\gamma (S)=\frac{|L(S)|}{|\cap_{S^{'}\subset S} \,\,L(S^{'})|}$
 
 > **Theorem 4.1. ** Let F denote all selected index elements (i.e., frequent star patterns). Given a SPARQL query Q, a vertex v in graph G can be pruned (there exists no subgraph match of Q containing v) if the following equation holds.	
 $v\notin \cup_{S\in F \land S \in Q}L(S)$,
-
-
-
-
-
-
-
-
-
