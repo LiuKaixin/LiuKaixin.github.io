@@ -96,17 +96,24 @@
 
 
 
-<meta name="description" content="需参考网站：https://github.com/zhaoqingqing/zhaoqingqing.github.io 昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。 博客的编写发布主要参考 htt">
+<meta name="description" content="虽然师兄说，看PPT就行了，但是我粗略一看PPT感觉说的貌似太简略了，还是得看一下论文。。。应该是水平太低所以看PPT没有深入理解吧，希望这次看论文能快点！（有选择的看） ABSTRACT主要工作：使用编辑距离研究字符串相似。现有方法使用filter-and-refine框架，缺点如下：  对长度小于30的短字符串效果不好。 巨大的索引。 数据集更新的成本很大。  本文使用trie-join框架，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo博客编写">
-<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/09/27/hexo编写博客/index.html">
+<meta property="og:title" content="《TrieJoin: Efficient Triebased String Similarity Joins with EditDistance Constraints》——读书笔记">
+<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/18/《TrieJoin-Efficient-Triebased-String-Similarity-Joins-with-EditDistance-Constraints》——读书笔记/index.html">
 <meta property="og:site_name" content="三省">
-<meta property="og:description" content="需参考网站：https://github.com/zhaoqingqing/zhaoqingqing.github.io 昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。 博客的编写发布主要参考 htt">
+<meta property="og:description" content="虽然师兄说，看PPT就行了，但是我粗略一看PPT感觉说的貌似太简略了，还是得看一下论文。。。应该是水平太低所以看PPT没有深入理解吧，希望这次看论文能快点！（有选择的看） ABSTRACT主要工作：使用编辑距离研究字符串相似。现有方法使用filter-and-refine框架，缺点如下：  对长度小于30的短字符串效果不好。 巨大的索引。 数据集更新的成本很大。  本文使用trie-join框架，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-08T07:41:45.994Z">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig4.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig5.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig6.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig7.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig8.png">
+<meta property="og:updated_time" content="2017-10-19T03:37:34.516Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo博客编写">
-<meta name="twitter:description" content="需参考网站：https://github.com/zhaoqingqing/zhaoqingqing.github.io 昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。 博客的编写发布主要参考 htt">
+<meta name="twitter:title" content="《TrieJoin: Efficient Triebased String Similarity Joins with EditDistance Constraints》——读书笔记">
+<meta name="twitter:description" content="虽然师兄说，看PPT就行了，但是我粗略一看PPT感觉说的貌似太简略了，还是得看一下论文。。。应该是水平太低所以看PPT没有深入理解吧，希望这次看论文能快点！（有选择的看） ABSTRACT主要工作：使用编辑距离研究字符串相似。现有方法使用filter-and-refine框架，缺点如下：  对长度小于30的短字符串效果不好。 巨大的索引。 数据集更新的成本很大。  本文使用trie-join框架，">
+<meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig1.png">
 
 
 
@@ -135,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/09/27/hexo编写博客/"/>
+  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/18/《TrieJoin-Efficient-Triebased-String-Similarity-Joins-with-EditDistance-Constraints》——读书笔记/"/>
 
 
 
 
 
-  <title>hexo博客编写 | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>《TrieJoin: Efficient Triebased String Similarity Joins with EditDistance Constraints》——读书笔记 | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -288,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/09/27/hexo编写博客/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/18/《TrieJoin-Efficient-Triebased-String-Similarity-Joins-with-EditDistance-Constraints》——读书笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘凯鑫">
@@ -305,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hexo博客编写</h1>
+          <h1 class="post-title" itemprop="name headline">《TrieJoin: Efficient Triebased String Similarity Joins with EditDistance Constraints》——读书笔记</h1>
         
 
         <div class="post-meta">
@@ -317,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-27T17:24:00+08:00">
-                2017-09-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T18:48:52+08:00">
+                2017-10-18
               </time>
             
 
@@ -327,28 +334,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/关于博客/" itemprop="url" rel="index">
-                    <span itemprop="name">关于博客</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -377,11 +362,48 @@
       
 
       
-        <p>需参考网站：<a href="https://github.com/zhaoqingqing/zhaoqingqing.github.io">https://github.com/zhaoqingqing/zhaoqingqing.github.io</a></p>
-<p>昨儿晚上和今天下午都在搞我的博客，本来想搞多终端同步，结果莫名其妙的hexo-admin的deploy功能不能使用了，然后重装了好几次，都没有成功，心里很烦躁。现在冷静下来之后决定用命令去deploy，然后得空去学习js，看看这些东西怎么操作吧。</p>
-<p>博客的编写发布主要参考 <a href="https://righere.github.io/2016/10/10/install-hexo/" target="_blank" rel="external">https://righere.github.io/2016/10/10/install-hexo/</a><br>首先把hexo分支git clone到本地，然后npm install安装hexo。<br>编辑blog还是用hexo-admin<br>然后使用git add .   git commit -m “改了啥”， git push origin hexo将本地仓库同步到远程<br>发布使用命令hexo d -g。</p>
-<p>其他终端先pull，之后进行接下来的操作。心好累，弄了半天还是没有什么结果。先暂且这么用着吧。</p>
-<p>10月8日  数学公式有问题，按照<a href="http://xudongyang.coding.me/math-in-hexo/" target="_blank" rel="external">http://xudongyang.coding.me/math-in-hexo/</a> 修改。</p>
+        <p><em>虽然师兄说，看PPT就行了，但是我粗略一看PPT感觉说的貌似太简略了，还是得看一下论文。。。应该是水平太低所以看PPT没有深入理解吧，希望这次看论文能快点！（有选择的看）</em></p>
+<h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>主要工作：使用编辑距离研究字符串相似。<br>现有方法使用filter-and-refine框架，缺点如下：</p>
+<ol>
+<li>对长度小于30的短字符串效果不好。</li>
+<li>巨大的索引。</li>
+<li>数据集更新的成本很大。</li>
+</ol>
+<p>本文使用trie-join框架，能用小的索引生成结果。使用trie结构索引字符串，并使用trie剪枝找到相似子串。并且支持数据集的动态更新。</p>
+<h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1.INTRODUCTION"></a>1.INTRODUCTION</h1><p>similarity join简介。<br>相似函数：jaccard similarity，cosine similarity，<strong>edit distance</strong>。<br>举例之前工作，并指明缺点（见摘要）。<br>本方法解决了之前的所有问题。<br>贡献：</p>
+<ol>
+<li>We propose a trie-based framework for efficient string similarity joins with edit-distance constraints.</li>
+<li>We devise efficient trie-join-based algorithms and develop pruning techniques to achieve high performance.</li>
+<li>We extend our method to support dynamic update of data sets efficiently.</li>
+</ol>
+<h1 id="2-TRIE-BASED-FRAMEWORK"><a href="#2-TRIE-BASED-FRAMEWORK" class="headerlink" title="2.TRIE-BASED FRAMEWORK"></a>2.TRIE-BASED FRAMEWORK</h1><h2 id="2-1-Problem-Formulation"><a href="#2-1-Problem-Formulation" class="headerlink" title="2.1 Problem Formulation"></a>2.1 Problem Formulation</h2><p>如果两个字符串编辑距离小于阈值，则两个字符串相似。</p>
+<blockquote>
+<p><strong>Definition 1 (String Similarity Joins).</strong> Given two sets of strings R and S, and an edit-distance threshold $\tau$, a similarity join finds all similar string pairs $<r,s>\in R\times S$ such that $ED(r,s)\le \tau$</r,s></p>
+</blockquote>
+<h2 id="2-2-Prefix-Pruning"><a href="#2-2-Prefix-Pruning" class="headerlink" title="2.2 Prefix Pruning"></a>2.2 Prefix Pruning</h2><p>naive solution：计算所有字符串对的编辑距离。<br>使用动态规划提早终止编辑距离的计算。<br>string $r=r_1,r_2…r_n$, $s=s_1,s_2…s_m$,<br>matrix D(i,j): the edit distance between the prefix $r_1,r_2…r_i$ and $s_1,s_2…s_j$<br>D(0,j)=j for $0\le j\le n$, and<br>D(i,j)=min(D(i-1,j)+1,D(i,j-1)+1,D(i-1,j-1)+$\theta$) where $\theta=0$ if $r_i=s_j$; otherwise $\theta=1$<br>D(i,j) is an active entry if $D(i,j)\le \tau$<br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig1.png"><br>如图没有active entries时，结束搜索。</p>
+<h2 id="2-3-Our-Observation"><a href="#2-3-Our-Observation" class="headerlink" title="2.3 Our Observation"></a>2.3 Our Observation</h2><h3 id="Observation-1-Subtrie-Pruning"><a href="#Observation-1-Subtrie-Pruning" class="headerlink" title="Observation 1 - Subtrie Pruning:"></a>Observation 1 - Subtrie Pruning:</h3><p>通过前缀可以剪枝掉很多字符串。</p>
+<blockquote>
+<p><strong>Lemma 1 (Subtrie Pruning).</strong> Given a trie T and a string s, if node n is not an active node for every prefix of s, then n’s descendants will not be similar to s.</p>
+</blockquote>
+<p>Trie-Search: 首先为R内的所有字符串构建trie树，然后基于subtrie pruning对S中的每个字符串计算active-node set $A_s$。</p>
+<h3 id="Observation-2-Dual-Subtrie-Pruning"><a href="#Observation-2-Dual-Subtrie-Pruning" class="headerlink" title="Observation 2 - Dual Subtrie Pruning:"></a>Observation 2 - Dual Subtrie Pruning:</h3><p>Subtrie Pruning只利用了R中的trie结构。<br>对R和S中的字符串构建了一个大的Trie，同时对R和S进行subtrie pruning。</p>
+<blockquote>
+<p><strong>Lemma 2 (Dual Subtrie Pruning).</strong> Given two trie nodes u and v, if u is not an active node for every ancestor of v, and v is not an avtive node for every ancestor of u, the strings under u and v connot be similar to each other.</p>
+</blockquote>
+<p>但利用dual trie pruning，不能直接在树中搜索找到相似对。</p>
+<h1 id="3-TRIE-BASED-ALGORITHMS"><a href="#3-TRIE-BASED-ALGORITHMS" class="headerlink" title="3. TRIE-BASED ALGORITHMS"></a>3. TRIE-BASED ALGORITHMS</h1><p>为便于表示，关注自连接，即R=S。</p>
+<h2 id="3-1-Trie-Traverse-Algorithm"><a href="#3-1-Trie-Traverse-Algorithm" class="headerlink" title="3.1 Trie-Traverse Algorithm"></a>3.1 Trie-Traverse Algorithm</h2><p><strong>Algorithm Description：</strong><br>首先为S中的字符串构建trie索引，然后先序遍历，对于每个节点，计算其active-node set，到达叶子结点，则和active-node set中的叶子结点构成相似对。<br><strong>Computing Active-Node Sets: </strong>利用其父节点的active-node set $A_p$，计算本节点active-node set $A_n$，$A_n$中的每个点都能在$A_p$中找到父节点。</p>
+<blockquote>
+<p><strong>Lemma 3.</strong> Given a node n, let p denote n’s parent, for each node $n^{‘}\in A_n$, there must exist a node $p^{‘}\in A_p$, such that $p^{‘}$ is an ancestor of $n^{‘}$.</p>
+</blockquote>
+<p>因为从$A_p$计算$A_n$的复杂度为$O(\tau \cdot |A_n|)$，所以Trie-Traverse的时间复杂度为$O(\tau \cdot |A_T|)$<br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig4.png"></p>
+<h2 id="3-2-Trie-Dynamic-Algorithm"><a href="#3-2-Trie-Dynamic-Algorithm" class="headerlink" title="3.2 Trie-Dynamic Algorithm"></a>3.2 Trie-Dynamic Algorithm</h2><p>利用active nodes的对称性：if u is an active node of v, then v must be an active node of u。减少冗余的计算。<br>Trie-Dynamic: 动态的构建trie结构，每次插入新的节点，计算在当前trie结构上新节点的active-node set，并基于对称性更新其他节点的active-node set。<br>时间复杂度下降为1/2，但需要维护所有点的active-node set 使得空间复杂度升高。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig5.png"></p>
+<h2 id="3-3-Trie-PathStack-Algorithm"><a href="#3-3-Trie-PathStack-Algorithm" class="headerlink" title="3.3 Trie-PathStack Algorithm"></a>3.3 Trie-PathStack Algorithm</h2><p>Trie-Traverse：内存占用更小但有一些冗余的active-node计算。<br>Trie-Dynamic：避免了重复计算但使用了更多的内存。<br>Trie-PathStack解决了上述问题。<br>首先，维护一个”virtual partial” subtrie保存所有访问过的节点。对于每个未访问的节点，首先设置为已访问，然后计算”virtual partial” subtrie中的active-node set。<br>然后，先序遍历trie节点，并用栈保存需要被更新的节点。在先序遍历时，用栈保存从根到当前节点路径上的所有节点，访问当前节点时，其父节点一定在栈顶，利用父节点active-node set计算当前节点的active-node set，计算后只需更新栈中最多$\tau$个节点。<br><em>主要是对Trie-Tranverse的改进，不是对整个图进行遍历，而是对已访问的部分进行遍历，然后利用栈保存路径。（这里不太懂，为啥要保存路径呢。。。）</em><br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig6.png"></p>
+<h1 id="4-PRUNING-TECHNIQUES"><a href="#4-PRUNING-TECHNIQUES" class="headerlink" title="4. PRUNING TECHNIQUES"></a>4. PRUNING TECHNIQUES</h1><p><strong>Length Pruning:</strong> 长度相差大于$\tau$直接剪枝。<br><strong>Single-branch Pruning: </strong>在同一个分支上，如果其叶子节点相同，则父节点可被剪枝。<br><strong>Count Pruning: </strong>如果两个点只能生成一个字符串，则可以删掉一个字符串。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig7.png"></p>
+<h1 id="5-INCREMENTAL-SIMILARITY-JOINS"><a href="#5-INCREMENTAL-SIMILARITY-JOINS" class="headerlink" title="5. INCREMENTAL SIMILARITY JOINS"></a>5. INCREMENTAL SIMILARITY JOINS</h1><blockquote>
+<p><strong>Definition 2 (Incremental Similarity Joins).</strong> Given a set of strings S, a new string set $\Delta S$, and an edit-distance threshold $\tau$, an incremental similarity join finds all similar string pairs $(r\in \Delta S, s\in S\cup \Delta S)$ such that $ED(r,s)\le \tau.$</p>
+</blockquote>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig8.png">
 
       
     </div>
@@ -406,8 +428,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/04/《Answering-top-K-query-combined-keywords-and-structural-queries-on-RDF-graphs》——读书笔记/" rel="next" title="《Answering top-K query combined keywords and structural queries on RDF graphs》——读书笔记">
-                <i class="fa fa-chevron-left"></i> 《Answering top-K query combined keywords and structural queries on RDF graphs》——读书笔记
+              <a href="/2017/09/29/《Top-k-Exploration-of-Query-Candidates-for-Efficient-Keyword-Search-on-Graph-Shaped-RDF-Data》——读书笔记/" rel="next" title="《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记">
+                <i class="fa fa-chevron-left"></i> 《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记
               </a>
             
           </div>
@@ -415,10 +437,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/29/《Top-k-Exploration-of-Query-Candidates-for-Efficient-Keyword-Search-on-Graph-Shaped-RDF-Data》——读书笔记/" rel="prev" title="《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记">
-                《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -470,8 +488,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.jpg"
@@ -553,6 +580,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1.INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-TRIE-BASED-FRAMEWORK"><span class="nav-text">2.TRIE-BASED FRAMEWORK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Problem-Formulation"><span class="nav-text">2.1 Problem Formulation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Prefix-Pruning"><span class="nav-text">2.2 Prefix Pruning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Our-Observation"><span class="nav-text">2.3 Our Observation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Observation-1-Subtrie-Pruning"><span class="nav-text">Observation 1 - Subtrie Pruning:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Observation-2-Dual-Subtrie-Pruning"><span class="nav-text">Observation 2 - Dual Subtrie Pruning:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-TRIE-BASED-ALGORITHMS"><span class="nav-text">3. TRIE-BASED ALGORITHMS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Trie-Traverse-Algorithm"><span class="nav-text">3.1 Trie-Traverse Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Trie-Dynamic-Algorithm"><span class="nav-text">3.2 Trie-Dynamic Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Trie-PathStack-Algorithm"><span class="nav-text">3.3 Trie-PathStack Algorithm</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-PRUNING-TECHNIQUES"><span class="nav-text">4. PRUNING TECHNIQUES</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-INCREMENTAL-SIMILARITY-JOINS"><span class="nav-text">5. INCREMENTAL SIMILARITY JOINS</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
