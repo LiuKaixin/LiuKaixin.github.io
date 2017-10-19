@@ -59,9 +59,32 @@ Subtrie Pruning只利用了R中的trie结构。
 **Algorithm Description：**
 首先为S中的字符串构建trie索引，然后先序遍历，对于每个节点，计算其active-node set，到达叶子结点，则和active-node set中的叶子结点构成相似对。
 **Computing Active-Node Sets: **利用其父节点的active-node set $A_p$，计算本节点active-node set $A_n$，$A_n$中的每个点都能在$A_p$中找到父节点。
-> **Lemma 3.** Given a node n, let p denote n's parent, for each node $n^{'}\in A_n$, there must exist a node $p^{'}\in A_p$, such that $p^{'} is an ancestor of $n^{'}$.
+> **Lemma 3.** Given a node n, let p denote n's parent, for each node $n^{'}\in A_n$, there must exist a node $p^{'}\in A_p$, such that $p^{'}$ is an ancestor of $n^{'}$.
 
+因为从$A_p$计算$A_n$的复杂度为$O(\tau \cdot |A_n|)$，所以Trie-Traverse的时间复杂度为$O(\tau \cdot |A_T|)$
+{% qnimg TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig4.png %}
+## 3.2 Trie-Dynamic Algorithm
+利用active nodes的对称性：if u is an active node of v, then v must be an active node of u。减少冗余的计算。
+Trie-Dynamic: 动态的构建trie结构，每次插入新的节点，计算在当前trie结构上新节点的active-node set，并基于对称性更新其他节点的active-node set。
+时间复杂度下降为1/2，但需要维护所有点的active-node set 使得空间复杂度升高。
+{% qnimg TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig5.png %}
+## 3.3 Trie-PathStack Algorithm
+Trie-Traverse：内存占用更小但有一些冗余的active-node计算。
+Trie-Dynamic：避免了重复计算但使用了更多的内存。
+Trie-PathStack解决了上述问题。
+首先，维护一个"virtual partial" subtrie保存所有访问过的节点。对于每个未访问的节点，首先设置为已访问，然后计算"virtual partial" subtrie中的active-node set。
+然后，先序遍历trie节点，并用栈保存需要被更新的节点。在先序遍历时，用栈保存从根到当前节点路径上的所有节点，访问当前节点时，其父节点一定在栈顶，利用父节点active-node set计算当前节点的active-node set，计算后只需更新栈中最多$\tau$个节点。
+*主要是对Trie-Tranverse的改进，不是对整个图进行遍历，而是对已访问的部分进行遍历，然后利用栈保存路径。（这里不太懂，为啥要保存路径呢。。。）*
+{% qnimg TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig6.png %}
+# 4. PRUNING TECHNIQUES
+**Length Pruning:** 长度相差大于$\tau$直接剪枝。
+**Single-branch Pruning: **在同一个分支上，如果其叶子节点相同，则父节点可被剪枝。
+**Count Pruning: **如果两个点只能生成一个字符串，则可以删掉一个字符串。
+{% qnimg TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig7.png %}
+# 5. INCREMENTAL SIMILARITY JOINS
+> **Definition 2 (Incremental Similarity Joins).** Given a set of strings S, a new string set $\Delta S$, and an edit-distance threshold $\tau$, an incremental similarity join finds all similar string pairs $(r\in \Delta S, s\in S\cup \Delta S)$ such that $ED(r,s)\le \tau.$
 
+{% qnimg TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig8.png %}
 
 
 
