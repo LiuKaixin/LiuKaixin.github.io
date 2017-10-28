@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/"/>
-  <updated>2017-10-22T06:19:39.877Z</updated>
+  <updated>2017-10-28T04:49:46.229Z</updated>
   <id>https://github.com/LiuKaixin/LiuKaixin.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《Finding Patterns in a Knowledge Base using Keywords to Compose Table Answers》——论文笔记</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/</id>
+    <published>2017-10-28T04:49:35.000Z</published>
+    <updated>2017-10-28T04:49:46.229Z</updated>
+    
+    <content type="html"><![CDATA[<p>test</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;test&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《知识图谱构建技术综述》——论文笔记</title>
