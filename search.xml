@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记]]></title>
+    <url>%2F2017%2F11%2F06%2F%E3%80%8ASummarizing-Answer-Graphs-Induced-by-Keyword-Queries%E3%80%8B%E2%80%94%E2%80%94%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%2F</url>
+    <content type="text"><![CDATA[ABSTRACT通过keyword query对answer graphs进行摘要。 对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。 coverage ratio——衡量摘要的信息损失。 由上一条，定义一系列摘要问题。 摘要问题的复杂度从PTIME到NP-complete。 提出exact和出去发誓摘要算法。 实验。 1. INTRODUCTION关键词查询得到太多的查询图，需要对其进行摘要，以便更好地使用。两个应用：Enhance Search with Structure. keyword queryand graph query’s usability-expressivity tradeoff.对关键词查询产生的answer table构建出结构化查询，让用户选择。Improve Result Understanding and Query Refinement.举例：三个查询结果可以摘要为两个图。本文贡献： 定义summary graph——捕捉Q中关键词和答案图之间的关系。 两个指标：摘要图大小，coverage ratio$\alpha$——衡量摘要图中关键词对占答案图中的比例。 $\alpha$-summarization problem：找符合$\alpha$的最小的摘要图。 K summarization problem：找K summary graph。 对于1-summarization，有精确解法。对于$\alpha$-summarization和K summarization 有启发式算法。 Related work 暂略。 2. ANSWER GRAPHS AND SUMMARIES2.1 Keyword Induced Answer GraphsAnswer graphs:]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[《Finding Patterns in a Knowledge Base using Keywords to Compose Table Answers》——论文笔记]]></title>
     <url>%2F2017%2F10%2F28%2FFinding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1%2F</url>
-    <content type="text"><![CDATA[test]]></content>
+    <content type="text"><![CDATA[ABSTRACTrepresent each relevant answer as a table which aggregates a set of entities or joins of entities within the asme table scheme or pattern. A pattern is an aggregation of subtrees which contain all keywords in the texts and have the same structure and types on node/edges. 为关键字查询提供答案表（感觉就是top-k）。每个答案是有相同pattern的一群实体。基于路径的索引。两种查询处理算法，一种针对结果数较少的查询，一种针对结果较多的查询。 1. INTRODUCTION]]></content>
   </entry>
   <entry>
     <title><![CDATA[《知识图谱构建技术综述》——论文笔记]]></title>

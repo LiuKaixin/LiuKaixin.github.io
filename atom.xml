@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/"/>
-  <updated>2017-10-28T04:49:46.229Z</updated>
+  <updated>2017-11-06T06:48:21.792Z</updated>
   <id>https://github.com/LiuKaixin/LiuKaixin.github.io/</id>
   
   <author>
@@ -17,20 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>《Finding Patterns in a Knowledge Base using Keywords to Compose Table Answers》——论文笔记</title>
-    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/"/>
-    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/</id>
-    <published>2017-10-28T04:49:35.000Z</published>
-    <updated>2017-10-28T04:49:46.229Z</updated>
+    <title>《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/06/%E3%80%8ASummarizing-Answer-Graphs-Induced-by-Keyword-Queries%E3%80%8B%E2%80%94%E2%80%94%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/06/《Summarizing-Answer-Graphs-Induced-by-Keyword-Queries》——论文笔记/</id>
+    <published>2017-11-06T05:22:43.000Z</published>
+    <updated>2017-11-06T06:48:21.792Z</updated>
     
-    <content type="html"><![CDATA[<p>test</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>通过keyword query对answer graphs进行摘要。</p><ol><li>对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。</li><li>coverage ratio——衡量摘要的信息损失。</li><li>由上一条，定义一系列摘要问题。<ol><li>摘要问题的复杂度从PTIME到NP-complete。</li><li>提出exact和出去发誓摘要算法。</li></ol></li><li>实验。</li></ol><h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><p>关键词查询得到太多的查询图，需要对其进行摘要，以便更好地使用。两个应用：<br><strong>Enhance Search with Structure.</strong> keyword queryand graph query’s usability-expressivity tradeoff.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig1.png"><br>对关键词查询产生的answer table构建出结构化查询，让用户选择。<br><strong>Improve Result Understanding and Query Refinement.</strong><br>举例：三个查询结果可以摘要为两个图。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig2.png"><br>本文贡献：</p><ol><li>定义summary graph——捕捉Q中关键词和答案图之间的关系。</li><li>两个指标：摘要图大小，coverage ratio$\alpha$——衡量摘要图中关键词对占答案图中的比例。<ol><li>$\alpha$-summarization problem：找符合$\alpha$的最小的摘要图。</li><li>K summarization problem：找K summary graph。</li></ol></li><li>对于1-summarization，有精确解法。对于$\alpha$-summarization和K summarization 有启发式算法。</li></ol><p><strong>Related work</strong> 暂略。</p><h2 id="2-ANSWER-GRAPHS-AND-SUMMARIES"><a href="#2-ANSWER-GRAPHS-AND-SUMMARIES" class="headerlink" title="2. ANSWER GRAPHS AND SUMMARIES"></a>2. ANSWER GRAPHS AND SUMMARIES</h2><h2 id="2-1-Keyword-Induced-Answer-Graphs"><a href="#2-1-Keyword-Induced-Answer-Graphs" class="headerlink" title="2.1 Keyword Induced Answer Graphs"></a>2.1 Keyword Induced Answer Graphs</h2><p><strong>Answer graphs: </strong></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;test&lt;/p&gt;
-
+        &lt;h1 id=&quot;ABSTRACT&quot;&gt;&lt;a href=&quot;#ABSTRACT&quot; class=&quot;headerlink&quot; title=&quot;ABSTRACT&quot;&gt;&lt;/a&gt;ABSTRACT&lt;/h1&gt;&lt;p&gt;通过keyword query对answer graphs进行摘要。&lt;/p&gt;
+&lt;ol&gt;
+&lt;l
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>《Finding Patterns in a Knowledge Base using Keywords to Compose Table Answers》——论文笔记</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/10/28/Finding-Patterns-in-a-Knowledge-Base-using-Keywords-to-Compose-Table-Answers-1/</id>
+    <published>2017-10-28T04:49:35.000Z</published>
+    <updated>2017-11-06T05:19:21.071Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>represent each relevant <strong>answer as a table</strong>  which aggregates a set of entities or joins of entities within the asme table scheme or <strong>pattern</strong>.</p><p>A <strong>pattern</strong> is an aggregation of subtrees which contain all keywords in the texts and have the same structure and types on node/edges.</p><p>为关键字查询提供答案表（感觉就是top-k）。每个答案是有相同pattern的一群实体。<br>基于路径的索引。两种查询处理算法，一种针对结果数较少的查询，一种针对结果较多的查询。</p><h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;ABSTRACT&quot;&gt;&lt;a href=&quot;#ABSTRACT&quot; class=&quot;headerlink&quot; title=&quot;ABSTRACT&quot;&gt;&lt;/a&gt;ABSTRACT&lt;/h1&gt;&lt;p&gt;represent each relevant &lt;strong&gt;answer as a ta
       
     
     </summary>
