@@ -96,19 +96,20 @@
 
 
 
-<meta name="description" content="ABSTRACT通过keyword query对answer graphs进行摘要。  对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。 coverage ratio——衡量摘要的信息损失。 由上一条，定义一系列摘要问题。 摘要问题的复杂度从PTIME到NP-complete。 提出exact和出去发誓摘要算法。   实验。  1.">
+<meta name="description" content="小结：指出关键词和结构化查询各自的缺点。然后对关键词查出的答案进行摘要总结，将同一类型的答案归为一个摘要图。返回给用户使其得到graph queries。和ICDE09的文章有点儿像。其指出和ICDE09相比不需要schema。（我觉得这是在耍赖。。他对搜好的答案进行摘要感觉结果小多了肯定不需要schema。。。）在得到答案后ICDE09，是将其转为SPARQL，供用户选择本文则是直接进行摘要，让">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记">
 <meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/06/《Summarizing-Answer-Graphs-Induced-by-Keyword-Queries》——论文笔记/index.html">
 <meta property="og:site_name" content="三省">
-<meta property="og:description" content="ABSTRACT通过keyword query对answer graphs进行摘要。  对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。 coverage ratio——衡量摘要的信息损失。 由上一条，定义一系列摘要问题。 摘要问题的复杂度从PTIME到NP-complete。 提出exact和出去发誓摘要算法。   实验。  1.">
+<meta property="og:description" content="小结：指出关键词和结构化查询各自的缺点。然后对关键词查出的答案进行摘要总结，将同一类型的答案归为一个摘要图。返回给用户使其得到graph queries。和ICDE09的文章有点儿像。其指出和ICDE09相比不需要schema。（我觉得这是在耍赖。。他对搜好的答案进行摘要感觉结果小多了肯定不需要schema。。。）在得到答案后ICDE09，是将其转为SPARQL，供用户选择本文则是直接进行摘要，让">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig2.png">
-<meta property="og:updated_time" content="2017-11-06T06:48:21.792Z">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig4.png">
+<meta property="og:updated_time" content="2017-11-06T15:16:03.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记">
-<meta name="twitter:description" content="ABSTRACT通过keyword query对answer graphs进行摘要。  对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。 coverage ratio——衡量摘要的信息损失。 由上一条，定义一系列摘要问题。 摘要问题的复杂度从PTIME到NP-complete。 提出exact和出去发誓摘要算法。   实验。  1.">
+<meta name="twitter:description" content="小结：指出关键词和结构化查询各自的缺点。然后对关键词查出的答案进行摘要总结，将同一类型的答案归为一个摘要图。返回给用户使其得到graph queries。和ICDE09的文章有点儿像。其指出和ICDE09相比不需要schema。（我觉得这是在耍赖。。他对搜好的答案进行摘要感觉结果小多了肯定不需要schema。。。）在得到答案后ICDE09，是将其转为SPARQL，供用户选择本文则是直接进行摘要，让">
 <meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig1.png">
 
 
@@ -358,7 +359,8 @@
       
 
       
-        <h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>通过keyword query对answer graphs进行摘要。</p>
+        <p><em>小结：指出关键词和结构化查询各自的缺点。然后对关键词查出的答案进行摘要总结，将同一类型的答案归为一个摘要图。返回给用户使其得到graph queries。和ICDE09的文章有点儿像。其指出和ICDE09相比不需要schema。（我觉得这是在耍赖。。他对搜好的答案进行摘要感觉结果小多了肯定不需要schema。。。）<br>在得到答案后ICDE09，是将其转为SPARQL，供用户选择<br>本文则是直接进行摘要，让用户进行选择，然后自己构建SPARQL<br>（虽然没仔细看算法，但这个VLDB应该厉害在自己定义了个新的问题，并且对这个问题进行了较为全面的考虑和处理？）</em></p>
+<h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>通过keyword query对answer graphs进行摘要。</p>
 <ol>
 <li>对answer graph提出summary graph的概念。保留关键词的关系，对关键词节点间的路径进行摘要。</li>
 <li>coverage ratio——衡量摘要的信息损失。</li>
@@ -380,7 +382,17 @@
 <li>对于1-summarization，有精确解法。对于$\alpha$-summarization和K summarization 有启发式算法。</li>
 </ol>
 <p><strong>Related work</strong> 暂略。</p>
-<h2 id="2-ANSWER-GRAPHS-AND-SUMMARIES"><a href="#2-ANSWER-GRAPHS-AND-SUMMARIES" class="headerlink" title="2. ANSWER GRAPHS AND SUMMARIES"></a>2. ANSWER GRAPHS AND SUMMARIES</h2><h2 id="2-1-Keyword-Induced-Answer-Graphs"><a href="#2-1-Keyword-Induced-Answer-Graphs" class="headerlink" title="2.1 Keyword Induced Answer Graphs"></a>2.1 Keyword Induced Answer Graphs</h2><p><strong>Answer graphs: </strong></p>
+<h1 id="2-ANSWER-GRAPHS-AND-SUMMARIES"><a href="#2-ANSWER-GRAPHS-AND-SUMMARIES" class="headerlink" title="2. ANSWER GRAPHS AND SUMMARIES"></a>2. ANSWER GRAPHS AND SUMMARIES</h1><h2 id="2-1-Keyword-Induced-Answer-Graphs"><a href="#2-1-Keyword-Induced-Answer-Graphs" class="headerlink" title="2.1 Keyword Induced Answer Graphs"></a>2.1 Keyword Induced Answer Graphs</h2><p><strong>Answer graphs: </strong><br>Q的答案图是联通的无向图。<br>$card(G)$答案图中包含的答案数量。<br>$|G|$答案图中边和点的数量。</p>
+<h2 id="2-2-Answer-Graph-Sumarization"><a href="#2-2-Answer-Graph-Sumarization" class="headerlink" title="2.2 Answer Graph Sumarization"></a>2.2 Answer Graph Sumarization</h2><p><strong>Summary graph.</strong> 同样是无向图。</p>
+<h1 id="3-QUALITY-MEASUREMENT"><a href="#3-QUALITY-MEASUREMENT" class="headerlink" title="3. QUALITY MEASUREMENT"></a>3. QUALITY MEASUREMENT</h1><h2 id="3-1-Coverage-Measurement"><a href="#3-1-Coverage-Measurement" class="headerlink" title="3.1 Coverage Measurement"></a>3.1 Coverage Measurement</h2><p><strong>Keywords coverage. </strong>对于答案图的并集，关键词节点$v_{k_i}$到$v_{k_j}$和摘要图Gs中$v_{s_i}$到$v_{s_j}$的路径标签一致，则覆盖了该关键词对。<br><strong>Coverage ratio. </strong>定义M是被摘要图Gs覆盖的关键词对数量。</p>
+<script type="math/tex; mode=display">\alpha=\frac{2\cdot M}{|Q|\cdot(|Q|-1)}</script><h2 id="3-2-Conciseness-Measurement"><a href="#3-2-Conciseness-Measurement" class="headerlink" title="3.2 Conciseness Measurement"></a>3.2 Conciseness Measurement</h2><p><strong>Summarization size.</strong> Gs中所有的点和边的和</p>
+<h2 id="3-3-Summarization-Problems"><a href="#3-3-Summarization-Problems" class="headerlink" title="3.3 Summarization Problems"></a>3.3 Summarization Problems</h2><p><strong>Minimum $\alpha$-Summarization.</strong> 找到规模最小的$\alpha$-summary graph。（MSUM）<br><strong>Theorem 1: </strong>MSUM is NP-complete (for decision version) and APX-hard (as an optimization problem).<br>PSUM: $\alpha$为1<br><strong>Theorem 2: </strong>给定Q和G，PSUM时间复杂度$O(|Q|^2)|G|+|G|^2$<br><strong>K Summarization.</strong> 找到概要图集合Gs，使得</p>
+<ol>
+<li>集合中每个摘要图都是1-summary graph。</li>
+<li>摘要图对应的原始答案集合是答案图集合不相交的K划分。</li>
+<li>大小为最小，即集合中每个摘要图大小最小。<h1 id="4-COMPUTING-alpha-SUMMARIZATION"><a href="#4-COMPUTING-alpha-SUMMARIZATION" class="headerlink" title="4. COMPUTING $\alpha$ SUMMARIZATION"></a>4. COMPUTING $\alpha$ SUMMARIZATION</h1><h2 id="4-1-Computing-1-Summary-Graphs"><a href="#4-1-Computing-1-Summary-Graphs" class="headerlink" title="4.1 Computing 1-Summary Graphs"></a>4.1 Computing 1-Summary Graphs</h2><strong>Dominance relation.</strong> <img src="http://ouqbyuben.bkt.clouddn.com/images/Summarizing%20Answer%20Graphs%20Induced%20by%20Keyword%20Queries/fig4.png">
+</li>
+</ol>
 
       
     </div>
@@ -567,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-ANSWER-GRAPHS-AND-SUMMARIES"><span class="nav-text">2. ANSWER GRAPHS AND SUMMARIES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Keyword-Induced-Answer-Graphs"><span class="nav-text">2.1 Keyword Induced Answer Graphs</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-ANSWER-GRAPHS-AND-SUMMARIES"><span class="nav-text">2. ANSWER GRAPHS AND SUMMARIES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Keyword-Induced-Answer-Graphs"><span class="nav-text">2.1 Keyword Induced Answer Graphs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Answer-Graph-Sumarization"><span class="nav-text">2.2 Answer Graph Sumarization</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-QUALITY-MEASUREMENT"><span class="nav-text">3. QUALITY MEASUREMENT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Coverage-Measurement"><span class="nav-text">3.1 Coverage Measurement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Conciseness-Measurement"><span class="nav-text">3.2 Conciseness Measurement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Summarization-Problems"><span class="nav-text">3.3 Summarization Problems</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-COMPUTING-alpha-SUMMARIZATION"><span class="nav-text">4. COMPUTING $\alpha$ SUMMARIZATION</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-Computing-1-Summary-Graphs"><span class="nav-text">4.1 Computing 1-Summary Graphs</span></a></li></ol></li></ol></div>
             
 
           </div>
