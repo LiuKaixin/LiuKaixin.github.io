@@ -7,6 +7,7 @@ categories:
   - 论文笔记
 date: 2017-08-24 11:18:00
 ---
+*冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来*
 # ABSTRCT
 图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能并不紧连，另外，在找子树时会遍历整个图而不仅是关键词节点。	
 An r-clique is a group of content nodes that cover all the input keywords and the distance between each two nodes is less than or equal to r.
