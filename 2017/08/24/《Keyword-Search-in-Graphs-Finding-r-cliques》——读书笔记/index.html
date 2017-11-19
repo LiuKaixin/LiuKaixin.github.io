@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg2.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/table1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg3.png">
-<meta property="og:updated_time" content="2017-11-18T15:30:53.259Z">
+<meta property="og:updated_time" content="2017-11-19T03:57:54.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Keyword Search in Graphs: Finding r-cliques》——读书笔记">
 <meta name="twitter:description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来这个文章看样子是改了好多其他人的算法，我觉得可以好好看看他是怎么改别人的，学习一波。。。。然后改了他的 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能">
@@ -440,6 +440,7 @@
 <img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/table1.png">
 <p>如果最佳答案是${v_1,v_2,v_3,v_4}$，则如table1去划分子空间，然后分别在四个子空间找到最优答案，然后对包含四个中最优答案的子空间再次进行划分，如此循环~</p>
 <h2 id="5-2-Finding-Best-Answer-from-a-Search-Space"><a href="#5-2-Finding-Best-Answer-from-a-Search-Space" class="headerlink" title="5.2 Finding Best Answer from a Search Space"></a>5.2 Finding Best Answer from a Search Space</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg3.png">
+<p>对搜索空间中的每个点都计算其到其他关键字节点集合的最短距离$d(s^i_j,k)$，以及集合中对应的节点$n(s^i_j,k)$（3-6初始化，7-16计算），然后对每个点判断是否符合r-clique的定义，如果符合，则加入到候选集合中，最后取出top-k。<br>算法复杂度$O(l^2|S_{max}|^2)$</p>
 <blockquote>
 <p><a href="http://dl.acm.org/citation.cfm?id=2749447" target="_blank" rel="external">Exact Top-k Nearest Keyword Search in Large Networks</a><br>There are other keyword search problems that are of some different characteristics. The general idea of keyword search is to find a subgraph in a given graph that contains the query keywords.<br>The subgraph can be of the form of a tree in some cases. </p>
 <ul>
