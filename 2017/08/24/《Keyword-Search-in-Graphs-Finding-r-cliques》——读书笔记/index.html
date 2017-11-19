@@ -96,20 +96,25 @@
 
 
 
-<meta name="description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能并不紧连，另外，在找子树时会遍历整个图而不仅是关键词节点。An r-clique is a group">
+<meta name="description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来这个文章看样子是改了好多其他人的算法，我觉得可以好好看看他是怎么改别人的，学习一波。。。。然后改了他的 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能">
 <meta name="keywords" content="Keyword,2017年9月">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Keyword Search in Graphs: Finding r-cliques》——读书笔记">
 <meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/08/24/《Keyword-Search-in-Graphs-Finding-r-cliques》——读书笔记/index.html">
 <meta property="og:site_name" content="三省">
-<meta property="og:description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能并不紧连，另外，在找子树时会遍历整个图而不仅是关键词节点。An r-clique is a group">
+<meta property="og:description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来这个文章看样子是改了好多其他人的算法，我觉得可以好好看看他是怎么改别人的，学习一波。。。。然后改了他的 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/fig1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/fig2.png">
-<meta property="og:updated_time" content="2017-11-16T13:05:29.712Z">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/def1_2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/table1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg3.png">
+<meta property="og:updated_time" content="2017-11-18T15:30:53.259Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Keyword Search in Graphs: Finding r-cliques》——读书笔记">
-<meta name="twitter:description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能并不紧连，另外，在找子树时会遍历整个图而不仅是关键词节点。An r-clique is a group">
+<meta name="twitter:description" content="冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来这个文章看样子是改了好多其他人的算法，我觉得可以好好看看他是怎么改别人的，学习一波。。。。然后改了他的 ABSTRCT图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能">
 <meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/fig1.png">
 
 
@@ -381,12 +386,12 @@
       
 
       
-        <p><em>冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来</em></p>
+        <p><em>冷静一下重新去看这个论文，现在还不是提速的时候。慢慢来</em><br><em>这个文章看样子是改了好多其他人的算法，我觉得可以好好看看他是怎么改别人的，学习一波。。。。然后改了他的</em></p>
 <h1 id="ABSTRCT"><a href="#ABSTRCT" class="headerlink" title="ABSTRCT"></a>ABSTRCT</h1><p>图上的关键词搜索是找到一个包含所有关键词的子结构，之前的工作都是找最小连通图（connected minimal trees），而现在发现找子图比找子树对用户来说更有用。子树中的关键词节点（content nodes）彼此间可能并不紧连，另外，在找子树时会遍历整个图而不仅是关键词节点。<br>An r-clique is a group of content nodes that cover all the input keywords and the distance between each two nodes is less than or equal to r.</p>
 <h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><blockquote>
 <p><a href="http://www.morganclaypool.com/doi/pdf/10.2200/S00231ED1V01Y200912DTM001" target="_blank" rel="external">keyword search in databases.</a>是联通子树（这是一本书，我没看。。。）。李国良的文章<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.8489&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">Ease: Efficient and adaptive keyword search on unstructured, semi-structured and structured data</a> 的答案是半径不大于r的斯坦纳树。</p>
 </blockquote>
-<p>以前基于树或图的方法存在的问题：</p>
+<p> 关键词搜索在结构化数据上$\uparrow$。结构化数据$\rightarrow$图。<br>以前基于树或图的方法存在的问题：</p>
 <ol>
 <li>一些关键词节点（content nodes）相距太远。</li>
 <li>对所有的节点遍历，时间和空间复杂度都很高。</li>
@@ -402,9 +407,39 @@
 <li>提出一个新的图关键词搜索的模型。</li>
 <li>证明找到有最小权重的r-clique是NP-hard问题。</li>
 <li>基于Branch和Bound的算法找到所有的r-cliques。</li>
-<li>提出一个找2个近似度的r-cliques的近似算法，能在多项式时间内以升序找到所有的r-clique。</li>
+<li>提出一个找2-approximation r-cliques的近似算法，能在多项式时间内以升序找到所有的r-clique。</li>
 <li>为了找到某个r-clique中的节点的关系，提出在图中找连接r-clique中节点的斯坦纳树。</li>
 </ol>
+<h1 id="2-RELATED-WORD"><a href="#2-RELATED-WORD" class="headerlink" title="2. RELATED WORD"></a>2. RELATED WORD</h1><p>基于树的算法</p>
+<ul>
+<li>Keyword searching and browsing in databases using banks.——基于后向搜索产生斯坦纳树的算法。</li>
+<li>Keyword searching and browsing in databases using banks.——动归寻找斯坦纳树的算法。</li>
+<li>Keyword proximity search in complex data graphs.——多项式内寻找生成斯坦纳树。</li>
+<li>Bidirectional expansion for keyword search on graph databases.——生成不同根的子树。</li>
+<li>Blinks: ranked keyword searches on graphs.——使用更有效地索引。</li>
+</ul>
+<p>基于图的算法</p>
+<ul>
+<li>Ease: Efficient and adaptive keyword search on unstructured, semi-structured and structured data.——寻找包含所有关键词的r-radius的斯坦纳图。但如果一些高排名的子图被包含在其他大图中，该方法会遗漏。另外还产生重复和冗余的结果。</li>
+<li>Querying communities in relational databases.——寻找多中心的子图（communities），每个content节点到每个中心点距离存在小于$R_max$的路径。排序方式：中心点到所有content节点的路径长度的最小值。</li>
+<li>本方法解决了community方法的三个问题：<ul>
+<li>r-cliques保证所有content nodes紧邻。</li>
+<li>只搜索content nodes提高运行效率。</li>
+<li>通过生成斯坦纳树减少不相干的节点。</li>
+</ul>
+</li>
+</ul>
+<p>本方法来源：<br>Minimum-diameter covering problems.——与文中Multiple Choice Cover问题很相关。<br>Finding a team of experts in social networks.——上文算法中的一个应用。<br>两者都是找单个答案。本文找top-k，用所有点对间的距离作为得分函数。<br>本方法和Finding a team of experts in social networks.中的图模式匹配问题相似。</p>
+<h1 id="3-PROBELM-STATEMENT"><a href="#3-PROBELM-STATEMENT" class="headerlink" title="3. PROBELM STATEMENT"></a>3. PROBELM STATEMENT</h1><p>本文中只考虑<strong>有权无向图</strong>，但很容易应用到有向图中（在判断r的时候再当成无向图）。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/def1_2.png"></p>
+<blockquote>
+<p>Problem 1. Given a distance threshold r, a graph G and a set of input keywords, find an r-clique in G whose weight is minimum.<br>Theorem 1. Problem1是NP-hard的。</p>
+</blockquote>
+<h1 id="4-BRANCH-AND-BOUND-ALGORITHM"><a href="#4-BRANCH-AND-BOUND-ALGORITHM" class="headerlink" title="4. BRANCH AND BOUND ALGORITHM"></a>4. BRANCH AND BOUND ALGORITHM</h1><p>分支定界法：基于系统的枚举并使用距离限制r，并不排序。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg1.png"><br>先构造关键词的倒排列表，然后把第一个关键词的所有节点加入rList，然后依次加入其它关键词的候选节点，检查是否能和rList中保存的结构成为r-clique，如果可以则加入。<br>为加速算法，预存了所有点对之间的距离。算法复杂度为$O(l^2|C_{max}|^{l+1})$。l代表关键词数量，$C_{max}$为$C_i$的最大size。</p>
+<h1 id="5-POLYNOMIAL-DELAY-ALGORITHM"><a href="#5-POLYNOMIAL-DELAY-ALGORITHM" class="headerlink" title="5. POLYNOMIAL DELAY ALGORITHM"></a>5. POLYNOMIAL DELAY ALGORITHM</h1><p>分支定界法慢而且不排序。</p>
+<h2 id="5-1-Main-Procedure"><a href="#5-1-Main-Procedure" class="headerlink" title="5.1 Main Procedure"></a>5.1 Main Procedure</h2><p>本算法改编自 E. Lawler. A procedure for computing the k best solutions to discrete optimization problems and its application to the shortest path problem（这个文章是J. Yen. Finding the k shortest loopless paths in a<br>network.的后延）.<br>Lawler的算法：搜索空间先被划分为互补相交的子空间，然后子空间的答案被生成当前全局最优的答案。然后得到最优答案的子空间接着被划分。。。有两个关键问题：怎么划分子空间（和<a href="http://ieeexplore.ieee.org/document/4812449/#full-text-section" target="_blank" rel="external">13</a>相似）&amp;如何在子空间中找最佳答案。<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg2.png"><br><strong>如果一个节点只包含一个关键词，则生成无重复的答案。（为什么？）如果包含多个关键词，则需要进行剪枝。</strong></p>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/table1.png">
+<p>如果最佳答案是${v_1,v_2,v_3,v_4}$，则如table1去划分子空间，然后分别在四个子空间找到最优答案，然后对包含四个中最优答案的子空间再次进行划分，如此循环~</p>
+<h2 id="5-2-Finding-Best-Answer-from-a-Search-Space"><a href="#5-2-Finding-Best-Answer-from-a-Search-Space" class="headerlink" title="5.2 Finding Best Answer from a Search Space"></a>5.2 Finding Best Answer from a Search Space</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Keyword%20search%20in%20graphs%20Finding%20r-cliques/alg3.png">
 <blockquote>
 <p><a href="http://dl.acm.org/citation.cfm?id=2749447" target="_blank" rel="external">Exact Top-k Nearest Keyword Search in Large Networks</a><br>There are other keyword search problems that are of some different characteristics. The general idea of keyword search is to find a subgraph in a given graph that contains the query keywords.<br>The subgraph can be of the form of a tree in some cases. </p>
 <ul>
@@ -632,7 +667,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRCT"><span class="nav-text">ABSTRCT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRCT"><span class="nav-text">ABSTRCT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-RELATED-WORD"><span class="nav-text">2. RELATED WORD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-PROBELM-STATEMENT"><span class="nav-text">3. PROBELM STATEMENT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-BRANCH-AND-BOUND-ALGORITHM"><span class="nav-text">4. BRANCH AND BOUND ALGORITHM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-POLYNOMIAL-DELAY-ALGORITHM"><span class="nav-text">5. POLYNOMIAL DELAY ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-Main-Procedure"><span class="nav-text">5.1 Main Procedure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Finding-Best-Answer-from-a-Search-Space"><span class="nav-text">5.2 Finding Best Answer from a Search Space</span></a></li></ol></li></ol></div>
             
 
           </div>
