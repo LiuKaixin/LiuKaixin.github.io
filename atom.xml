@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/"/>
-  <updated>2017-11-06T15:16:03.636Z</updated>
+  <updated>2017-11-28T14:02:35.139Z</updated>
   <id>https://github.com/LiuKaixin/LiuKaixin.github.io/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据集熟悉</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/%E6%95%B0%E6%8D%AE%E9%9B%86%E7%86%9F%E6%82%89/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/数据集熟悉/</id>
+    <published>2017-11-28T12:42:25.000Z</published>
+    <updated>2017-11-28T14:02:35.139Z</updated>
+    
+    <content type="html"><![CDATA[<p>目前dbpedia和YAGO提供的可视化工具其实都比较弱，需要一个一个的手动添加点，进行可视化。不过他们都是基于wiki百科，如果要想例子，估计只能拍脑门想概念了，所以就先这个工作先放一放吧，读一读师兄说的构建索引的文章看看。</p><p>在阅读《Fast Hierarchy Construction for Dense Subgraphs》时，看到了数据集稠密这样的字眼。想到还是应该对数据集整体有个把握，调查到两个可视化工具<a href="http://www.vosviewer.com/download#Instructions" target="_blank" rel="external">VOSViewer</a>和NWB Tool，还有相应的<a href="http://gb.oversea.cnki.net/kcms/detail/detail.aspx?filename=QBKX201502020&amp;DBName=cjfqtotal&amp;dbcode=cjfq" target="_blank" rel="external">调研论文</a>，<a href="https://www.zhihu.com/question/51061274" target="_blank" rel="external">知乎</a>再次对Dbpedia进行调研~</p><p><a href="http://downloads.dbpedia.org/2016-10/" target="_blank" rel="external">DBpedia-2016-10</a>：</p><p>Statistics</p><p>The English version of the DBpedia knowledge base currently describes <strong>6.6M entities</strong> of which 4.9M have abstracts, 1.9M have geo coordinates and 1.7M depictions. In total, <strong>5.5M</strong> resources are classified in a consistent ontology, consisting of 1.5M persons, 840K places (including 513K populated places), 496K works (including 139K music albums, 111K films and 21K video games), 286K organizations (including 70K companies and 55K educational institutions), 306K species, 58K plants and 6K diseases. The total number of resources in English DBpedia is <strong>18M</strong> that, besides the 6.6M resources, includes 1.7M skos concepts (categories), 7.7M redirect pages, 269K disambiguation pages and 1.7M intermediate nodes.</p><p>Altogether the DBpedia 2016-10 release consists of 13 billion (2016-04: 11.5 billion) pieces of information (RDF triples) out of which 1.7 billion (2016-04: 1.6 billion) were extracted from the English edition of Wikipedia, 6.6 billion (2016-04: 6 billion) were extracted from other language editions and 4.8 billion (2016-04: 4 billion) from Wikipedia Commons and Wikidata.</p><p>In addition, adding the large NIF datasets for each language edition (see details below) increased the number of triples further by over 9 billion, bringing the overall count up to 23 billion triples.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;目前dbpedia和YAGO提供的可视化工具其实都比较弱，需要一个一个的手动添加点，进行可视化。不过他们都是基于wiki百科，如果要想例子，估计只能拍脑门想概念了，所以就先这个工作先放一放吧，读一读师兄说的构建索引的文章看看。&lt;/p&gt;
+&lt;p&gt;在阅读《Fast Hierarc
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Fast Hierarchy Construction for Dense Subgraphs</title>
+    <link href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/"/>
+    <id>https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/</id>
+    <published>2017-11-28T11:36:22.000Z</published>
+    <updated>2017-11-30T05:57:02.614Z</updated>
+    
+    <content type="html"><![CDATA[<p>学习建立索引的方法。<br>2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！</p><h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。<br>工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-core, k-truss或nucleus decomposition的层次结构。<br>Our algorithms leverage the disjoint-set forest data structure to efficiently construct the hierarchy during traversal. 为避免遍历，在peeling访问邻居时，构建子图，并考虑与之前子图的关系。</p><h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><p>真实世界的图是稀疏的，但节点的邻居是稠密的，其聚类系数和传递性也很高。在各种应用中关于稠密子图发现有着众多的文献。举例社交网络，股票市场，DNA等。<br>peeling algorithms —— k-core, k-truss, nucleus decomposition.<br>Hierarchy是复杂网络的中心组织原则，对于将图的communities联系起来和洞察一些图的现象十分有用。<br>peeling algorithms 可支持稠密图的Hierarchy发现。</p><h2 id="1-1-Problem-Misconception-and-Challenges"><a href="#1-1-Problem-Misconception-and-Challenges" class="headerlink" title="1.1 Problem, Misconception and Challenges"></a>1.1 Problem, Misconception and Challenges</h2><p>Problem:</p><ol><li>undirected unattributed graphs.</li><li>tree — hierarchy of dense subgraphs.</li><li>node — subgraph, edge — containment relation, root — entire graph.</li><li>aim — find hierarchy using peeling algorithms.</li></ol><p>Misconception in the literature:<br>Recent studies on peeling algorithms has interestingly overlooked the connectivity condition of k-cores and k-trusses.</p><p>Challenges:<br>cost of traversals and hierarchy construction.<br>k-core, k-truss, nucleus decompositions需要在遍历图之后进行。层次结构需要在得到k-core, k-truss, nucleus decomposition之后。但在整个图上一次遍历时，对嵌套结构进行遍历并不容易。</p><h2 id="1-2-Contributions"><a href="#1-2-Contributions" class="headerlink" title="1.2 Contributions"></a>1.2 Contributions</h2><ol><li>Thorough literature review.指出现有文献在k-core和k-truss定义上的误解，并指出缺少hierarchy的理解，它的成本和peeling过程相当。</li><li>Hierarchy construction by disjoint-set forest: 使用不相交的森林数据结构跟踪出现在层次结构树中相同节点中不相交的子结构。通过特定的顺序处理子图，将不相交集的森林结合到层次树中。</li><li>Avoiding traversal: 构建层次结构时不用遍历。在peeling过程中，在访问邻居时构建子图，并记录和之前子图的关系。对记录的关系应用轻量的post-processing得到hierarchy。</li><li>Experimental evaluation:<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png"><h1 id="2-PERLIMINARIES"><a href="#2-PERLIMINARIES" class="headerlink" title="2. PERLIMINARIES"></a>2. PERLIMINARIES</h1><h2 id="2-1-Nucleus-decomposition"><a href="#2-1-Nucleus-decomposition" class="headerlink" title="2.1 Nucleus decomposition"></a>2.1 Nucleus decomposition</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table2.png">G——an undirected and simple graph.<br>$K_r$——an r-clique.<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def1.png"><img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png"></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;学习建立索引的方法。&lt;br&gt;2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！&lt;/p&gt;
+&lt;h1 id=&quot;ABSTRACT&quot;&gt;&lt;a href=&quot;#ABSTRACT&quot; class=&quot;headerlink&quot; title=&quot;ABSTRACT&quot;&gt;&lt;/a&gt;ABSTRACT&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记</title>

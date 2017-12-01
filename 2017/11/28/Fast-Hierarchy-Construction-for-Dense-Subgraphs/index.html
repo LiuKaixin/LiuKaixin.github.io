@@ -96,16 +96,22 @@
 
 
 
-<meta name="description" content="刘凯鑫的博客，记录所思所想，所学所得。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="三省">
-<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/tags/RDF/index.html">
+<meta name="description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fast Hierarchy Construction for Dense Subgraphs">
+<meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/index.html">
 <meta property="og:site_name" content="三省">
-<meta property="og:description" content="刘凯鑫的博客，记录所思所想，所学所得。">
+<meta property="og:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table2.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def1.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png">
+<meta property="og:updated_time" content="2017-11-30T05:57:02.614Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="三省">
-<meta name="twitter:description" content="刘凯鑫的博客，记录所思所想，所学所得。">
+<meta name="twitter:title" content="Fast Hierarchy Construction for Dense Subgraphs">
+<meta name="twitter:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
+<meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
 
 
 
@@ -134,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/tags/RDF/"/>
+  <link rel="canonical" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/"/>
 
 
 
 
 
-  <title>标签: RDF | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Fast Hierarchy Construction for Dense Subgraphs | 三省</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -165,7 +171,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left  ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,138 +279,166 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>RDF<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="刘凯鑫">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="三省">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/09/29/《Top-k-Exploration-of-Query-Candidates-for-Efficient-Keyword-Search-on-Graph-Shaped-RDF-Data》——读书笔记/" itemprop="url">
-              
-                <span itemprop="name">《Top-k Exploration of Query Candidates for Efficient Keyword Search on GraphShaped RDF Data》——读书笔记</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Fast Hierarchy Construction for Dense Subgraphs</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-29T15:53:31+08:00"
-              content="2017-09-29" >
-          09-29
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-28T19:36:22+08:00">
+                2017-11-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/24/《Natural-Language-Question-Answering-over-RDF-——-A-Graph-Data-Driven-Approach》——论文笔记/" itemprop="url">
-              
-                <span itemprop="name">《Natural Language Question Answering over RDF ——  A Graph Data Driven Approach》——论文笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-24T11:15:00+08:00"
-              content="2017-08-24" >
-          08-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/20/《Scalable-Keyword-Search-on-Large-RDF-Data》——论文笔记/" itemprop="url">
-              
-                <span itemprop="name">《Scalable Keyword Search on Large RDF Data》——论文笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-20T13:10:00+08:00"
-              content="2017-08-20" >
-          08-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/15/test/" itemprop="url">
-              
-                <span itemprop="name">《RDF Keyword-based Query Technology Meets a Real-World Dataset》——论文笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-15T16:12:00+08:00"
-              content="2017-08-15" >
-          08-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>学习建立索引的方法。<br>2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！</p>
+<h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。<br>工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-core, k-truss或nucleus decomposition的层次结构。<br>Our algorithms leverage the disjoint-set forest data structure to efficiently construct the hierarchy during traversal. 为避免遍历，在peeling访问邻居时，构建子图，并考虑与之前子图的关系。</p>
+<h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><p>真实世界的图是稀疏的，但节点的邻居是稠密的，其聚类系数和传递性也很高。在各种应用中关于稠密子图发现有着众多的文献。举例社交网络，股票市场，DNA等。<br>peeling algorithms —— k-core, k-truss, nucleus decomposition.<br>Hierarchy是复杂网络的中心组织原则，对于将图的communities联系起来和洞察一些图的现象十分有用。<br>peeling algorithms 可支持稠密图的Hierarchy发现。</p>
+<h2 id="1-1-Problem-Misconception-and-Challenges"><a href="#1-1-Problem-Misconception-and-Challenges" class="headerlink" title="1.1 Problem, Misconception and Challenges"></a>1.1 Problem, Misconception and Challenges</h2><p>Problem:</p>
+<ol>
+<li>undirected unattributed graphs.</li>
+<li>tree — hierarchy of dense subgraphs.</li>
+<li>node — subgraph, edge — containment relation, root — entire graph.</li>
+<li>aim — find hierarchy using peeling algorithms.</li>
+</ol>
+<p>Misconception in the literature:<br>Recent studies on peeling algorithms has interestingly overlooked the connectivity condition of k-cores and k-trusses.</p>
+<p>Challenges:<br>cost of traversals and hierarchy construction.<br>k-core, k-truss, nucleus decompositions需要在遍历图之后进行。层次结构需要在得到k-core, k-truss, nucleus decomposition之后。但在整个图上一次遍历时，对嵌套结构进行遍历并不容易。</p>
+<h2 id="1-2-Contributions"><a href="#1-2-Contributions" class="headerlink" title="1.2 Contributions"></a>1.2 Contributions</h2><ol>
+<li>Thorough literature review.指出现有文献在k-core和k-truss定义上的误解，并指出缺少hierarchy的理解，它的成本和peeling过程相当。</li>
+<li>Hierarchy construction by disjoint-set forest: 使用不相交的森林数据结构跟踪出现在层次结构树中相同节点中不相交的子结构。通过特定的顺序处理子图，将不相交集的森林结合到层次树中。</li>
+<li>Avoiding traversal: 构建层次结构时不用遍历。在peeling过程中，在访问邻居时构建子图，并记录和之前子图的关系。对记录的关系应用轻量的post-processing得到hierarchy。</li>
+<li>Experimental evaluation:<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
+<h1 id="2-PERLIMINARIES"><a href="#2-PERLIMINARIES" class="headerlink" title="2. PERLIMINARIES"></a>2. PERLIMINARIES</h1><h2 id="2-1-Nucleus-decomposition"><a href="#2-1-Nucleus-decomposition" class="headerlink" title="2.1 Nucleus decomposition"></a>2.1 Nucleus decomposition</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table2.png">
+G——an undirected and simple graph.<br>$K_r$——an r-clique.<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def1.png">
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png">
+</li>
+</ol>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/06/《Summarizing-Answer-Graphs-Induced-by-Keyword-Queries》——论文笔记/" rel="next" title="《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记">
+                <i class="fa fa-chevron-left"></i> 《Summarizing Answer Graphs Induced by Keyword Queries》——论文笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/28/数据集熟悉/" rel="prev" title="数据集熟悉">
+                数据集熟悉 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -412,6 +446,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -432,8 +470,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.jpg"
@@ -515,6 +562,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABSTRACT"><span class="nav-text">ABSTRACT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-INTRODUCTION"><span class="nav-text">1. INTRODUCTION</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Problem-Misconception-and-Challenges"><span class="nav-text">1.1 Problem, Misconception and Challenges</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-Contributions"><span class="nav-text">1.2 Contributions</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-PERLIMINARIES"><span class="nav-text">2. PERLIMINARIES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Nucleus-decomposition"><span class="nav-text">2.1 Nucleus decomposition</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -635,10 +698,10 @@
 
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
