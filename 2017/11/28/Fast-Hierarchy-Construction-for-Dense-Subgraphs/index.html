@@ -96,21 +96,23 @@
 
 
 
-<meta name="description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
+<meta name="description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！2017/12/15 放弃了 ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fast Hierarchy Construction for Dense Subgraphs">
 <meta property="og:url" content="https://github.com/LiuKaixin/LiuKaixin.github.io/2017/11/28/Fast-Hierarchy-Construction-for-Dense-Subgraphs/index.html">
 <meta property="og:site_name" content="三省">
-<meta property="og:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
+<meta property="og:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！2017/12/15 放弃了 ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table2.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def1.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png">
-<meta property="og:updated_time" content="2017-11-30T05:57:02.614Z">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def3.png">
+<meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/cor1.png">
+<meta property="og:updated_time" content="2017-12-15T08:21:24.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fast Hierarchy Construction for Dense Subgraphs">
-<meta name="twitter:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！ ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-c">
+<meta name="twitter:description" content="学习建立索引的方法。2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！2017/12/15 放弃了 ABSTRACT意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。工作：对不同问题定义进行调研，然后提">
 <meta name="twitter:image" content="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
 
 
@@ -360,7 +362,7 @@
       
 
       
-        <p>学习建立索引的方法。<br>2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！</p>
+        <p>学习建立索引的方法。<br>2017/11/30 哇给跪了。。。第二章的定义都是什么鬼？！<br>2017/12/15 放弃了</p>
 <h1 id="ABSTRACT"><a href="#ABSTRACT" class="headerlink" title="ABSTRACT"></a>ABSTRACT</h1><p>意义：在稠密子图上建立hierarchy，Peeling算法（k-core,k-truss, nucleus decomposition）对找到稠密子图很有效，但稠密结构的分层表示和k-core, k-truss的正确计算，都被忽略了。<br>工作：对不同问题定义进行调研，然后提出有效和通用的算法构造k-core, k-truss或nucleus decomposition的层次结构。<br>Our algorithms leverage the disjoint-set forest data structure to efficiently construct the hierarchy during traversal. 为避免遍历，在peeling访问邻居时，构建子图，并考虑与之前子图的关系。</p>
 <h1 id="1-INTRODUCTION"><a href="#1-INTRODUCTION" class="headerlink" title="1. INTRODUCTION"></a>1. INTRODUCTION</h1><p>真实世界的图是稀疏的，但节点的邻居是稠密的，其聚类系数和传递性也很高。在各种应用中关于稠密子图发现有着众多的文献。举例社交网络，股票市场，DNA等。<br>peeling algorithms —— k-core, k-truss, nucleus decomposition.<br>Hierarchy是复杂网络的中心组织原则，对于将图的communities联系起来和洞察一些图的现象十分有用。<br>peeling algorithms 可支持稠密图的Hierarchy发现。</p>
 <h2 id="1-1-Problem-Misconception-and-Challenges"><a href="#1-1-Problem-Misconception-and-Challenges" class="headerlink" title="1.1 Problem, Misconception and Challenges"></a>1.1 Problem, Misconception and Challenges</h2><p>Problem:</p>
@@ -379,9 +381,11 @@
 <li>Experimental evaluation:<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table1.png">
 <h1 id="2-PERLIMINARIES"><a href="#2-PERLIMINARIES" class="headerlink" title="2. PERLIMINARIES"></a>2. PERLIMINARIES</h1><h2 id="2-1-Nucleus-decomposition"><a href="#2-1-Nucleus-decomposition" class="headerlink" title="2.1 Nucleus decomposition"></a>2.1 Nucleus decomposition</h2><img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/table2.png">
 G——an undirected and simple graph.<br>$K_r$——an r-clique.<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def1.png">
-<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png">
-</li>
+这个定义感觉挺厉害的，是一般情况下(r=1，s=2)节点的度和连通性的generalization。<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def2.png">
+举例：若r=2，s=3：则每个边至少在k个三角形中，而且每个边被三角形联通。</li>
 </ol>
+<p>For an r-clique $K_r$ u, $w_s(u)$ denotes the $K_s$-degree of u. For a subgraph $H\subset G, w_{r,s}(H)$ is defined as the minimum $K_s$-degreee of a $K_r$ in H, i.e., $w_{r,s}(H)= min\{w_s(u): u\in H\}$.<br><img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/def3.png"></p>
+<img src="http://ouqbyuben.bkt.clouddn.com/images/Fast%20Hierarchy%20Construction%20for%20Dense%20Subgraphs/cor1.png">
 
       
     </div>
