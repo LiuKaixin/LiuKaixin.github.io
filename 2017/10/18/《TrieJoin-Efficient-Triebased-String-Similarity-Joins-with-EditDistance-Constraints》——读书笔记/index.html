@@ -109,7 +109,7 @@
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig6.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig7.png">
 <meta property="og:image" content="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig8.png">
-<meta property="og:updated_time" content="2017-10-19T03:37:34.516Z">
+<meta property="og:updated_time" content="2018-02-26T08:19:19.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《TrieJoin: Efficient Triebased String Similarity Joins with EditDistance Constraints》——读书笔记">
 <meta name="twitter:description" content="虽然师兄说，看PPT就行了，但是我粗略一看PPT感觉说的貌似太简略了，还是得看一下论文。。。应该是水平太低所以看PPT没有深入理解吧，希望这次看论文能快点！（有选择的看） ABSTRACT主要工作：使用编辑距离研究字符串相似。现有方法使用filter-and-refine框架，缺点如下：  对长度小于30的短字符串效果不好。 巨大的索引。 数据集更新的成本很大。  本文使用trie-join框架，">
@@ -398,7 +398,7 @@
 </ol>
 <h1 id="2-TRIE-BASED-FRAMEWORK"><a href="#2-TRIE-BASED-FRAMEWORK" class="headerlink" title="2.TRIE-BASED FRAMEWORK"></a>2.TRIE-BASED FRAMEWORK</h1><h2 id="2-1-Problem-Formulation"><a href="#2-1-Problem-Formulation" class="headerlink" title="2.1 Problem Formulation"></a>2.1 Problem Formulation</h2><p>如果两个字符串编辑距离小于阈值，则两个字符串相似。</p>
 <blockquote>
-<p><strong>Definition 1 (String Similarity Joins).</strong> Given two sets of strings R and S, and an edit-distance threshold $\tau$, a similarity join finds all similar string pairs $<r,s>\in R\times S$ such that $ED(r,s)\le \tau$</r,s></p>
+<p><strong>Definition 1 (String Similarity Joins).</strong> Given two sets of strings R and S, and an edit-distance threshold $\tau$, a similarity join finds all similar string pairs $&lt; r,s&gt; \in R \times S$  such that $ED(r,s)\le \tau$</p>
 </blockquote>
 <h2 id="2-2-Prefix-Pruning"><a href="#2-2-Prefix-Pruning" class="headerlink" title="2.2 Prefix Pruning"></a>2.2 Prefix Pruning</h2><p>naive solution：计算所有字符串对的编辑距离。<br>使用动态规划提早终止编辑距离的计算。<br>string $r=r_1,r_2…r_n$, $s=s_1,s_2…s_m$,<br>matrix D(i,j): the edit distance between the prefix $r_1,r_2…r_i$ and $s_1,s_2…s_j$<br>D(0,j)=j for $0\le j\le n$, and<br>D(i,j)=min(D(i-1,j)+1,D(i,j-1)+1,D(i-1,j-1)+$\theta$) where $\theta=0$ if $r_i=s_j$; otherwise $\theta=1$<br>D(i,j) is an active entry if $D(i,j)\le \tau$<br><img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig1.png"><br>如图没有active entries时，结束搜索。</p>
 <h2 id="2-3-Our-Observation"><a href="#2-3-Our-Observation" class="headerlink" title="2.3 Our Observation"></a>2.3 Our Observation</h2><h3 id="Observation-1-Subtrie-Pruning"><a href="#Observation-1-Subtrie-Pruning" class="headerlink" title="Observation 1 - Subtrie Pruning:"></a>Observation 1 - Subtrie Pruning:</h3><p>通过前缀可以剪枝掉很多字符串。</p>
@@ -424,7 +424,6 @@
 <p><strong>Definition 2 (Incremental Similarity Joins).</strong> Given a set of strings S, a new string set $\Delta S$, and an edit-distance threshold $\tau$, an incremental similarity join finds all similar string pairs $(r\in \Delta S, s\in S\cup \Delta S)$ such that $ED(r,s)\le \tau.$</p>
 </blockquote>
 <img src="http://ouqbyuben.bkt.clouddn.com/images/TrieJoin%20Efficient%20Triebased%20String%20Similarity%20Joins%20with%20EditDistance%20Constraints/fig8.png">
-
       
     </div>
     
